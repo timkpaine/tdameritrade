@@ -16,6 +16,7 @@ Python interface to TD Ameritrade Api
    :caption: Contents:
 
    installation
+   authentication
    quickstart
 
 
