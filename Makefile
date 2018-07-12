@@ -23,6 +23,9 @@ docs:  ## make documentation
 	make -C ./docs html
 	open ./docs/_build/html/index.html
 
+dist:  ## dist to pypi
+	python3 setup.py sdist upload -r pypi
+
 install:  ## install to site-packages
 	python3 setup.py install
 
@@ -34,4 +37,4 @@ help:
 print-%:
 	@echo '$*=$($*)'
 
-.PHONY: clean test tests help annotate annotate_l docs
+.PHONY: clean test tests help annotate annotate_l docs dist
