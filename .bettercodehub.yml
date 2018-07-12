@@ -1,0 +1,15 @@
+languages:
+- python
+
+
+- name: python
+  production:
+    exclude:
+      - /tests/.*
+  test:
+    include:
+      - /tests/.*
+
+exclude:
+- /docs/.*
+- .*/setup\.py
