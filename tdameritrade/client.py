@@ -1,6 +1,7 @@
 import os
 import requests
-from .urls import ACCOUNTS
+import urllib.parse as up
+from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY
 
 
 class TDClient(object):
@@ -18,9 +19,32 @@ class TDClient(object):
                 resp = requests.get(ACCOUNTS + str(acc), headers=self._headers())
                 if resp.status_code == 200:
                     ret[acc] = resp.json()
+                else:
+                    raise Exception(resp.text)
         else:
             resp = requests.get(ACCOUNTS, headers=self._headers())
             if resp.status_code == 200:
                 for account in resp.json():
                     ret[account['securitiesAccount']['accountId']] = account
+            else:
+                raise Exception(resp.text)
         return ret
+
+    def search(self, symbol, projection='symbol-search'):
+        return requests.get(SEARCH,
+                            headers=self._headers(),
+                            params={'symbol': symbol,
+                                    'projection': projection}).json()
+
+    def instrument(self, cusip):
+        return requests.get(INSTRUMENTS + str(cusip),
+                            headers=self._headers()).json()
+
+    def quote(self, symbol):
+        return requests.get(QUOTES,
+                            headers=self._headers(),
+                            params={'symbol': symbol.upper()}).json()
+
+    def history(self, symbol):
+        return requests.get(HISTORY % symbol,
+                            headers=self._headers()).json()
