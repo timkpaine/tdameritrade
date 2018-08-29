@@ -1,5 +1,4 @@
 IPython
 pillow
 pandas
-socketIO-client-nexus
 ujson
