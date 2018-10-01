@@ -1,6 +1,6 @@
 import os
 import requests
-import urllib.parse as up
+import pandas as pd
 from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN
 
 
@@ -30,26 +30,69 @@ class TDClient(object):
                 raise Exception(resp.text)
         return ret
 
+    def accountsDF(self):
+        return pd.io.json.json_normalize(self.accounts())
+
     def search(self, symbol, projection='symbol-search'):
         return requests.get(SEARCH,
                             headers=self._headers(),
                             params={'symbol': symbol,
                                     'projection': projection}).json()
 
+    def searchDF(self, symbol, projection='symbol-search'):
+        ret = []
+        dat = self.search(symbol, projection)
+        for symbol in dat:
+            ret.append(dat[symbol])
+        return pd.DataFrame(ret)
+
     def instrument(self, cusip):
         return requests.get(INSTRUMENTS + str(cusip),
                             headers=self._headers()).json()
+
+    def instrumentDF(self, cusip):
+        return pd.DataFrame(self.instrument(cusip))
 
     def quote(self, symbol):
         return requests.get(QUOTES,
                             headers=self._headers(),
                             params={'symbol': symbol.upper()}).json()
 
+    def quoteDF(self, symbol):
+        ret = []
+        dat = self.quote(symbol)
+        for symbol in dat:
+            ret.append(dat[symbol])
+        return pd.DataFrame(ret)
+
     def history(self, symbol):
         return requests.get(HISTORY % symbol,
                             headers=self._headers()).json()
+
+    def historyDF(self, symbol):
+        x = self.history(symbol)
+        for item in x['candles']:
+            item['symbol'] = x['symbol']
+        df = pd.DataFrame(x['candles'])
+        df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
+        return df
 
     def options(self, symbol):
         return requests.get(OPTIONCHAIN,
                             headers=self._headers(),
                             params={'symbol': symbol.upper()}).json()
+
+    def optionsDF(self, symbol):
+        ret = []
+        dat = self.options(symbol)
+        for date in dat['callExpDateMap']:
+            for strike in dat['callExpDateMap'][date]:
+                ret.extend(dat['callExpDateMap'][date][strike])
+        for date in dat['putExpDateMap']:
+            for strike in dat['putExpDateMap'][date]:
+                ret.extend(dat['putExpDateMap'][date][strike])
+
+        df = pd.DataFrame(ret)
+        for col in ('tradeTimeInLong', 'quoteTimeInLong', 'expirationDate', 'lastTradingDay'):
+            df[col] = pd.to_datetime(df[col], unit='ms')
+        return df
