@@ -1,7 +1,7 @@
 import os
 import requests
 import urllib.parse as up
-from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY
+from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN
 
 
 class TDClient(object):
@@ -48,3 +48,8 @@ class TDClient(object):
     def history(self, symbol):
         return requests.get(HISTORY % symbol,
                             headers=self._headers()).json()
+
+    def options(self, symbol):
+        return requests.get(OPTIONCHAIN,
+                            headers=self._headers(),
+                            params={'symbol': symbol.upper()}).json()
