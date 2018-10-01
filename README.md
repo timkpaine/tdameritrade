@@ -13,3 +13,7 @@ Python interface to TD Ameritrade Api
 
 ## Getting Started
 [Read the docs!](http://tdameritrade.readthedocs.io/en/latest/index.html)
+
+
+### Options Data
+![](https://raw.githubusercontent.com/timkpaine/tdameritrade/master/docs/img/options.png)
