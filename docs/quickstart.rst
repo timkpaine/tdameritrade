@@ -11,6 +11,9 @@ TDClient object
 The API works with a ``TDClient`` object:
 
 
+Accounts
+~~~~~~~~~
+
 .. code:: python3
 
     from tdameritrade import TDClient
@@ -20,3 +23,42 @@ The API works with a ``TDClient`` object:
 .. image:: ./img/client/accounts.png
     :scale: 100%
     :alt: accounts.png
+
+
+Search for symbols
+~~~~~~~~~~~~~~~~~~
+
+.. code:: python3
+
+    c.search('aapl')
+
+
+Quotes
+~~~~~~~~~~~~~~~~~~
+
+.. code:: python3
+
+    c.quote('aapl')
+
+Instrument
+~~~~~~~~~~~~~~~~~~
+
+.. code:: python3
+
+    c.instrument('aapl')
+
+
+History
+~~~~~~~~~~~~~~~~~~
+
+.. code:: python3
+
+    c.history('aapl')
+
+
+Option Chain
+~~~~~~~~~~~~~~~~~~
+
+.. code:: python3
+
+    c.options('aapl')
