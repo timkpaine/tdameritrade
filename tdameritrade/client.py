@@ -59,11 +59,8 @@ class TDClient(object):
                             params={'symbol': symbol.upper()}).json()
 
     def quoteDF(self, symbol):
-        ret = []
-        dat = self.quote(symbol)
-        for symbol in dat:
-            ret.append(dat[symbol])
-        return pd.DataFrame(ret)
+        x = self.quote(symbol)
+        return pd.DataFrame(x).T.reset_index(drop=True)
 
     def history(self, symbol):
         return requests.get(HISTORY % symbol,
@@ -71,8 +68,6 @@ class TDClient(object):
 
     def historyDF(self, symbol):
         x = self.history(symbol)
-        for item in x['candles']:
-            item['symbol'] = x['symbol']
         df = pd.DataFrame(x['candles'])
         df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
         return df
