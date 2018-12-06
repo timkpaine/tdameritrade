@@ -1,12 +1,13 @@
 import os
 import requests
 import pandas as pd
-from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN
+from .urls import *
 
 
 class TDClient(object):
-    def __init__(self, access_token=None, accountIds=None):
+    def __init__(self, access_token=None, refresh_token=None, accountIds=None):
         self._token = access_token or os.environ['ACCESS_TOKEN']
+        self._refresh_token = refresh_token or os.environ['REFRESH_TOKEN']
         self.accountIds = accountIds or []
 
     def _headers(self):
@@ -54,9 +55,35 @@ class TDClient(object):
         return pd.DataFrame(self.instrument(cusip))
 
     def quote(self, symbol):
-        return requests.get(QUOTES,
+        resp = requests.get(QUOTES,
                             headers=self._headers(),
-                            params={'symbol': symbol.upper()}).json()
+                            params={'symbol': symbol.upper()})
+        if resp.status_code == 200:
+          return resp.json()
+        else:
+          if resp.status_code == 401:
+            # unauthorized, refresh
+            print("Unauthorized, refresh!")
+            payload = {'grant_type': 'refresh_token',
+                       'refresh_token': self._refresh_token,
+                       'client_id': 'VIRGILM@AMER.OAUTHAP'}
+            post_resp = requests.post(REFRESH, data = payload)
+            print("Resp:", post_resp)
+            if post_resp.status_code == 200:
+              #token refreshed, update!
+              print("New token:  Retrying.")
+              self._token = post_resp.json()['access_token']
+              resp = requests.get(QUOTES,
+                                  headers=self._headers(),
+                                  params={'symbol': symbol.upper()})
+              if resp.status_code == 200:
+                return resp.json()
+              else:
+                raise Exception(resp.text)
+            else:
+              raise Exception(post_resp.text)
+          else:
+            raise Exception(resp.text)
 
     def quoteDF(self, symbol):
         x = self.quote(symbol)
