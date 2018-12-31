@@ -1,5 +1,9 @@
+import os
+import os.path
+import sys
 import requests
 from selenium import webdriver
+from shutil import which
 import urllib.parse as up
 
 
@@ -8,8 +12,28 @@ def authentication(client_id, redirect_uri):
     url = 'https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=' + up.quote(redirect_uri) + '&client_id=' + up.quote(client_id)
 
     options = webdriver.ChromeOptions()
-    options.binary_location = "/Applications/Chrome.app/Contents/MacOS/Google Chrome"
-    chrome_driver_binary = "/usr/local/bin/chromedriver"
+
+    if sys.platform == 'darwin':
+        # MacOS
+        if os.path.exists("/Applications/Google\ Chrome.app/Contents/MacOS/Google Chrome"):
+            options.binary_location = "/Applications/Google\ Chrome.app/Contents/MacOS/Google Chrome"
+        elif os.path.exists("/Applications/Chrome.app/Contents/MacOS/Google Chrome"):
+            options.binary_location = "/Applications/Chrome.app/Contents/MacOS/Google Chrome"
+    elif 'linux' in sys.platform:
+        # Linux
+        if os.path.exists('/usr/bin/google-chrome'):
+            options.binary_location = '/usr/bin/google-chrome'
+        elif os.path.exists('/usr/bin/chrome'):
+            options.binary_location = '/usr/bin/chrome'
+
+    else:
+        # Windows
+        if os.path.exists('C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'):
+            options.binary_location = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
+        elif os.path.exists('C:/Program Files/Google/Chrome/Application/chrome.exe'):
+            options.binary_location = 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+
+    chrome_driver_binary = which('chromedriver') or "/usr/local/bin/chromedriver"
     driver = webdriver.Chrome(chrome_driver_binary, chrome_options=options)
 
     driver.get(url)
