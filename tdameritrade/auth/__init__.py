@@ -21,10 +21,7 @@ def authentication(client_id, redirect_uri):
             options.binary_location = "/Applications/Chrome.app/Contents/MacOS/Google Chrome"
     elif 'linux' in sys.platform:
         # Linux
-        if os.path.exists('/usr/bin/google-chrome'):
-            options.binary_location = '/usr/bin/google-chrome'
-        elif os.path.exists('/usr/bin/chrome'):
-            options.binary_location = '/usr/bin/chrome'
+        options.binary_location = which('google-chrome') or which('chrome') or which('chromium')
 
     else:
         # Windows
