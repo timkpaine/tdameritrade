@@ -32,4 +32,7 @@ setup(
 
     keywords='finance data',
     packages=find_packages(exclude=[]),
+    entry_points={
+        'console_scripts': ['tdameritrade-auth = tdameritrade.auth:main']
+    }
 )

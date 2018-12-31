@@ -42,3 +42,8 @@ def refresh_token(refresh_token, client_id):
     if resp.status_code != 200:
         raise Exception('Could not authenticate!')
     return resp.json()
+
+def main():
+    client_id = input('client id:')
+    redirect_uri = input('redirect uri:')
+    authentication(client_id, redirect_uri)
