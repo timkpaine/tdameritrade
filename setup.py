@@ -9,11 +9,11 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='tdameritrade',
-    version='0.0.3',
+    version='0.0.4',
     description='APIs for TD Ameritrade',
     long_description=long_description,
     url='https://github.com/timkpaine/tdameritrade',
-    download_url='https://github.com/timkpaine/tdameritrade/archive/v0.0.3.tar.gz',
+    download_url='https://github.com/timkpaine/tdameritrade/archive/v0.0.4.tar.gz',
     author='Tim Paine',
     author_email='timothy.k.paine@gmail.com',
     license='Apache 2.0',
