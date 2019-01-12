@@ -2,6 +2,7 @@ import os
 import os.path
 import sys
 import requests
+import time
 from selenium import webdriver
 from shutil import which
 import urllib.parse as up
@@ -36,7 +37,7 @@ def authentication(client_id, redirect_uri):
     driver.get(url)
 
     # Setting TDAUSER and TDAPASS environment variables enables
-    # fully automated oauth2 authentication 
+    # fully automated oauth2 authentication
     if 'TDAUSER' in os.environ and 'TDAPASS' in os.environ:
         ubox = driver.find_element_by_id('username')
         pbox = driver.find_element_by_id('password')
@@ -52,8 +53,8 @@ def authentication(client_id, redirect_uri):
                     break
                 else:
                     time.sleep(2)
-            except:
-                pass        
+            except (TypeError, IndexError):
+                pass
     else:
         input('after giving access, hit enter to continue')
         code = up.unquote(driver.current_url.split('code=')[1])
