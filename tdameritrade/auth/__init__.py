@@ -35,7 +35,7 @@ def authentication(client_id, redirect_uri):
 
     driver.get(url)
 
-    # Setting TDAUSER and TDAPASS enviroment variables enables
+    # Setting TDAUSER and TDAPASS environment variables enables
     # fully automated oauth2 authentication 
     if 'TDAUSER' in os.environ and 'TDAPASS' in os.environ:
         ubox = driver.find_element_by_id('username')
