@@ -35,9 +35,28 @@ def authentication(client_id, redirect_uri):
 
     driver.get(url)
 
-    input('after giving access, hit enter to continue')
+    # Setting TDAUSER and TDAPASS enviroment variables enables
+    # fully automated oauth2 authentication 
+    if 'TDAUSER' in os.environ and 'TDAPASS' in os.environ:
+        ubox = driver.find_element_by_id('username')
+        pbox = driver.find_element_by_id('password')
+        ubox.send_keys(os.environ['TDAUSER'])
+        pbox.send_keys(os.environ['TDAPASS'])
+        driver.find_element_by_id('accept').click()
 
-    code = up.unquote(driver.current_url.split('code=')[1])
+        driver.find_element_by_id('accept').click()
+        while 1:
+            try:
+                code = up.unquote(driver.current_url.split('code=')[1])
+                if code != '':
+                    break
+                else:
+                    time.sleep(2)
+            except:
+                pass        
+    else:
+        input('after giving access, hit enter to continue')
+        code = up.unquote(driver.current_url.split('code=')[1])
 
     driver.close()
 
