@@ -1,11 +1,11 @@
 tests: ## Clean and Make unit tests
-	python3 -m nose -v tests --with-coverage --cover-erase --cover-package=`find tdameritrade -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
+	python3 -m pytest tests --cov=tdameritrade
 
 test: lint ## run the tests for travis CI
-	@ python3 -m nose -v tests -I 'test_api.py' --with-coverage --cover-erase --cover-package=`find tdameritrade -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
+	@ python3 -m pytest tests --cov=tdameritrade
 
 testall: ## run the tests including those that hit the actual api
-	@ python3 -m nose -v tests --with-coverage --cover-erase --cover-package=`find tdameritrade -name "*.py" | sed "s=\./==g" | sed "s=/=.=g" | sed "s/.py//g" | tr '\n' ',' | rev | cut -c2- | rev`
+	@ python3 -m pytest tests --cov=tdameritrade
 
 lint: ## run linter
 	pylint tdameritrade || echo
