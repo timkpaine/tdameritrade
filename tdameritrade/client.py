@@ -46,6 +46,12 @@ class TDClient(object):
             ret.append(dat[symbol])
         return pd.DataFrame(ret)
 
+    def fundamental(self, symbol):
+        return self.search(symbol, 'fundamental')
+
+    def fundamentalDF(self, symbol):
+        return self.searchDF(symbol, 'fundamental')
+
     def instrument(self, cusip):
         return requests.get(INSTRUMENTS + str(cusip),
                             headers=self._headers()).json()
