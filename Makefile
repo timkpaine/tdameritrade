@@ -1,11 +1,11 @@
 tests: ## Clean and Make unit tests
-	python3 -m pytest tests --cov=tdameritrade
+	python3 -m pytest -v tests --cov=tdameritrade
 
 test: lint ## run the tests for travis CI
-	@ python3 -m pytest tests --cov=tdameritrade
+	@ python3 -m pytest -v tests --cov=tdameritrade
 
 testall: ## run the tests including those that hit the actual api
-	@ python3 -m pytest tests --cov=tdameritrade
+	@ python3 -m pytest -v tests --cov=tdameritrade
 
 lint: ## run linter
 	pylint tdameritrade || echo
