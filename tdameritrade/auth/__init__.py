@@ -88,4 +88,4 @@ def refresh_token(refresh_token, client_id):
 def main():
     client_id = input('client id:')
     redirect_uri = input('redirect uri:')
-    authentication(client_id, redirect_uri)
+    print(authentication(client_id, redirect_uri))
