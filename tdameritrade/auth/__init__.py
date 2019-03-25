@@ -78,8 +78,8 @@ def refresh_token(refresh_token, client_id):
     resp = requests.post('https://api.tdameritrade.com/v1/oauth2/token',
                          headers={'Content-Type': 'application/x-www-form-urlencoded'},
                          data={'grant_type': 'refresh_token',
-                               'refresh_token': up.quote(refresh_token),
-                               'client_id': up.quote(client_id)})
+                               'refresh_token': refresh_token,
+                               'client_id': client_id})
     if resp.status_code != 200:
         raise Exception('Could not authenticate!')
     return resp.json()
