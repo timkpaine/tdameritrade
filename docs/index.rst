@@ -8,7 +8,7 @@ tdameritrade
 Python interface to TD Ameritrade Api 
 
 
-|build-status| |issues| |waffle| |codecov| |bch| |pypiv| |pypil| |docs|
+|build-status| |issues| |codecov| |bch| |pypiv| |pypil| |docs|
 
 
 .. toctree::
@@ -29,11 +29,6 @@ Python interface to TD Ameritrade Api
     :alt: Issues
     :scale: 100%
     :target: https://img.shields.io/github/issues/timkpaine/tdameritrade.svg
-
-.. |waffle| image:: https://badge.waffle.io/timkpaine/tdameritrade.svg?label=ready&title=Ready
-    :alt: Waffle
-    :scale: 100%
-    :target: http://waffle.io/timkpaine/tdameritrade
 
 .. |codecov| image:: https://codecov.io/gh/timkpaine/tdameritrade/branch/master/graph/badge.svg
     :alt: Codecov
