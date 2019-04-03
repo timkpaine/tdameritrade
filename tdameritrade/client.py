@@ -103,4 +103,3 @@ class TDClient(object):
                             headers=self._headers(),
                             params={'direction': direction,
                                     'change_type': change_type})
-    
