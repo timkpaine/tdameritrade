@@ -90,3 +90,12 @@ class TestExtension:
             m.return_value.json.return_value = {'candles': [{'datetime': 1, 'test2': 2}]}
             tdc.history('aapl')
             tdc.historyDF('aapl')
+
+    def test_movers(self):
+        from tdameritrade import TDClient
+
+        tdc = TDClient('test', [1, 2])
+
+        with patch('requests.get') as m:
+            m.return_value.status_code = 200
+            m.return_value.json.return_value = {'aapl': {'test'}}

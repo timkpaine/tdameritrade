@@ -1,7 +1,7 @@
 import os
 import requests
 import pandas as pd
-from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN
+from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS
 
 
 class TDClient(object):
@@ -97,3 +97,9 @@ class TDClient(object):
         for col in ('tradeTimeInLong', 'quoteTimeInLong', 'expirationDate', 'lastTradingDay'):
             df[col] = pd.to_datetime(df[col], unit='ms')
         return df
+
+    def movers(self, index, direction='up', change_type='percent'):
+        return requests.get(MOVERS % index,
+                            headers=self._headers(),
+                            params={'direction': direction,
+                                    'change_type': change_type})
