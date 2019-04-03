@@ -1,2 +1,3 @@
 prune tests
+prune scripts
 include requirements.txt
