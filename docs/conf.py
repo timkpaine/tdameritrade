@@ -17,10 +17,12 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
-# sys.path.insert(0, os.path.abspath('.'))
+import sys
+import os
+import os.path
+import subprocess
 import sphinx_rtd_theme
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 # -- General configuration ------------------------------------------------
@@ -32,8 +34,7 @@ import sphinx_rtd_theme
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.coverage',
-    'sphinx.ext.viewcode']
+extensions = ['sphinx.ext.coverage', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc', 'sphinx.ext.napoleon']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -168,3 +169,23 @@ texinfo_documents = [
      author, 'tdameritrade', 'One line description of project.',
      'Miscellaneous'),
 ]
+
+
+def run_apidoc(_):
+    out_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'api'))
+    mod_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'tdameritrade'))
+    cmd_path = 'sphinx-apidoc'
+    if hasattr(sys, 'real_prefix'):  # Check to see if we are in a virtualenv
+        # If we are, assemble the path manually
+        cmd_path = os.path.abspath(os.path.join(sys.prefix, 'bin', 'sphinx-apidoc'))
+    subprocess.check_call([cmd_path,
+                           '-E',
+                           '-M',
+                           '-o',
+                           out_dir,
+                           mod_dir,
+                           '--force'])
+
+
+def setup(app):
+    app.connect('builder-inited', run_apidoc)
