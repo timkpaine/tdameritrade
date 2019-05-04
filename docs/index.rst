@@ -18,6 +18,7 @@ Python interface to TD Ameritrade Api
    installation
    authentication
    quickstart
+   api
 
 
 .. |build-status| image:: https://travis-ci.org/timkpaine/tdameritrade.svg?branch=master
