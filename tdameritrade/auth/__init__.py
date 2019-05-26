@@ -8,7 +8,7 @@ from shutil import which
 import urllib.parse as up
 
 
-def authentication(client_id, redirect_uri):
+def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     client_id = client_id + '@AMER.OAUTHAP'
     url = 'https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=' + up.quote(redirect_uri) + '&client_id=' + up.quote(client_id)
 
@@ -36,13 +36,17 @@ def authentication(client_id, redirect_uri):
 
     driver.get(url)
 
-    # Setting TDAUSER and TDAPASS environment variables enables
-    # fully automated oauth2 authentication
-    if 'TDAUSER' in os.environ and 'TDAPASS' in os.environ:
+    # Set tdauser and tdapass from environemnt if TDAUSER and TDAPASS environment variables were defined
+    if tdauser==None and tdapass==None and 'TDAUSER' in os.environ and 'TDAPASS' in os.environ:
+            tdauser=os.environ['TDAUSER']
+            tdapass=os.environ['TDAPASS']
+
+    # Fully automated oauth2 authentication (if tdauser and tdapass were intputed into the function, or found as environment variables)
+    if tdauser!=None and tdapass!=None:
         ubox = driver.find_element_by_id('username')
         pbox = driver.find_element_by_id('password')
-        ubox.send_keys(os.environ['TDAUSER'])
-        pbox.send_keys(os.environ['TDAPASS'])
+        ubox.send_keys(tdauser)
+        pbox.send_keys(tdapass)
         driver.find_element_by_id('accept').click()
 
         driver.find_element_by_id('accept').click()
