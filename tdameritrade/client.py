@@ -41,7 +41,7 @@ class TDClient(object):
             else:
                 raise Exception(resp.text)
         return ret
-    
+
     def accountsDF(self):
         return pd.io.json.json_normalize(self.accounts())
 
