@@ -24,7 +24,7 @@ class TDClient(object):
             elif orders:
                 fields += 'orders'
         else:
-            fields = None
+            fields = ''
 
         if self.accountIds:
             for acc in self.accountIds:
