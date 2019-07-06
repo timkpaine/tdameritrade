@@ -37,12 +37,11 @@ def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     driver.get(url)
 
     # Set tdauser and tdapass from environemnt if TDAUSER and TDAPASS environment variables were defined
-    if tdauser==None and tdapass==None and 'TDAUSER' in os.environ and 'TDAPASS' in os.environ:
-            tdauser=os.environ['TDAUSER']
-            tdapass=os.environ['TDAPASS']
+    tdauser = tdauser or os.environ.get('TDAUSER', '')
+    tdapass = tdapass or os.environ.get('TDAPASS', '')
 
     # Fully automated oauth2 authentication (if tdauser and tdapass were intputed into the function, or found as environment variables)
-    if tdauser!=None and tdapass!=None:
+    if tdauser and tdapass:
         ubox = driver.find_element_by_id('username')
         pbox = driver.find_element_by_id('password')
         ubox.send_keys(tdauser)
