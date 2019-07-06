@@ -12,17 +12,29 @@ class TDClient(object):
     def _headers(self):
         return {'Authorization': 'Bearer ' + self._token}
 
-    def accounts(self):
+    def accounts(self, positions=False, orders=False):
         ret = {}
+
+        if positions or orders:
+            fields = '?fields='
+            if positions:
+                fields += 'positions'
+                if orders:
+                    fields += ',orders'
+            elif orders:
+                fields += 'orders'
+        else:
+            fields = ''
+
         if self.accountIds:
             for acc in self.accountIds:
-                resp = requests.get(ACCOUNTS + str(acc), headers=self._headers())
+                resp = requests.get(ACCOUNTS + str(acc) + fields, headers=self._headers())
                 if resp.status_code == 200:
                     ret[acc] = resp.json()
                 else:
                     raise Exception(resp.text)
         else:
-            resp = requests.get(ACCOUNTS, headers=self._headers())
+            resp = requests.get(ACCOUNTS + fields, headers=self._headers())
             if resp.status_code == 200:
                 for account in resp.json():
                     ret[account['securitiesAccount']['accountId']] = account
