@@ -3,7 +3,10 @@ import os.path
 import sys
 import requests
 import time
-from selenium import webdriver
+try:
+    from selenium import webdriver
+except (ImportError, ModuleNotFoundError):
+    pass
 from shutil import which
 import urllib.parse as up
 
