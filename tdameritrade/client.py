@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 
 from tdameritrade.auth import refresh_token
-from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS, ORDERS
+from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS, ORDERS, ORDER
 
 
 class TDClient(object):
@@ -139,5 +139,7 @@ class TDClient(object):
             "complexOrderStrategyType": strategy,
         }
         if price:
-            data['price'] = price
-        return self._request(ORDERS % account_id, 'POST', json=data)
+            data['price'] = str(price)
+        resp = self._request(ORDERS % account_id, 'POST', json=data)
+        resp.raise_for_status()
+        return self._request(resp.headers['Location']).json()
