@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 
 from tdameritrade.auth import refresh_token
-from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS, ORDERS, ORDER
+from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS, ORDERS
 
 
 class TDClient(object):
