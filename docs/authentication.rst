@@ -38,7 +38,9 @@ run ``tdameritrade.auth.authentication`` from a python prompt, with ``client_id=
 
 Step 6
 -------
-Sign in and authorize your app
+Sign in and authorize your app.
+
+You can enter credentials by hand or store them in environment variables ``TDAUSER`` and ``TDAPASS``. When stored, the first page will be filled in and advanced automaticly. 
 
 .. image:: ./img/auth/2.png
     :scale: 100%
