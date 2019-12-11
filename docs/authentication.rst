@@ -34,7 +34,7 @@ Set the name and id to something reasonably unique, and the redirect to ``http:/
 
 Step 5
 -------
-run ``tdameritrade.auth.authentication`` from a python prompt, with the ``client_id`` and ``redirect_uri`` from step 4.
+run ``tdameritrade.auth.authentication`` from a python prompt, with ``client_id=consumer_key`` and ``redirect_uri`` from step 4.
 
 Step 6
 -------
