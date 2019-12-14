@@ -114,4 +114,4 @@ class TDClient(object):
         return requests.get(MOVERS % index,
                             headers=self._headers(),
                             params={'direction': direction,
-                                    'change_type': change_type})
+                                    'change_type': change_type}).json()
