@@ -1,8 +1,8 @@
 tests: ## Make unit tests
-	python3 -m pytest -v tests --cov=tdameritrade
+	python3 -m pytest -v tdameritrade/tests --cov=tdameritrade
 
 testall: ## run the tests including those that hit the actual api
-	@ python3 -m pytest -v tests --cov=tdameritrade
+	@ python3 -m pytest -v tdameritrade/tests --cov=tdameritrade
 
 lint: ## run linter
 	flake8 tdameritrade 
