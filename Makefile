@@ -1,14 +1,14 @@
-tests: ## Clean and Make unit tests
+tests: ## Make unit tests
 	python3 -m pytest -v tests --cov=tdameritrade
-
-test: lint ## run the tests for travis CI
-	@ python3 -m pytest -v tests --cov=tdameritrade
 
 testall: ## run the tests including those that hit the actual api
 	@ python3 -m pytest -v tests --cov=tdameritrade
 
 lint: ## run linter
 	flake8 tdameritrade 
+
+fix:  ## run autopep8/tslint fix
+	autopep8 --in-place -r -a -a pyEX/
 
 annotate: ## MyPy type annotation check
 	mypy -s tdameritrade
@@ -25,15 +25,6 @@ clean: ## clean the repository
 docs:  ## make documentation
 	make -C ./docs html
 	open ./docs/_build/html/index.html
-
-micro:  ## steps before dist, defaults to previous tag + one micro
-	. scripts/deploy.sh MICRO
-
-minor:  ## steps before dist, defaults to previous tag + one micro
-	. scripts/deploy.sh MINOR
-
-major:  ## steps before dist, defaults to previous tag + one micro
-	. scripts/deploy.sh MAJOR
 
 dist:  ## dist to pypi
 	python3 setup.py sdist upload -r pypi

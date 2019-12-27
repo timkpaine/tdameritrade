@@ -1,14 +1,28 @@
+dist: xenial
 language: python
 cache: pip
 
-python:
-  - "3.6"
+matrix:
+  include:
+    - python: "3.7"
 
-install:
-    - pip install -r requirements.txt
-    - pip install -U pytest pytest-cov flake8 pylint codecov
+addons:
+  apt:
+    update: true
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+  homebrew:
+    update: true
+    packages:
+      - python
 
-script: make test
+install: 
+  - python3 -m pip install -e .[dev]
+
+script:
+  - make lint
+  - make tests
 
 after_success:
     - codecov --token ce4cddf7-dad5-4d08-8e93-ae8cd7d98507

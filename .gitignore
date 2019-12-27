@@ -105,3 +105,4 @@ ENV/
 keys.sh
 
 .autoversion
+docs/api
