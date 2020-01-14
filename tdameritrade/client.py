@@ -85,8 +85,8 @@ class TDClient(object):
                             headers=self._headers(),
                             params=kwargs).json()
 
-    def historyDF(self, symbol):
-        x = self.history(symbol)
+    def historyDF(self, symbol, **kwargs):
+        x = self.history(symbol, **kwargs)
         df = pd.DataFrame(x['candles'])
         df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
         return df
