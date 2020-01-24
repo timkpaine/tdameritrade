@@ -26,15 +26,15 @@ class TestClient(unittest.TestCase):
     def test_init(self):
         from tdameritrade import TDClient
         tdc = TDClient(clientId=123, refreshToken='reftoken',
-                       accessToken='accesstoken', accountIds=[1, 2])
-        self.assertEqual(tdc._accessToken['token'], 'accesstoken')
+                       accountIds=[1, 2])
+        self.assertEqual(tdc._refreshToken['token'], 'reftoken')
 
-    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    @patch('tdameritrade.TDClient._updateAccessTokenIfExpired')
     def test_accounts(self, mock_rtie):
         from tdameritrade import TDClient
 
         tdc = TDClient(clientId=123, refreshToken='reftoken',
-                       accessToken='accesstoken', accountIds=[1, 2])
+                       accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -42,7 +42,7 @@ class TestClient(unittest.TestCase):
             tdc.accounts()
 
         tdc = TDClient(clientId=123, refreshToken='reftoken',
-                       accessToken='accesstoken', accountIds=[1, 2])
+                       accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -53,12 +53,12 @@ class TestClient(unittest.TestCase):
             m.return_value.json.return_value = [{'test': 1, 'test2': 2}]
             tdc.accountsDF()
 
-    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    @patch('tdameritrade.TDClient._updateAccessTokenIfExpired')
     def test_search(self, mock_rtie):
         from tdameritrade import TDClient
 
         tdc = TDClient(clientId=123, refreshToken='reftoken',
-                       accessToken='accesstoken', accountIds=[1, 2])
+                       accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -66,12 +66,12 @@ class TestClient(unittest.TestCase):
             tdc.search('aapl')
             tdc.searchDF('aapl')
 
-    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    @patch('tdameritrade.TDClient._updateAccessTokenIfExpired')
     def test_instrument(self, mock_rtie):
         from tdameritrade import TDClient
 
         tdc = TDClient(clientId=123, refreshToken='reftoken',
-                       accessToken='accesstoken', accountIds=[1, 2])
+                       accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -79,12 +79,12 @@ class TestClient(unittest.TestCase):
             tdc.instrument('aapl')
             tdc.instrumentDF('aapl')
 
-    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    @patch('tdameritrade.TDClient._updateAccessTokenIfExpired')
     def test_quote(self, mock_rtie):
         from tdameritrade import TDClient
 
         tdc = TDClient(clientId=123, refreshToken='reftoken',
-                       accessToken='accesstoken', accountIds=[1, 2])
+                       accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -92,12 +92,12 @@ class TestClient(unittest.TestCase):
             tdc.quote('aapl')
             tdc.quoteDF('aapl')
 
-    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    @patch('tdameritrade.TDClient._updateAccessTokenIfExpired')
     def test_history(self, mock_rtie):
         from tdameritrade import TDClient
 
         tdc = TDClient(clientId=123, refreshToken='reftoken',
-                       accessToken='accesstoken', accountIds=[1, 2])
+                       accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -109,7 +109,7 @@ class TestClient(unittest.TestCase):
         from tdameritrade import TDClient
 
         tdc = TDClient(clientId=123, refreshToken='reftoken',
-                       accessToken='accesstoken', accountIds=[1, 2])
+                       accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200

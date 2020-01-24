@@ -11,13 +11,10 @@ from .urls import (ACCOUNTS, HISTORY, INSTRUMENTS, MOVERS, OPTIONCHAIN, QUOTES,
 
 class TDClient(object):
 
-    def __init__(self, clientId=None, refreshToken=None,
-                 accessToken=None, accountIds=[]):
+    def __init__(self, clientId=None, refreshToken=None, accountIds=[]):
         self._clientId = clientId
         self._refreshToken = {'token': refreshToken}
-        self._accessToken = {'token': accessToken}
-        if not accessToken and 'ACCESS_TOKEN' in os.environ:
-            self._accessToken['token'] = os.environ['ACCESS_TOKEN']
+        self._accessToken = {'token': ''}
         self._accessToken['created_at'] = time.time()
         # Set to -1 so that it gets refreshed immediately and its age tracked.
         self._accessToken['expires_in'] = -1
@@ -26,7 +23,7 @@ class TDClient(object):
     def _headers(self):
         return {'Authorization': 'Bearer ' + self._accessToken['token']}
 
-    def _refreshTokenIfExpired(self):
+    def _updateAccessTokenIfExpired(self):
         # Expire the token one minute before its expiration time to
         # be safe
         if not self._accessToken['token'] or \
@@ -56,7 +53,7 @@ class TDClient(object):
 
         if self._accountIds:
             for acc in self._accountIds:
-                self._refreshTokenIfExpired()
+                self._updateAccessTokenIfExpired()
                 resp = requests.get(ACCOUNTS + str(acc) + fields,
                                     headers=self._headers())
                 if resp.status_code == 200:
@@ -64,7 +61,7 @@ class TDClient(object):
                 else:
                     raise Exception(resp.text)
         else:
-            self._refreshTokenIfExpired()
+            self._updateAccessTokenIfExpired()
             resp = requests.get(ACCOUNTS + fields, headers=self._headers())
             if resp.status_code == 200:
                 for account in resp.json():
@@ -78,7 +75,7 @@ class TDClient(object):
         return pd.io.json.json_normalize(self.accounts())
 
     def search(self, symbol, projection='symbol-search'):
-        self._refreshTokenIfExpired()
+        self._updateAccessTokenIfExpired()
 
         return requests.get(SEARCH,
                             headers=self._headers(),
@@ -100,7 +97,7 @@ class TDClient(object):
         return self.searchDF(symbol, 'fundamental')
 
     def instrument(self, cusip):
-        self._refreshTokenIfExpired()
+        self._updateAccessTokenIfExpired()
 
         return requests.get(INSTRUMENTS + str(cusip),
                             headers=self._headers()).json()
@@ -109,7 +106,7 @@ class TDClient(object):
         return pd.DataFrame(self.instrument(cusip))
 
     def quote(self, symbol):
-        self._refreshTokenIfExpired()
+        self._updateAccessTokenIfExpired()
 
         return requests.get(QUOTES,
                             headers=self._headers(),
@@ -121,7 +118,7 @@ class TDClient(object):
         return pd.DataFrame(x).T.reset_index(drop=True)
 
     def history(self, symbol, **kwargs):
-        self._refreshTokenIfExpired()
+        self._updateAccessTokenIfExpired()
         return requests.get(HISTORY % symbol,
                             headers=self._headers(),
                             params=kwargs).json()
@@ -134,7 +131,7 @@ class TDClient(object):
         return df
 
     def options(self, symbol, **kwargs):
-        self._refreshTokenIfExpired()
+        self._updateAccessTokenIfExpired()
 
         return requests.get(OPTIONCHAIN,
                             headers=self._headers(),
@@ -158,7 +155,7 @@ class TDClient(object):
         return df
 
     def movers(self, index, direction='up', change_type='percent'):
-        self._refreshTokenIfExpired()
+        self._updateAccessTokenIfExpired()
         return requests.get(MOVERS % index,
                             headers=self._headers(),
                             params={'direction': direction,
