@@ -1,8 +1,10 @@
 # for Coverage
-from mock import patch, MagicMock
+import unittest
+
+from mock import MagicMock, patch
 
 
-class TestExtension:
+class TestClient(unittest.TestCase):
     def setup(self):
         pass
         # setup() before each test method
@@ -23,20 +25,20 @@ class TestExtension:
 
     def test_init(self):
         from tdameritrade import TDClient
-        tdc = TDClient('test')
-        tdc._headers()
+        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
+        self.assertEqual(tdc._accessToken, 'accesstoken')
 
     def test_accounts(self):
         from tdameritrade import TDClient
 
-        tdc = TDClient('test', [1, 2])
+        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = [MagicMock()]
             tdc.accounts()
 
-        tdc = TDClient('test', [1, 2])
+        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -50,7 +52,7 @@ class TestExtension:
     def test_search(self):
         from tdameritrade import TDClient
 
-        tdc = TDClient('test', [1, 2])
+        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -61,7 +63,7 @@ class TestExtension:
     def test_instrument(self):
         from tdameritrade import TDClient
 
-        tdc = TDClient('test', [1, 2])
+        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -72,7 +74,7 @@ class TestExtension:
     def test_quote(self):
         from tdameritrade import TDClient
 
-        tdc = TDClient('test', [1, 2])
+        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -83,7 +85,7 @@ class TestExtension:
     def test_history(self):
         from tdameritrade import TDClient
 
-        tdc = TDClient('test', [1, 2])
+        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -94,7 +96,7 @@ class TestExtension:
     def test_movers(self):
         from tdameritrade import TDClient
 
-        tdc = TDClient('test', [1, 2])
+        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
