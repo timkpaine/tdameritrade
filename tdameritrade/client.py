@@ -1,4 +1,5 @@
 import os
+import time
 
 import pandas as pd
 import requests
@@ -16,16 +17,21 @@ class TDClient(object):
         self._clientId = clientId
         self._refreshToken = refreshToken
         self._accessToken = accessToken or os.environ['ACCESS_TOKEN']
-        self._refreshTokenAgeSecs = 0
+        self._accessTokenCreatedAt = time.time()
         self.accountIds = accountIds or []
 
     def _headers(self):
         return {'Authorization': 'Bearer ' + self._accessToken}
 
     def _refresh_token_if_expired(self):
-        if self._refreshTokenAgeSecs >= ACCESS_TOKEN_EXPIRATION_TIME_SECS:
+        if self._accessToken is None or \
+                self._access_token_age_secs() >= ACCESS_TOKEN_EXPIRATION_TIME_SECS:
             self._accessToken = auth.refresh_token(self._refreshToken,
                                                    self._clientId)
+
+    def _access_token_age_secs(self):
+        return time.time() - self._accessTokenCreatedAt
+
 
     def accounts(self, positions=False, orders=False):
         ret = {}
