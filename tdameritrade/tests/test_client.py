@@ -25,20 +25,24 @@ class TestClient(unittest.TestCase):
 
     def test_init(self):
         from tdameritrade import TDClient
-        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
-        self.assertEqual(tdc._accessToken, 'accesstoken')
+        tdc = TDClient(clientId=123, refreshToken='reftoken',
+                       accessToken='accesstoken', accountIds=[1, 2])
+        self.assertEqual(tdc._accessToken['token'], 'accesstoken')
 
-    def test_accounts(self):
+    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    def test_accounts(self, mock_rtie):
         from tdameritrade import TDClient
 
-        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
+        tdc = TDClient(clientId=123, refreshToken='reftoken',
+                       accessToken='accesstoken', accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = [MagicMock()]
             tdc.accounts()
 
-        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
+        tdc = TDClient(clientId=123, refreshToken='reftoken',
+                       accessToken='accesstoken', accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -49,10 +53,12 @@ class TestClient(unittest.TestCase):
             m.return_value.json.return_value = [{'test': 1, 'test2': 2}]
             tdc.accountsDF()
 
-    def test_search(self):
+    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    def test_search(self, mock_rtie):
         from tdameritrade import TDClient
 
-        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
+        tdc = TDClient(clientId=123, refreshToken='reftoken',
+                       accessToken='accesstoken', accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -60,10 +66,12 @@ class TestClient(unittest.TestCase):
             tdc.search('aapl')
             tdc.searchDF('aapl')
 
-    def test_instrument(self):
+    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    def test_instrument(self, mock_rtie):
         from tdameritrade import TDClient
 
-        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
+        tdc = TDClient(clientId=123, refreshToken='reftoken',
+                       accessToken='accesstoken', accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -71,10 +79,12 @@ class TestClient(unittest.TestCase):
             tdc.instrument('aapl')
             tdc.instrumentDF('aapl')
 
-    def test_quote(self):
+    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    def test_quote(self, mock_rtie):
         from tdameritrade import TDClient
 
-        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
+        tdc = TDClient(clientId=123, refreshToken='reftoken',
+                       accessToken='accesstoken', accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -82,10 +92,12 @@ class TestClient(unittest.TestCase):
             tdc.quote('aapl')
             tdc.quoteDF('aapl')
 
-    def test_history(self):
+    @patch('tdameritrade.TDClient._refreshTokenIfExpired')
+    def test_history(self, mock_rtie):
         from tdameritrade import TDClient
 
-        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
+        tdc = TDClient(clientId=123, refreshToken='reftoken',
+                       accessToken='accesstoken', accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200
@@ -96,7 +108,8 @@ class TestClient(unittest.TestCase):
     def test_movers(self):
         from tdameritrade import TDClient
 
-        tdc = TDClient(123, 'reftoken', 'accesstoken', [1, 2])
+        tdc = TDClient(clientId=123, refreshToken='reftoken',
+                       accessToken='accesstoken', accountIds=[1, 2])
 
         with patch('requests.get') as m:
             m.return_value.status_code = 200

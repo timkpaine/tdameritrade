@@ -78,7 +78,7 @@ def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     return resp.json()
 
 
-def refresh_token(refresh_token, client_id):
+def access_token(refresh_token, client_id):
     resp = requests.post('https://api.tdameritrade.com/v1/oauth2/token',
                          headers={'Content-Type': 'application/x-www-form-urlencoded'},
                          data={'grant_type': 'refresh_token',
