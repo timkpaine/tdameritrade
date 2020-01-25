@@ -116,3 +116,8 @@ class TDClient(object):
                             headers=self._headers(),
                             params={'direction': direction,
                                     'change_type': change_type}).json()
+
+    def orders(self, account_id, order):
+        return requests.post(ACCOUNTS + account_id + "/orders",
+                             headers=self._headers(),
+                             json=order).json()
