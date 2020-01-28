@@ -1,6 +1,8 @@
 import os
-import requests
+
 import pandas as pd
+import requests
+from retry import retry
 
 from tdameritrade.auth import refresh_token
 from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS, ORDERS
@@ -16,6 +18,7 @@ class TDClient(object):
     def _headers(self):
         return {'Authorization': 'Bearer ' + self._token}
 
+    @retry(ConnectionError, tries=6, backoff=2, max_delay=60, jitter=(0, 3))
     def _request(self, url, method='GET', *args, **kwargs):
         attempts = 0
         while attempts <= 1:
