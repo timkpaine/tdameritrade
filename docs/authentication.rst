@@ -34,11 +34,13 @@ Set the name and id to something reasonably unique, and the redirect to ``http:/
 
 Step 5
 -------
-run ``tdameritrade.auth.authentication`` from a python prompt, with the ``client_id`` and ``redirect_uri`` from step 4.
+run ``tdameritrade.auth.authentication`` from a python prompt, with ``client_id=consumer_key`` and ``redirect_uri`` from step 4.
 
 Step 6
 -------
-Sign in and authorize your app
+Sign in and authorize your app.
+
+You can enter credentials by hand or store them in environment variables ``TDAUSER`` and ``TDAPASS``. When stored, the first page will be filled in and advanced automaticly. 
 
 .. image:: ./img/auth/2.png
     :scale: 100%

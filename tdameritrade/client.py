@@ -71,29 +71,30 @@ class TDClient(object):
     def instrumentDF(self, cusip):
         return pd.DataFrame(self.instrument(cusip))
 
-    def quote(self, symbol):
+    def quote(self, symbols):
         return requests.get(QUOTES,
                             headers=self._headers(),
-                            params={'symbol': symbol.upper()}).json()
+                            params={'symbol': symbols.upper()}).json()
 
     def quoteDF(self, symbol):
         x = self.quote(symbol)
         return pd.DataFrame(x).T.reset_index(drop=True)
 
-    def history(self, symbol):
+    def history(self, symbol, **kwargs):
         return requests.get(HISTORY % symbol,
-                            headers=self._headers()).json()
+                            headers=self._headers(),
+                            params=kwargs).json()
 
-    def historyDF(self, symbol):
-        x = self.history(symbol)
+    def historyDF(self, symbol, **kwargs):
+        x = self.history(symbol, **kwargs)
         df = pd.DataFrame(x['candles'])
         df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
         return df
 
-    def options(self, symbol):
+    def options(self, symbol, **kwargs):
         return requests.get(OPTIONCHAIN,
                             headers=self._headers(),
-                            params={'symbol': symbol.upper()}).json()
+                            params={'symbol': symbol.upper(), **kwargs}).json()
 
     def optionsDF(self, symbol):
         ret = []
@@ -114,4 +115,9 @@ class TDClient(object):
         return requests.get(MOVERS % index,
                             headers=self._headers(),
                             params={'direction': direction,
-                                    'change_type': change_type})
+                                    'change_type': change_type}).json()
+
+    def orders(self, account_id, order):
+        return requests.post(ACCOUNTS + account_id + "/orders",
+                             headers=self._headers(),
+                             json=order).json()
