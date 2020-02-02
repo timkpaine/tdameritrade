@@ -12,6 +12,7 @@ class TDClient(object):
     def _headers(self):
         return {'Authorization': 'Bearer ' + self._token}
 
+    # TODO: output results to self.accountIds
     def accounts(self, positions=False, orders=False):
         ret = {}
 
@@ -40,10 +41,28 @@ class TDClient(object):
                     ret[account['securitiesAccount']['accountId']] = account
             else:
                 raise Exception(resp.text)
+
         return ret
 
     def accountsDF(self):
         return pd.io.json.json_normalize(self.accounts())
+
+    def transactions(self, acc=None, type=None, symbol=None, start_date=None, end_date=None):
+        if acc is None:
+            acc = self.accounts
+        transactions = ACCOUNTS + str(acc) + "/transactions"
+        return requests.get(transactions,
+                            headers=self._headers(),
+                            params={
+                                'type': type,
+                                'symbol': symbol,
+                                'startDate': start_date,
+                                'endDate': end_date
+                            }).json()
+
+    # TODO: transactionsDF fails
+    def transactionsDF(self, acc, **kwargs):
+        return pd.DataFrame(self.transactions(acc, kwargs))
 
     def search(self, symbol, projection='symbol-search'):
         return requests.get(SEARCH,
@@ -71,10 +90,10 @@ class TDClient(object):
     def instrumentDF(self, cusip):
         return pd.DataFrame(self.instrument(cusip))
 
-    def quote(self, symbols):
+    def quote(self, symbol):
         return requests.get(QUOTES,
                             headers=self._headers(),
-                            params={'symbol': symbols.upper()}).json()
+                            params={'symbol': symbol.upper()}).json()
 
     def quoteDF(self, symbol):
         x = self.quote(symbol)
@@ -91,10 +110,10 @@ class TDClient(object):
         df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
         return df
 
-    def options(self, symbol, **kwargs):
+    def options(self, symbol):
         return requests.get(OPTIONCHAIN,
                             headers=self._headers(),
-                            params={'symbol': symbol.upper(), **kwargs}).json()
+                            params={'symbol': symbol.upper()}).json()
 
     def optionsDF(self, symbol):
         ret = []
@@ -115,9 +134,18 @@ class TDClient(object):
         return requests.get(MOVERS % index,
                             headers=self._headers(),
                             params={'direction': direction,
-                                    'change_type': change_type}).json()
+                                    'change_type': change_type})
 
-    def orders(self, account_id, order):
-        return requests.post(ACCOUNTS + account_id + "/orders",
+    def saved_orders(self, account_id, json_order):
+        saved_orders = ACCOUNTS + account_id + "/savedorders"
+        return requests.post(saved_orders,
                              headers=self._headers(),
-                             json=order).json()
+                             json=json_order
+                             )
+
+    def orders(self, account_id, json_order):
+        orders = ACCOUNTS + account_id + "/orders"
+        return requests.post(orders,
+                             headers=self._headers(),
+                             json=json_order
+                             )
