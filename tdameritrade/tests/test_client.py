@@ -1,6 +1,6 @@
 # for Coverage
 from mock import patch, MagicMock
-
+import pytest
 
 class TestExtension:
     def setup(self):
@@ -99,3 +99,28 @@ class TestExtension:
         with patch('requests.get') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = {'aapl': {'test'}}
+
+    @pytest.fixture
+    def json_order(cls):
+        from tdameritrade.tests.JSONS import TEST_BUY_MARKET_STOCK
+
+    def test_orders(self, json_order):
+        from tdameritrade import TDClient
+
+        tdc = TDClient('test')
+
+        with patch('requests.get') as m:
+            m.return_value.status_code = 201
+            m.return_value.json.return_value = [MagicMock()]
+            tdc.orders('1234567', json_order)
+
+    def test_saved_orders(self, json_order):
+        from tdameritrade import TDClient
+
+        tdc = TDClient('test')
+
+        with patch('requests.get') as m:
+            m.return_value.status_code = 201
+            m.return_value.json.return_value = [MagicMock()]
+            tdc.saved_orders('1234567', json_order)
+

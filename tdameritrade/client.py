@@ -41,7 +41,6 @@ class TDClient(object):
                     ret[account['securitiesAccount']['accountId']] = account
             else:
                 raise Exception(resp.text)
-
         return ret
 
     def accountsDF(self):
