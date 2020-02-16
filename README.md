@@ -11,8 +11,17 @@ Python interface to TD Ameritrade Api
 
 
 ## Getting Started
-[Read the docs!](http://tdameritrade.readthedocs.io/en/latest/index.html)
+### Install
+Install from pip
 
+`pip install tdameritrade`
+
+or from source
+
+`python setup.py install`
+
+### Docs
+[Read the docs!](http://tdameritrade.readthedocs.io/en/latest/index.html)
 
 ### Options Data
 ![](https://raw.githubusercontent.com/timkpaine/tdameritrade/master/docs/img/options.png)
