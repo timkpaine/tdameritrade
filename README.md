@@ -10,7 +10,9 @@ Python interface to TD Ameritrade Api
 [![Docs](https://img.shields.io/readthedocs/tdameritrade.svg)](https://tdameritrade.readthedocs.io)
 
 
+
 ## Getting Started
+
 ### Install
 Install from pip
 
@@ -19,6 +21,7 @@ Install from pip
 or from source
 
 `python setup.py install`
+
 
 ### Docs
 [Read the docs!](http://tdameritrade.readthedocs.io/en/latest/index.html)
@@ -36,3 +39,4 @@ Most data fetching methods accept the symbol as argument. For equities, this is 
 For different assets, utilize the `search` and `instrument` methods to lookup symbols. For options, you can utilize the options method.
 
 ![](https://raw.githubusercontent.com/timkpaine/tdameritrade/master/docs/img/options.png)
+
