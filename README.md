@@ -23,5 +23,16 @@ or from source
 ### Docs
 [Read the docs!](http://tdameritrade.readthedocs.io/en/latest/index.html)
 
-### Options Data
+The main interface is the `TDClient` object. You can pass the token to this object, or put it in an environment variable `ACCESS_TOKEN`.
+
+All functionality is available as methods on the `TDClient` object. For most methods, there is a convenience method to return the result as a pandas DataFrame.
+
+![](https://raw.githubusercontent.com/timkpaine/tdameritrade/master/docs/img/client/client.png)
+
+Most data fetching methods accept the symbol as argument. For equities, this is just the ticker.
+
+![](https://raw.githubusercontent.com/timkpaine/tdameritrade/master/docs/img/client/quote.png)
+
+For different assets, utilize the `search` and `instrument` methods to lookup symbols. For options, you can utilize the options method.
+
 ![](https://raw.githubusercontent.com/timkpaine/tdameritrade/master/docs/img/options.png)
