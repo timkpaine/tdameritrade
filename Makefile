@@ -1,5 +1,5 @@
 tests: ## Make unit tests
-	python3 -m pytest -v tdameritrade/tests --cov=tdameritrade
+	python3.7 -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 testall: ## run the tests including those that hit the actual api
 	@ python3.7 -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
