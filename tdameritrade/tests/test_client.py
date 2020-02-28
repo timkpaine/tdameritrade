@@ -2,6 +2,15 @@
 from mock import patch, MagicMock
 import pytest
 
+
+
+@pytest.fixture
+def tdclient():
+    from tdameritrade import TDClient
+    tdc = TDClient('test', [1, 2])
+    return tdc
+
+
 class TestExtension:
     def setup(self):
         pass
@@ -21,82 +30,80 @@ class TestExtension:
         pass
         # teardown_class() after any methods in this class
 
-    def test_init(self):
-        from tdameritrade import TDClient
-        tdc = TDClient('test')
-        tdc._headers()
+    def test_init(self, tdclient):
+        tdclient._headers()
 
-    def test_accounts(self):
-        from tdameritrade import TDClient
-
-        tdc = TDClient('test', [1, 2])
-
-        with patch('requests.get') as m:
+    def test_request(self, tdclient):
+        with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = [MagicMock()]
-            tdc.accounts()
+            tdclient._request("http://goodurl.com", None)
 
-        tdc = TDClient('test', [1, 2])
+    def test_request_exception(self, tdclient):
+        from tdameritrade.exceptions import InvalidAuthToken
+        with patch('tdameritrade.session.TDASession.request') as m:
+            m.return_value.status_code = 401
+            # resp = [{"status_code": 401}]
+            # #m.return_value = MagicMock()
+            # #m.return_value.status_code = {"status_code": 401}
+            # mock = MagicMock()
+            # mock.return_value = resp
+            # m.return_value = mock
+            # #m.return_value.json.return_value = [MagicMock()]
 
-        with patch('requests.get') as m:
+            with pytest.raises(InvalidAuthToken):
+                tdclient._request("http://goodurl.com", None)
+
+    def test_accounts(self, tdclient):
+
+        with patch('tdameritrade.session.TDASession.request') as m:
+
+            m.return_value.status_code = 200
+            m.return_value.json.return_value = [MagicMock()]
+            tdclient.accounts()
+
             m.return_value.status_code = 200
             m.return_value.json.return_value = [MagicMock()]
 
-        with patch('requests.get') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = [{'test': 1, 'test2': 2}]
-            tdc.accountsDF()
+            tdclient.accountsDF()
 
-    def test_search(self):
-        from tdameritrade import TDClient
+    def test_search(self, tdclient):
 
-        tdc = TDClient('test', [1, 2])
-
-        with patch('requests.get') as m:
+        with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = {'aapl': {'test': 1, 'test2': 2}}
-            tdc.search('aapl')
-            tdc.searchDF('aapl')
+            tdclient.search('aapl')
+            tdclient.searchDF('aapl')
 
-    def test_instrument(self):
-        from tdameritrade import TDClient
+    def test_instrument(self, tdclient):
 
-        tdc = TDClient('test', [1, 2])
-
-        with patch('requests.get') as m:
+        with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = {'aapl': {'test': 1, 'test2': 2}}
-            tdc.instrument('aapl')
-            tdc.instrumentDF('aapl')
+            tdclient.instrument('aapl')
+            tdclient.instrumentDF('aapl')
 
-    def test_quote(self):
-        from tdameritrade import TDClient
+    def test_quote(self, tdclient):
 
-        tdc = TDClient('test', [1, 2])
-
-        with patch('requests.get') as m:
+        with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = {'aapl': {'test': 1, 'test2': 2}}
-            tdc.quote('aapl')
-            tdc.quoteDF('aapl')
+            tdclient.quote('aapl')
+            tdclient.quoteDF('aapl')
 
-    def test_history(self):
-        from tdameritrade import TDClient
+    def test_history(self, tdclient):
 
-        tdc = TDClient('test', [1, 2])
-
-        with patch('requests.get') as m:
+        with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = {'candles': [{'datetime': 1, 'test2': 2}]}
-            tdc.history('aapl')
-            tdc.historyDF('aapl')
+            tdclient.history('aapl')
+            tdclient.historyDF('aapl')
 
     def test_movers(self):
-        from tdameritrade import TDClient
 
-        tdc = TDClient('test', [1, 2])
-
-        with patch('requests.get') as m:
+        with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = {'aapl': {'test'}}
 
@@ -104,23 +111,17 @@ class TestExtension:
     def json_order(cls):
         from tdameritrade.tests.JSONS import TEST_BUY_MARKET_STOCK
 
-    def test_orders(self, json_order):
-        from tdameritrade import TDClient
+    def test_orders(self, json_order, tdclient):
 
-        tdc = TDClient('test')
-
-        with patch('requests.get') as m:
+        with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 201
             m.return_value.json.return_value = [MagicMock()]
-            tdc.orders('1234567', json_order)
+            tdclient.orders('1234567', json_order)
 
-    def test_saved_orders(self, json_order):
-        from tdameritrade import TDClient
+    def test_saved_orders(self, json_order, tdclient):
 
-        tdc = TDClient('test')
-
-        with patch('requests.get') as m:
+        with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 201
             m.return_value.json.return_value = [MagicMock()]
-            tdc.saved_orders('1234567', json_order)
+            tdclient.saved_orders('1234567', json_order)
 
