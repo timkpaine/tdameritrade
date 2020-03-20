@@ -6,5 +6,5 @@ class TestSession:
 
     def test_init_header(self):
         from tdameritrade.session import TDASession
-        token = ""
-        TDASession().set_token(token)
+        test_token = {"token": ""}
+        TDASession().set_token(test_token)
