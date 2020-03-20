@@ -158,4 +158,11 @@ class TDClient(object):
         saved_orders = ACCOUNTS + account_id + "/savedorders"
         resp = self._request(saved_orders,
                              headers=self._headers(),
-                             json=order).json()
+                             json=json_order).json()
+
+    def orders(self, account_id, json_order):
+        orders = ACCOUNTS + account_id + "/orders"
+        return self._request(orders,
+                             headers=self._headers(),
+                             json=json_order
+                             ).json()
