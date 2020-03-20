@@ -98,7 +98,7 @@ class TDClient(object):
 
     def instrument(self, cusip):
         resp = self._request(INSTRUMENTS + str(cusip),
-                            headers=self._headers()).json()
+                             headers=self._headers()).json()
         return resp
 
     def instrumentDF(self, cusip):
@@ -159,10 +159,12 @@ class TDClient(object):
         resp = self._request(saved_orders,
                              headers=self._headers(),
                              json=json_order).json()
+        return resp
 
     def orders(self, account_id, json_order):
         orders = ACCOUNTS + account_id + "/orders"
-        return self._request(orders,
+        resp = self._request(orders,
                              headers=self._headers(),
                              json=json_order
                              ).json()
+        return resp
