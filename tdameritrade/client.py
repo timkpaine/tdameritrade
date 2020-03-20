@@ -151,21 +151,11 @@ class TDClient(object):
         resp = self._request(MOVERS % index,
                              headers=self._headers(),
                              params={'direction': direction,
-                                     'change_type': change_type})
+                                     'change_type': change_type}).json()
         return resp
 
     def saved_orders(self, account_id, json_order):
         saved_orders = ACCOUNTS + account_id + "/savedorders"
         resp = self._request(saved_orders,
                              headers=self._headers(),
-                             json=json_order
-                             )
-        return resp
-
-    def orders(self, account_id, json_order):
-        orders = ACCOUNTS + account_id + "/orders"
-        resp = self._request(orders,
-                             headers=self._headers(),
-                             json=json_order
-                             )
-        return resp
+                             json=order).json()

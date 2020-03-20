@@ -1,17 +1,10 @@
-API
-====
 
-.. toctree::
-   :maxdepth: 4
-
+```eval_rst
 .. automodule:: tdameritrade
     :members:
     :undoc-members:
     :show-inheritance:
 
-.. toctree::
-
-    tdameritrade.auth
 
 .. automodule:: tdameritrade.client
     :members:
@@ -27,3 +20,4 @@ API
     :members:
     :undoc-members:
     :show-inheritance:
+```
