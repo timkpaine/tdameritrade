@@ -4,7 +4,7 @@ import pandas as pd
 from .session import TDASession
 from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS
 from .exceptions import handle_error_response
-from tdameritrade import auth
+
 
 
 def response_is_valid(resp):
@@ -24,23 +24,10 @@ class TDClient(object):
         self._accountIds = account_ids
         self.accountIds = account_ids
         self.session = TDASession()
-        if self._accessToken:
-            self.session.set_token(self._accessToken)
+
 
     def _headers(self):
         return {'Authorization': 'Bearer ' + self._accessToken['token']}
-
-    def _update_access_token_if_expired(self):
-        # Expire the token one minute before its expiration time to be safe
-        if not self._accessToken['token'] or \
-                self._access_token_age_secs() >= self._accessToken['expires_in'] - 60:
-            token = auth.access_token(self._refreshToken['token'], self._clientId)
-            self._accessToken['token'] = token['access_token']
-            self._accessToken['created_at'] = time.time()
-            self._accessToken['expires_in'] = token['expires_in']
-
-    def _access_token_age_secs(self):
-        return time.time() - self._accessToken['created_at']
 
     def _request(self, method, params=None, *args, **kwargs):
         # self._update_access_token_if_expired()
