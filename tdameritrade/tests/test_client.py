@@ -33,11 +33,7 @@ class TestExtension:
         # teardown_class() after any methods in this class
 
     def test_init(self, tdclient):
-        assert (tdclient._refreshToken['token'] == 'reftoken')
-
-    def test_update_access_token_if_expired_no_token(self, tdclient):
-        pass
-        #assert tdclient._accessToken['token'] == True
+        assert (tdclient._refreshToken == 'reftoken')
 
     def test_request(self, tdclient):
         with patch('tdameritrade.session.TDASession.request') as m:
@@ -49,14 +45,6 @@ class TestExtension:
         from tdameritrade.exceptions import InvalidAuthToken
         with patch('tdameritrade.session.TDASession.request') as m:
             m.return_value.status_code = 401
-            # resp = [{"status_code": 401}]
-            # #m.return_value = MagicMock()
-            # #m.return_value.status_code = {"status_code": 401}
-            # mock = MagicMock()
-            # mock.return_value = resp
-            # m.return_value = mock
-            # #m.return_value.json.return_value = [MagicMock()]
-
             with pytest.raises(InvalidAuthToken):
                 tdclient._request("http://goodurl.com", None)
 
@@ -65,11 +53,6 @@ class TestExtension:
             m.return_value.status_code = 200
             m.return_value.json.return_value = [MagicMock()]
             tdclient.accounts()
-
-            m.return_value.status_code = 200
-            m.return_value.json.return_value = [MagicMock()]
-
-            m.return_value.status_code = 200
             m.return_value.json.return_value = [{'test': 1, 'test2': 2}]
             tdclient.accountsDF()
 

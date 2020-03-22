@@ -1,6 +1,6 @@
 import requests
 import time
-from tdameritrade import auth
+from . import auth
 
 
 class TDASession(requests.Session):
@@ -21,12 +21,6 @@ class TDASession(requests.Session):
         self._refresh_token_if_invalid()
         return super().request(*args, headers=self._headers, **kwargs)
 
-    def _refresh_token_if_invalid(self):
-        pass
-        # if token_is_invalid():
-        #     update_access_token()
-        #
-
     def _is_token_invalid(self):
         if not self._accessToken['token'] or \
                 self._access_token_age_secs() >= self._accessToken['expires_in'] - 60:
@@ -34,14 +28,17 @@ class TDASession(requests.Session):
         else:
             return False
 
-    def _update_access_token_if_expired(self):
+    def _refresh_token_if_invalid(self):
         # Expire the token one minute before its expiration time to be safe
         if self._is_token_invalid:
             token = auth.access_token(self._refreshToken['token'], self._client_id)
-            self._accessToken['token'] = token['access_token']
-            self._accessToken['created_at'] = time.time()
-            self._accessToken['expires_in'] = token['expires_in']
+            self._set_access_token(token)
+
+    def _set_access_token(self, token):
+        self._accessToken['token'] = token['access_token']
+        self._accessToken['created_at'] = time.time()
+        self._accessToken['expires_in'] = token['expires_in']
+        self._set_header_auth()
 
     def _access_token_age_secs(self):
         return time.time() - self._accessToken['created_at']
-

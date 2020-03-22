@@ -1,10 +1,7 @@
-import os
-import time
 import pandas as pd
 from .session import TDASession
 from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS
 from .exceptions import handle_error_response
-
 
 
 def response_is_valid(resp):
@@ -14,23 +11,12 @@ def response_is_valid(resp):
 
 class TDClient(object):
     def __init__(self, client_id=None, refresh_token=None, account_ids=[]):
-
         self._clientId = client_id
-        self._refreshToken = {'token': refresh_token}
-        self._accessToken = {'token': '',
-                             'created_at': time.time(),
-                             'expires_in': -1}
-        # Set to -1 so that it gets refreshed immediately and its age tracked.
-        self._accountIds = account_ids
+        self._refreshToken = refresh_token
         self.accountIds = account_ids
-        self.session = TDASession()
-
-
-    def _headers(self):
-        return {'Authorization': 'Bearer ' + self._accessToken['token']}
+        self.session = TDASession(self._refreshToken, self._clientId)
 
     def _request(self, method, params=None, *args, **kwargs):
-        # self._update_access_token_if_expired()
         resp = self.session.request('GET', method, params=params, *args, **kwargs)
         if not response_is_valid(resp):
             handle_error_response(resp)
@@ -54,11 +40,11 @@ class TDClient(object):
 
         if self.accountIds:
             for acc in self.accountIds:
-                resp = self._request(ACCOUNTS + str(acc) + fields, headers=self._headers())
+                resp = self._request(ACCOUNTS + str(acc) + fields)
                 ret[acc] = resp.json()
 
         else:
-            resp = self._request(ACCOUNTS + fields, headers=self._headers())
+            resp = self._request(ACCOUNTS + fields)
             for account in resp.json():
                 ret[account['securitiesAccount']['accountId']] = account
 
@@ -72,7 +58,6 @@ class TDClient(object):
             acc = self.accounts
         transactions = ACCOUNTS + str(acc) + "/transactions"
         resp = self._request(transactions,
-                             headers=self._headers(),
                              params={
                                  'type': type,
                                  'symbol': symbol,
@@ -87,7 +72,6 @@ class TDClient(object):
 
     def search(self, symbol, projection='symbol-search'):
         resp = self._request(SEARCH,
-                             headers=self._headers(),
                              params={'symbol': symbol,
                                      'projection': projection}).json()
         return resp
@@ -106,8 +90,7 @@ class TDClient(object):
         return self.searchDF(symbol, 'fundamental')
 
     def instrument(self, cusip):
-        resp = self._request(INSTRUMENTS + str(cusip),
-                             headers=self._headers()).json()
+        resp = self._request(INSTRUMENTS + str(cusip)).json()
         return resp
 
     def instrumentDF(self, cusip):
@@ -115,7 +98,6 @@ class TDClient(object):
 
     def quote(self, symbol):
         resp = self._request(QUOTES,
-                             headers=self._headers(),
                              params={'symbol': symbol.upper()}).json()
         return resp
 
@@ -125,7 +107,6 @@ class TDClient(object):
 
     def history(self, symbol, **kwargs):
         resp = self._request(HISTORY % symbol,
-                             headers=self._headers(),
                              params=kwargs).json()
         return resp
 
@@ -137,7 +118,6 @@ class TDClient(object):
 
     def options(self, symbol):
         resp = self._request(OPTIONCHAIN,
-                             headers=self._headers(),
                              params={'symbol': symbol.upper()}).json()
         return resp
 
@@ -158,7 +138,6 @@ class TDClient(object):
 
     def movers(self, index, direction='up', change_type='percent'):
         resp = self._request(MOVERS % index,
-                             headers=self._headers(),
                              params={'direction': direction,
                                      'change_type': change_type}).json()
         return resp
@@ -166,14 +145,12 @@ class TDClient(object):
     def saved_orders(self, account_id, json_order):
         saved_orders = ACCOUNTS + account_id + "/savedorders"
         resp = self._request(saved_orders,
-                             headers=self._headers(),
                              json=json_order).json()
         return resp
 
     def orders(self, account_id, json_order):
         orders = ACCOUNTS + account_id + "/orders"
         resp = self._request(orders,
-                             headers=self._headers(),
                              json=json_order
                              ).json()
         return resp

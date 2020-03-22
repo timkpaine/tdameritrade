@@ -40,7 +40,6 @@ def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     tdauser = tdauser or os.environ.get('TDAUSER', '')
     tdapass = tdapass or os.environ.get('TDAPASS', '')
 
-
     # Fully automated oauth2 authentication (if tdauser and tdapass were intputed into the function, or found as
     # environment variables)
     if tdauser and tdapass:
