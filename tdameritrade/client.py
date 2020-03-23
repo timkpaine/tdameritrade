@@ -17,7 +17,7 @@ class TDClient(object):
         self.session = TDASession(self._refreshToken, self._clientId)
 
     def _request(self, url, method="GET", params=None, *args, **kwargs):
-        resp = self.session.request(method=method, url=url, params=params, *args, **kwargs)
+        resp = self.session.request(method, url, params=params, *args, **kwargs)
         if not response_is_valid(resp):
             handle_error_response(resp)
 
@@ -116,9 +116,9 @@ class TDClient(object):
         df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
         return df
 
-    def options(self, symbol):
+    def options(self, symbol, **kwargs):
         resp = self._request(OPTIONCHAIN,
-                             params={'symbol': symbol.upper()}).json()
+                             params={'symbol': symbol.upper(), **kwargs}).json()
         return resp
 
     def optionsDF(self, symbol):
@@ -142,19 +142,16 @@ class TDClient(object):
                                      'change_type': change_type}).json()
         return resp
 
-    # GET orders
-    def saved_orders(self, account_id, json_order):
+    def create_saved_order(self, account_id, json_order):
         saved_orders = ACCOUNTS + account_id + "/savedorders"
         resp = self._request(saved_orders,
-                             method='POST',
-                             json=json_order).json()
+                             method="POST",
+                             json=json_order)
         return resp
 
-    # GET orders
     def place_order(self, account_id, json_order):
         orders = ACCOUNTS + account_id + "/orders"
         resp = self._request(orders,
-                             method='POST',
-                             json=json_order
-                             ).json()
+                             method="POST",
+                             json=json_order)
         return resp
