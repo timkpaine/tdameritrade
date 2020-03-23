@@ -19,7 +19,7 @@ class TDASession(requests.Session):
 
     def request(self, *args, **kwargs):
         self._refresh_token_if_invalid()
-        return super().request(*args, headers=self._headers, **kwargs)
+        return super().request(headers=self._headers, *args, **kwargs)
 
     def _is_token_invalid(self):
         if not self._accessToken['token'] or \

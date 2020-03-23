@@ -16,8 +16,8 @@ class TDClient(object):
         self.accountIds = account_ids
         self.session = TDASession(self._refreshToken, self._clientId)
 
-    def _request(self, method, params=None, *args, **kwargs):
-        resp = self.session.request('GET', method, params=params, *args, **kwargs)
+    def _request(self, url, method="GET", params=None, *args, **kwargs):
+        resp = self.session.request(method=method, url=url, params=params, *args, **kwargs)
         if not response_is_valid(resp):
             handle_error_response(resp)
 
@@ -142,15 +142,19 @@ class TDClient(object):
                                      'change_type': change_type}).json()
         return resp
 
+    # GET orders
     def saved_orders(self, account_id, json_order):
         saved_orders = ACCOUNTS + account_id + "/savedorders"
         resp = self._request(saved_orders,
+                             method='POST',
                              json=json_order).json()
         return resp
 
-    def orders(self, account_id, json_order):
+    # GET orders
+    def place_order(self, account_id, json_order):
         orders = ACCOUNTS + account_id + "/orders"
         resp = self._request(orders,
+                             method='POST',
                              json=json_order
                              ).json()
         return resp
