@@ -81,6 +81,7 @@ class TDClient(object):
         dat = self.search(symbol, projection)
         for symbol in dat:
             ret.append(dat[symbol])
+
         return pd.DataFrame(ret)
 
     def fundamental(self, symbol):
@@ -103,6 +104,7 @@ class TDClient(object):
 
     def quoteDF(self, symbol):
         x = self.quote(symbol)
+
         return pd.DataFrame(x).T.reset_index(drop=True)
 
     def history(self, symbol, **kwargs):
@@ -114,6 +116,7 @@ class TDClient(object):
         x = self.history(symbol, **kwargs)
         df = pd.DataFrame(x['candles'])
         df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
+
         return df
 
     def options(self, symbol, **kwargs):
@@ -132,8 +135,10 @@ class TDClient(object):
                 ret.extend(dat['putExpDateMap'][date][strike])
 
         df = pd.DataFrame(ret)
-        for col in ('tradeTimeInLong', 'quoteTimeInLong', 'expirationDate', 'lastTradingDay'):
+        for col in ('tradeTimeInLong', 'quoteTimeInLong',
+                    'expirationDate', 'lastTradingDay'):
             df[col] = pd.to_datetime(df[col], unit='ms')
+
         return df
 
     def movers(self, index, direction='up', change_type='percent'):

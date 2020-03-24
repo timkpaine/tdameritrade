@@ -2,6 +2,7 @@
 from mock import patch, MagicMock
 import pytest
 
+from mock import MagicMock, patch
 
 @pytest.fixture
 def tdclient():

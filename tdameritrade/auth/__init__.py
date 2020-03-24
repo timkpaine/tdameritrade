@@ -1,11 +1,12 @@
 import os
 import os.path
 import sys
-import requests
 import time
-from selenium import webdriver
-from shutil import which
 import urllib.parse as up
+from shutil import which
+
+import requests
+from selenium import webdriver
 
 
 def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
