@@ -21,7 +21,7 @@ class TestSession:
         from tdameritrade import session
         s = session.TDASession()
         s._accessToken['created_at'] = time.time() - 60
-        assert s._access_token_age_secs() > 60
+        assert s._access_token_age_secs() > 59
         assert s._access_token_age_secs() < 61
 
     def test_is_token_invalid_returns_true(self, mocked_auth):
