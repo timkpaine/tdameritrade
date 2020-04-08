@@ -47,4 +47,3 @@ class TestSession:
         with patch('tdameritrade.auth.access_token') as mock:
             s._refresh_token_if_invalid()
             mock.assert_called_with(s._refreshToken['token'], s._client_id)
-

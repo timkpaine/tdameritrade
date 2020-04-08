@@ -4,6 +4,7 @@ import pytest
 
 from mock import MagicMock, patch
 
+
 @pytest.fixture
 def tdclient():
     from tdameritrade import TDClient

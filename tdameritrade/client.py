@@ -471,9 +471,9 @@ class TDClient(object):
 
         Args:
             accountId (int): id of account to place order under
-            order (tdameritrade.order.Order): order instance to place
+            order (JSON): order instance to place
         '''
-        return self._request(PLACE_ORDER.format(accountId=accountId), method='POST', data=order.to_json()).json()
+        return self._request(PLACE_ORDER.format(accountId=accountId), method='POST', data=order).json()
 
     def replaceOrder(self, accountId, orderId, order):
         '''place an order
@@ -481,9 +481,9 @@ class TDClient(object):
         Args:
             accountId (int): id of account to place order under
             orderId (int): id of order to replace
-            order (tdameritrade.order.Order): order instance to place
+            order (JSON): order instance to place
         '''
-        return self._request(REPLACE_ORDER.format(accountId=accountId, orderId=orderId), method='PUT', data=order.to_json()).json()
+        return self._request(REPLACE_ORDER.format(accountId=accountId, orderId=orderId), method='PUT', data=order).json()
 
     def savedOrders(self, accountId=None, savedOrderId=None):
         '''get saved orders
@@ -510,9 +510,9 @@ class TDClient(object):
 
         Args:
             accountId (int): id of account to place order under
-            order (tdameritrade.order.Order): order instance to place
+            order (JSON): order instance to place
         '''
-        return self._request(CREATE_SAVED_ORDER.format(accountId=accountId), method='POST', data=order.to_json()).json()
+        return self._request(CREATE_SAVED_ORDER.format(accountId=accountId), method='POST', data=order).json()
 
     def deleteSavedOrder(self, accountId, savedOrderId):
         '''delete a saved order
@@ -529,9 +529,9 @@ class TDClient(object):
         Args:
             accountId (int): id of account to place order under
             savedOrderId (int): id of order instance to delete
-            order (tdameritrade.order.Order): order instance to place
+            order (JSON): order instance to place
         '''
-        return self._request(REPLACE_SAVED_ORDER.format(accountId=accountId, savedOrderId=savedOrderId), method='PUT', data=order.to_json()).json()
+        return self._request(REPLACE_SAVED_ORDER.format(accountId=accountId, savedOrderId=savedOrderId), method='PUT', data=order).json()
 
     def hours(self, market=None, date=None):
         '''get market hours
@@ -569,9 +569,9 @@ class TDClient(object):
 
         Args:
             accountId (int): account to get preferences for
-            preferences (tdameritrade.preferences.Preferences): preferences to update
+            preferences (JSON): preferences to update
         '''
-        return self._request(UPDATE_PREFERENCES.format(accountId=accountId), method='PUT', data=preferences.to_json()).json()
+        return self._request(UPDATE_PREFERENCES.format(accountId=accountId), method='PUT', data=preferences).json()
 
     def watchlists(self, accountId=None, watchlistId=None):
         '''get watchlist for account
@@ -591,9 +591,9 @@ class TDClient(object):
 
         Args:
             accountId (int): account to get watchlist for
-            watchlist (tdameritrade.watchlist.Watchlist): watchlist to create
+            watchlist (JSON): watchlist to create
         '''
-        return self._request(CREATE_WATCHLIST.format(accountId=accountId), method='POST', data=watchlist.to_json()).json()
+        return self._request(CREATE_WATCHLIST.format(accountId=accountId), method='POST', data=watchlist).json()
 
     def updateWatchlist(self, accountId, watchlistId, watchlist):
         '''update watchlist for account
@@ -601,9 +601,9 @@ class TDClient(object):
         Args:
             accountId (int): account to get watchlist for
             watchlistId (int): watchlist to update
-            watchlist (tdameritrade.watchlist.Watchlist): watchlist to update with
+            watchlist (JSON): watchlist to update with
         '''
-        return self._request(UPDATE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', data=watchlist.to_json()).json()
+        return self._request(UPDATE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', data=watchlist).json()
 
     def replaceWatchlist(self, accountId, watchlistId, watchlist):
         '''update watchlist for account
@@ -611,9 +611,9 @@ class TDClient(object):
         Args:
             accountId (int): account to get watchlist for
             watchlistId (int): watchlist to update
-            watchlist (tdameritrade.watchlist.Watchlist): watchlist to update with
+            watchlist (JSON): watchlist to update with
         '''
-        return self._request(REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', data=watchlist.to_json()).json()
+        return self._request(REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', data=watchlist).json()
 
     def deleteWatchlist(self, accountId, watchlistId):
         '''delete watchlist for account
