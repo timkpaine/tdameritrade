@@ -3,7 +3,6 @@ from mock import patch, MagicMock
 import pytest
 
 
-
 @pytest.fixture
 def tdclient():
     from tdameritrade import TDClient
@@ -117,11 +116,3 @@ class TestExtension:
             m.return_value.status_code = 201
             m.return_value.json.return_value = [MagicMock()]
             tdclient.orders('1234567', json_order)
-
-    def test_saved_orders(self, json_order, tdclient):
-
-        with patch('tdameritrade.session.TDASession.request') as m:
-            m.return_value.status_code = 201
-            m.return_value.json.return_value = [MagicMock()]
-            tdclient.saved_orders('1234567', json_order)
-

@@ -1,0 +1,48 @@
+{
+  "name": {
+    "type": "string"
+  },
+  "watchlistItems": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "quantity": {
+          "type": "number",
+          "format": "double"
+        },
+        "averagePrice": {
+          "type": "number",
+          "format": "double",
+          "minimum": 0
+        },
+        "commission": {
+          "type": "number",
+          "format": "double",
+          "minimum": 0
+        },
+        "purchasedDate": {
+          "type": "object"
+        },
+        "instrument": {
+          "type": "object",
+          "properties": {
+            "symbol": {
+              "type": "string"
+            },
+            "assetType": {
+              "type": "string",
+              "enum": [
+                "EQUITY",
+                "OPTION",
+                "MUTUAL_FUND",
+                "FIXED_INCOME",
+                "INDEX"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

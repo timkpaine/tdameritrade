@@ -1,6 +1,7 @@
 import pytest
 from mock import MagicMock
 
+
 class TestExceptions:
 
     def test_can_call(self):
