@@ -9,7 +9,7 @@ import requests
 
 
 def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
-    from selenium import webdrive
+    from selenium import webdriver
     client_id = client_id + '@AMER.OAUTHAP'
     url = 'https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=' + up.quote(redirect_uri) + '&client_id=' + up.quote(client_id)
 
