@@ -31,9 +31,9 @@ needed.
 It is recommended that you store these as environmental variables.  
 
 ```
-client_id = os.getenv('AMERITRADE_CLIENT_ID')
-account_id = os.getenv('AMERITRADE_ACCOUNT_ID')
-refresh_token = os.getenv('AMERITRADE_REFRESH_TOKEN')
+client_id = os.getenv('TDAMERITRADE_CLIENT_ID')
+account_id = os.getenv('TDAMERITRADE_ACCOUNT_ID')
+refresh_token = os.getenv('TDAMERITRADE_REFRESH_TOKEN')
 
 tdclient = tdameritrade.TDClient(client_id=client_id, refresh_token=refresh_token, account_ids=[account_id])
 ``` 
