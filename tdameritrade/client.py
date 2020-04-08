@@ -97,7 +97,7 @@ class TDClient(object):
 
     # TODO: output results to self.accountIds
     def accounts(self, positions=False, orders=False):
-        '''get user accounts
+        '''get user accounts. caches account ids in accountIds if not provided during initialization
 
         Args:
             positions (bool): include position information
@@ -124,6 +124,7 @@ class TDClient(object):
             resp = self._request(GET_ACCOUNTS, params=params)
             for account in resp.json():
                 ret[account['securitiesAccount']['accountId']] = account
+            self.accountIds = [int(accountId) for accountId in ret]
         return ret
 
     def accountsDF(self):
@@ -160,9 +161,9 @@ class TDClient(object):
                                          }).json()
         return ret
 
-    def transactionsDF(self, accountId, **kwargs):
+    def transactionsDF(self, accountId=None, type=None, symbol=None, startDate=None, endDate=None):
         '''get transaction information as Dataframe'''
-        return pd.json_normalize(self.transactions(accountId, kwargs))
+        return pd.json_normalize(self.transactions(accountId=accountId, type=type, symbol=symbol, startDate=startDate, endDate=endDate))
 
     def search(self, symbol, projection='symbol-search'):
         '''Search for a symbol
@@ -489,13 +490,22 @@ class TDClient(object):
         '''
         return self._request(REPLACE_ORDER.format(accountId=accountId, orderId=orderId), method='PUT', data=order.to_json()).json()
 
-    def savedOrders(self, accountId, savedOrderId=None):
+    def savedOrders(self, accountId=None, savedOrderId=None):
         '''get saved orders
 
         Args:
             accountId (int): id of account to get saved orders from
             savedOrderId (int): id of saved order
         '''
+        if not accountId and savedOrderId:
+            raise TDAAPIError('Must provide account id if attempting to lookup by savedOrderId')
+
+        if not accountId:
+            ret = {}
+            for account in self.accountIds:
+                ret[account] = self._request(GET_SAVED_ORDER_BY_PATH.format(accountId=account)).json()
+            return ret
+
         if savedOrderId:
             return self._request(GET_SAVED_ORDER.format(accountId=accountId, savedOrderId=savedOrderId)).json()
         return self._request(GET_SAVED_ORDER_BY_PATH.format(accountId=accountId)).json()
@@ -546,12 +556,17 @@ class TDClient(object):
             return self._request(GET_HOURS_FOR_SINGLE_MARKET.format(market=market), params=params).json()
         return self._request(GET_HOURS_FOR_MULTIPLE_MARKETS, params=params).json()
 
-    def preferences(self, accountId):
+    def preferences(self, accountId=None):
         '''get preferences for account
 
         Args:
             accountId (int): account to get preferences for
         '''
+        if not accountId:
+            ret = {}
+            for account in self.accountIds:
+                ret[account] = self._request(GET_PREFERENCES.format(accountId=account)).json()
+            return ret
         return self._request(GET_PREFERENCES.format(accountId=accountId)).json()
 
     def updatePreferences(self, accountId, preferences):
