@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 from .session import TDASession
 from .exceptions import handle_error_response, TDAAPIError
 from .urls import (
@@ -74,8 +75,8 @@ def response_is_valid(resp):
 
 class TDClient(object):
     def __init__(self, client_id=None, refresh_token=None, account_ids=None):
-        self._clientId = client_id
-        self._refreshToken = refresh_token
+        self._clientId = client_id or os.environ['TDAMERITRADE_CLIENT_ID']
+        self._refreshToken = refresh_token or os.environ['TDAMERITRADE_REFRESH_TOKEN']
         self.accountIds = account_ids or []
         self.session = TDASession(self._refreshToken, self._clientId)
 
@@ -85,7 +86,6 @@ class TDClient(object):
             handle_error_response(resp)
         return resp
 
-    # TODO: output results to self.accountIds
     def accounts(self, positions=False, orders=False):
         '''get user accounts. caches account ids in accountIds if not provided during initialization
 
@@ -204,8 +204,11 @@ class TDClient(object):
         Args:
             symbol (str): symbol to get quote for
         '''
+        if not isinstance(symbol, list):
+            symbol = [symbol]
+
         return self._request(GET_QUOTES,
-                             params={'symbol': symbol.upper()}).json()
+                             params={'symbol': [s.upper() for s in symbol]}).json()
 
     def quoteDF(self, symbol):
         '''get quote, format as dataframe'''
