@@ -4,6 +4,7 @@ import pytest
 
 from mock import MagicMock, patch
 
+
 @pytest.fixture
 def tdclient():
     from tdameritrade import TDClient
@@ -89,27 +90,26 @@ class TestExtension:
             m.return_value.status_code = 200
             m.return_value.json.return_value = {'aapl': {'test'}}
 
-    @pytest.fixture
-    def json_order(self):
-        from tdameritrade.tests.JSONS import TEST_BUY_MARKET_STOCK
+#    @pytest.fixture
+#    def json_order(self):
+#        from tdameritrade.tests.JSONS import TEST_BUY_MARKET_STOCK
 
-    def test_place_order(self, json_order, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
-            m.return_value.status_code = 201
-            m.return_value.json.return_value = [MagicMock()]
-            tdclient.place_order('1234567', json_order)
-            m.assert_called_with('POST',
-                                 'https://api.tdameritrade.com/v1/accounts/1234567/orders',
-                                 params=None,
-                                 json=None)
+#    def test_place_order(self, json_order, tdclient):
+#        with patch('tdameritrade.session.TDASession.request') as m:
+#            m.return_value.status_code = 201
+#            m.return_value.json.return_value = [MagicMock()]
+#            tdclient.place_order('1234567', json_order)
+#            m.assert_called_with('POST',
+#                                 'https://api.tdameritrade.com/v1/accounts/1234567/orders',
+#                                 params=None,
+#                                 json=None)
 
-    def test_post_saved_orders(self, json_order, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
-            m.return_value.status_code = 201
-            m.return_value.json.return_value = [MagicMock()]
-            tdclient.create_saved_order('1234567', json_order)
-            m.assert_called_with('POST',
-                                 'https://api.tdameritrade.com/v1/accounts/1234567/savedorders',
-                                 params=None,
-                                 json=json_order)
-
+#    def test_post_saved_orders(self, json_order, tdclient):
+#        with patch('tdameritrade.session.TDASession.request') as m:
+#            m.return_value.status_code = 201
+#            m.return_value.json.return_value = [MagicMock()]
+#            tdclient.create_saved_order('1234567', json_order)
+#            m.assert_called_with('POST',
+#                                 'https://api.tdameritrade.com/v1/accounts/1234567/savedorders',
+#                                 params=None,
+#                                 json=json_order)

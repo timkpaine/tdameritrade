@@ -51,7 +51,7 @@ def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
         driver.find_element_by_id('accept').click()
 
         driver.find_element_by_id('accept').click()
-        while 1:
+        while True:
             try:
                 code = up.unquote(driver.current_url.split('code=')[1])
                 if code != '':

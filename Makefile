@@ -8,7 +8,7 @@ lint: ## run linter
 	flake8 tdameritrade 
 
 fix:  ## run autopep8/tslint fix
-	autopep8 --in-place -r -a -a pyEX/
+	autopep8 --in-place -r -a -a tdameritrade/
 
 annotate: ## MyPy type annotation check
 	mypy -s tdameritrade
