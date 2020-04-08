@@ -107,3 +107,6 @@ keys.sh
 .autoversion
 docs/api
 python_junit.xml
+# IDE
+.ctrlpignore
+

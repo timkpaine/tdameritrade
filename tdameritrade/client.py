@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 from .session import TDASession
 from .exceptions import handle_error_response, TDAAPIError
@@ -74,23 +73,14 @@ def response_is_valid(resp):
 
 
 class TDClient(object):
-    def __init__(self, access_token=None, accountIds=None):
-        self._token = access_token or os.environ['ACCESS_TOKEN']
-        self.accountIds = accountIds or []
-        self.session = TDASession()
-        if self._token:
-            self.session.set_token(self._token)
+    def __init__(self, client_id=None, refresh_token=None, account_ids=None):
+        self._clientId = client_id
+        self._refreshToken = refresh_token
+        self.accountIds = account_ids or []
+        self.session = TDASession(self._refreshToken, self._clientId)
 
-    def _headers(self):
-        return
-
-    def _request(self, path, method='GET', params=None, *args, **kwargs):
-        resp = self.session.request(method,
-                                    path,
-                                    params=params,
-                                    headers={'Authorization': 'Bearer ' + self._token},
-                                    *args,
-                                    **kwargs)
+    def _request(self, url, method="GET", params=None, *args, **kwargs):
+        resp = self.session.request(method, url, params=params, *args, **kwargs)
         if not response_is_valid(resp):
             handle_error_response(resp)
         return resp
@@ -185,6 +175,7 @@ class TDClient(object):
         dat = self.search(symbol, projection)
         for symbol in dat:
             ret.append(dat[symbol])
+
         return pd.DataFrame(ret)
 
     def fundamentalSearch(self, symbol):
@@ -219,6 +210,7 @@ class TDClient(object):
     def quoteDF(self, symbol):
         '''get quote, format as dataframe'''
         x = self.quote(symbol)
+
         return pd.DataFrame(x).T.reset_index(drop=True)
 
     def history(self, symbol,
@@ -257,6 +249,7 @@ class TDClient(object):
         x = self.history(symbol, **kwargs)
         df = pd.DataFrame(x['candles'])
         df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
+
         return df
 
     def options(self,
@@ -404,8 +397,10 @@ class TDClient(object):
                 ret.extend(dat['putExpDateMap'][date][strike])
 
         df = pd.DataFrame(ret)
-        for col in ('tradeTimeInLong', 'quoteTimeInLong', 'expirationDate', 'lastTradingDay'):
+        for col in ('tradeTimeInLong', 'quoteTimeInLong',
+                    'expirationDate', 'lastTradingDay'):
             df[col] = pd.to_datetime(df[col], unit='ms')
+
         return df
 
     def movers(self, index, direction='up', change='percent'):
