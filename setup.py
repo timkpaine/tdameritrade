@@ -26,6 +26,7 @@ requires = [
     'pillow>=5.3.0',
     'pandas>=0.22.0',
     'ujson>=1.35',
+    'selenium==3.141.0',
 ]
 
 requires_dev = [

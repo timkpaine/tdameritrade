@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 from .session import TDASession
 from .urls import ACCOUNTS, INSTRUMENTS, QUOTES, SEARCH, HISTORY, OPTIONCHAIN, MOVERS
@@ -11,18 +10,14 @@ def response_is_valid(resp):
 
 
 class TDClient(object):
-    def __init__(self, access_token=None, accountIds=None):
-        self._token = access_token or os.environ['ACCESS_TOKEN']
-        self.accountIds = accountIds or []
-        self.session = TDASession()
-        if self._token:
-            self.session.set_token(self._token)
+    def __init__(self, client_id=None, refresh_token=None, account_ids=[]):
+        self._clientId = client_id
+        self._refreshToken = refresh_token
+        self.accountIds = account_ids
+        self.session = TDASession(self._refreshToken, self._clientId)
 
-    def _headers(self):
-        return {'Authorization': 'Bearer ' + self._token}
-
-    def _request(self, method, params=None, *args, **kwargs):
-        resp = self.session.request('GET', method, params=params, *args, **kwargs)
+    def _request(self, url, method="GET", params=None, *args, **kwargs):
+        resp = self.session.request(method, url, params=params, *args, **kwargs)
         if not response_is_valid(resp):
             handle_error_response(resp)
 
@@ -45,11 +40,11 @@ class TDClient(object):
 
         if self.accountIds:
             for acc in self.accountIds:
-                resp = self._request(ACCOUNTS + str(acc) + fields, headers=self._headers())
+                resp = self._request(ACCOUNTS + str(acc) + fields)
                 ret[acc] = resp.json()
 
         else:
-            resp = self._request(ACCOUNTS + fields, headers=self._headers())
+            resp = self._request(ACCOUNTS + fields)
             for account in resp.json():
                 ret[account['securitiesAccount']['accountId']] = account
 
@@ -63,7 +58,6 @@ class TDClient(object):
             acc = self.accounts
         transactions = ACCOUNTS + str(acc) + "/transactions"
         resp = self._request(transactions,
-                             headers=self._headers(),
                              params={
                                  'type': type,
                                  'symbol': symbol,
@@ -78,7 +72,6 @@ class TDClient(object):
 
     def search(self, symbol, projection='symbol-search'):
         resp = self._request(SEARCH,
-                             headers=self._headers(),
                              params={'symbol': symbol,
                                      'projection': projection}).json()
         return resp
@@ -88,6 +81,7 @@ class TDClient(object):
         dat = self.search(symbol, projection)
         for symbol in dat:
             ret.append(dat[symbol])
+
         return pd.DataFrame(ret)
 
     def fundamental(self, symbol):
@@ -97,8 +91,7 @@ class TDClient(object):
         return self.searchDF(symbol, 'fundamental')
 
     def instrument(self, cusip):
-        resp = self._request(INSTRUMENTS + str(cusip),
-                             headers=self._headers()).json()
+        resp = self._request(INSTRUMENTS + str(cusip)).json()
         return resp
 
     def instrumentDF(self, cusip):
@@ -106,17 +99,16 @@ class TDClient(object):
 
     def quote(self, symbol):
         resp = self._request(QUOTES,
-                             headers=self._headers(),
                              params={'symbol': symbol.upper()}).json()
         return resp
 
     def quoteDF(self, symbol):
         x = self.quote(symbol)
+
         return pd.DataFrame(x).T.reset_index(drop=True)
 
     def history(self, symbol, **kwargs):
         resp = self._request(HISTORY % symbol,
-                             headers=self._headers(),
                              params=kwargs).json()
         return resp
 
@@ -124,12 +116,12 @@ class TDClient(object):
         x = self.history(symbol, **kwargs)
         df = pd.DataFrame(x['candles'])
         df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
+
         return df
 
-    def options(self, symbol):
+    def options(self, symbol, **kwargs):
         resp = self._request(OPTIONCHAIN,
-                             headers=self._headers(),
-                             params={'symbol': symbol.upper()}).json()
+                             params={'symbol': symbol.upper(), **kwargs}).json()
         return resp
 
     def optionsDF(self, symbol):
@@ -143,28 +135,28 @@ class TDClient(object):
                 ret.extend(dat['putExpDateMap'][date][strike])
 
         df = pd.DataFrame(ret)
-        for col in ('tradeTimeInLong', 'quoteTimeInLong', 'expirationDate', 'lastTradingDay'):
+        for col in ('tradeTimeInLong', 'quoteTimeInLong',
+                    'expirationDate', 'lastTradingDay'):
             df[col] = pd.to_datetime(df[col], unit='ms')
+
         return df
 
     def movers(self, index, direction='up', change_type='percent'):
         resp = self._request(MOVERS % index,
-                             headers=self._headers(),
                              params={'direction': direction,
                                      'change_type': change_type}).json()
         return resp
 
-    def saved_orders(self, account_id, json_order):
+    def create_saved_order(self, account_id, json_order):
         saved_orders = ACCOUNTS + account_id + "/savedorders"
         resp = self._request(saved_orders,
-                             headers=self._headers(),
-                             json=json_order).json()
+                             method="POST",
+                             json=json_order)
         return resp
 
-    def orders(self, account_id, json_order):
+    def place_order(self, account_id, json_order):
         orders = ACCOUNTS + account_id + "/orders"
         resp = self._request(orders,
-                             headers=self._headers(),
-                             json=json_order
-                             ).json()
+                             method="POST",
+                             json=json_order)
         return resp

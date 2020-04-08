@@ -1,14 +1,15 @@
 import os
 import os.path
 import sys
-import requests
 import time
-from selenium import webdriver
-from shutil import which
 import urllib.parse as up
+from shutil import which
+
+import requests
 
 
 def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
+    from selenium import webdriver
     client_id = client_id + '@AMER.OAUTHAP'
     url = 'https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=' + up.quote(redirect_uri) + '&client_id=' + up.quote(client_id)
 
@@ -40,7 +41,8 @@ def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     tdauser = tdauser or os.environ.get('TDAUSER', '')
     tdapass = tdapass or os.environ.get('TDAPASS', '')
 
-    # Fully automated oauth2 authentication (if tdauser and tdapass were intputed into the function, or found as environment variables)
+    # Fully automated oauth2 authentication (if tdauser and tdapass were intputed into the function, or found as
+    # environment variables)
     if tdauser and tdapass:
         ubox = driver.find_element_by_id('username')
         pbox = driver.find_element_by_id('password')
@@ -77,7 +79,7 @@ def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     return resp.json()
 
 
-def refresh_token(refresh_token, client_id):
+def access_token(refresh_token, client_id):
     resp = requests.post('https://api.tdameritrade.com/v1/oauth2/token',
                          headers={'Content-Type': 'application/x-www-form-urlencoded'},
                          data={'grant_type': 'refresh_token',

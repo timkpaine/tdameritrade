@@ -23,9 +23,24 @@ or from source
 
 
 ### Docs
-[Read the docs!](http://tdameritrade.readthedocs.io/en/latest/index.html)
+Major changes in the v0.1.0 update to the way tokens are handled.  
+You will still need the original authentication instructions, but the TDClient now takes the refresh token and client
+id, not the access token. A new session class handles token expiration and will automatically call a new token as
+needed. 
 
-The main interface is the `TDClient` object. You can pass the token to this object, or put it in an environment variable `ACCESS_TOKEN`.
+It is recommended that you store these as environmental variables.  
+
+```
+client_id = os.getenv('AMERITRADE_CLIENT_ID')
+account_id = os.getenv('AMERITRADE_ACCOUNT_ID')
+refresh_token = os.getenv('AMERITRADE_REFRESH_TOKEN')
+
+tdclient = tdameritrade.TDClient(client_id=client_id, refresh_token=refresh_token, account_ids=[account_id])
+``` 
+
+See the tests\test_client.py file for examples on current usage. 
+
+[Read the docs!](http://tdameritrade.readthedocs.io/en/latest/index.html)
 
 All functionality is available as methods on the `TDClient` object. For most methods, there is a convenience method to return the result as a pandas DataFrame.
 
