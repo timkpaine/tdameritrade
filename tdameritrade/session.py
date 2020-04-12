@@ -30,7 +30,7 @@ class TDASession(requests.Session):
 
     def _refresh_token_if_invalid(self):
         # Expire the token one minute before its expiration time to be safe
-        if self._is_token_invalid:
+        if self._is_token_invalid():
             token = auth.access_token(self._refreshToken['token'], self._client_id)
             self._set_access_token(token)
 
