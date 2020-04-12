@@ -245,6 +245,12 @@ class TDClient(object):
             params['frequency'] = frequency
             params['frequencyType'] = frequencyType
 
+        if startDate:
+            params['startDate'] = startDate
+
+        if endDate:
+            params['endDate'] = endDate
+
         return self._request(GET_PRICE_HISTORY.format(symbol=symbol), params=params).json()
 
     def historyDF(self, symbol, **kwargs):
