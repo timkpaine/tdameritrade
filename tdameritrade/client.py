@@ -542,7 +542,7 @@ class TDClient(object):
         '''
         return self._request(REPLACE_SAVED_ORDER.format(accountId=accountId, savedOrderId=savedOrderId), method='PUT', data=order).json()
 
-    def hours(self, market=None, date=None):
+    def hours(self, market="EQUITY", date=None):
         '''get market hours
 
         Args:
