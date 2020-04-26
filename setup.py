@@ -23,10 +23,11 @@ with open(pjoin(here, 'README.md'), encoding='utf-8') as f:
 
 requires = [
     'ipython>=7.0.1',
-    'pillow>=5.3.0',
     'pandas>=0.22.0',
-    'ujson>=1.35',
+    'pillow>=5.3.0',
+    'requests>=2.23.0',
     'selenium==3.141.0',
+    'ujson>=1.35',
 ]
 
 requires_dev = [
