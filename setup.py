@@ -27,6 +27,7 @@ requires = [
     'pandas>=0.22.0',
     'ujson>=1.35',
     'selenium==3.141.0',
+    'requests==2.23.0',
 ]
 
 requires_dev = [

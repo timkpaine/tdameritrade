@@ -1,0 +1,53 @@
+{% set name = "tdameritrade" %}
+{% set version = "0.1.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: 692baf738dc8c5f9250764ac7db101171c5df8dd59e39bae77d2a7ff41a02479
+
+build:
+  number: 0
+  entry_points:
+    - tdameritrade-auth = tdameritrade.auth:main
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - ipython >=7.0.1
+    - pandas >=0.22.0
+    - pillow >=5.3.0
+    - pip
+    - python
+    - ujson >=1.35
+    - requests >=2.23.0
+    - selenium >=3.141.0
+  run:
+    - ipython >=7.0.1
+    - pandas >=0.22.0
+    - pillow >=5.3.0
+    - python
+    - ujson >=1.35
+    - requests >=2.23.0
+    - selenium >=3.141.0
+
+test:
+  imports:
+    - tdameritrade
+    - tdameritrade.auth
+
+about:
+  home: "https://github.com/timkpaine/tdameritrade"
+  license: Apache 2.0
+  license_family: APACHE
+  license_file: 
+  summary: "APIs for TD Ameritrade"
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - timkpaine 

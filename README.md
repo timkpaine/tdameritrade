@@ -13,11 +13,29 @@ Python interface to TD Ameritrade Api
 ## Getting Started
 
 ### Install
-Install from pip
+
+- Install from pip
 
 `pip install tdameritrade`
 
-or from source
+- Install from conda 
+
+`TODO add conda install when pushed to a channel`
+
+- Build locally using conda 
+
+```
+# install conda-build
+conda install conda-build 
+
+# from the root of the project
+conda-build conda.recipe
+
+# when build completes a path will be output (/path/to/conda-package.tar.bz2)
+conda install --use-local $OUTPATH 
+```
+
+- Build from source
 
 `python setup.py install`
 
