@@ -26,12 +26,21 @@ Set the name and id to something reasonably unique, and the redirect to `http://
 
 
 ### Step 5
-run `tdameritrade.auth.authentication` from a python prompt, with `client_id=consumer_key` and `redirect_uri` from step 4.
+Run `tdameritrade.auth.authentication` from a python prompt, with `client_id=consumer_key` and `redirect_uri` from step 4.
 
 ### Step 6
 Sign in and authorize your app.
 
-You can enter credentials by hand or store them in environment variables `TDAUSER` and `TDAPASS`. When stored, the first page will be filled in and advanced automaticly. 
+You can enter credentials by hand. 
+
+Or store them in environment variables in `.env`:
+
+- Copy `.env.default` to `.env` and fill out
+
+If you setup all of the env variables in `.env`, including the Security QA vars, 
+the entire web form will be filled in and complete automatically returning the OAuth token.
+( If you did this skip Step 7 and store your tokens. )
+
 
 ```eval_rst
 .. image:: ./img/auth/2.png
@@ -44,7 +53,8 @@ You can enter credentials by hand or store them in environment variables `TDAUSE
 ```
 
 ### Step 7
-Return to the prompt, if you entered the info correctly you should see your tokens printed. Write these down, i recommend keeping a `keys.sh` file setting `ACCESS_TOKEN` and `REFRESH_TOKEN` environment variables. 
+Return to the prompt, if you entered the info correctly you should see your tokens printed. 
+Write these down, i recommend keeping a `keys.sh` file setting `ACCESS_TOKEN` and `REFRESH_TOKEN` environment variables. 
 
 
 ```eval_rst
