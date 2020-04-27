@@ -28,6 +28,7 @@ requires = [
     'pandas>=0.22.0',
     'ujson>=1.35',
     'selenium==3.141.0',
+    'python-dotenv>=0.13.0',
     'requests-oauthlib>=1.3.0',
     'webdriver-manager>=2.4.0',
 ]
