@@ -119,7 +119,12 @@ class TDClient(object):
 
     def accountsDF(self):
         '''get accounts as dataframe'''
-        return pd.io.json.json_normalize(self.accounts())
+        data = self.accounts()
+        account_dataframes = []
+        for accountId, value in data.items():
+            account_dataframes.append(pd.io.json.json_normalize(value))
+            account_dataframes[-1]['account'] = accountId
+        return pd.concat(account_dataframes)
 
     def transactions(self, accountId=None, type=None, symbol=None, startDate=None, endDate=None):
         '''get transactions by account
