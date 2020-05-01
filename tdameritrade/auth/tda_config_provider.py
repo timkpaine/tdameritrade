@@ -42,7 +42,7 @@ class TDAConfigProvider:
         ]
 
         return TDAConfig(
-            api_key=os.getenv('TDA_API_KEY'),
+            api_key=os.getenv('TDAMERITRADE_CLIENT_ID'),
             callback_uri=os.getenv('TDA_CALLBACK_URI'),
             tda_username=os.getenv('TDA_USERNAME'),
             tda_password=os.getenv('TDA_PASSWORD'),
