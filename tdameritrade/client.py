@@ -275,6 +275,7 @@ class TDClient(object):
         x = self.history(symbol, **kwargs)
         df = pd.DataFrame(x['candles'])
         df['datetime'] = epoch_utc_to_datetime_eastern(df['datetime'])
+        df = df.set_index("datetime")
 
         return df
 
