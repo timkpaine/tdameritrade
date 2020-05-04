@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from pytz import timezone
 from .session import TDASession
 from .exceptions import handle_error_response, TDAAPIError
 from .urls import (
@@ -71,6 +72,15 @@ from .urls import (
 
 def response_is_valid(resp):
     return resp.status_code in (200, 201)
+
+
+def epoch_utc_to_datetime_eastern(ts):
+    datetime = pd.to_datetime(ts[0], unit="ms")
+    utc = timezone("UTC")
+    eastern = timezone("US/Eastern")
+    diff_secs = (eastern.localize(datetime) - 
+            utc.localize(datetime).astimezone(eastern)).seconds
+    return pd.to_datetime(ts - diff_secs * 1000, unit="ms")
 
 
 class TDClient(object):
@@ -262,7 +272,7 @@ class TDClient(object):
         '''get history as dataframe'''
         x = self.history(symbol, **kwargs)
         df = pd.DataFrame(x['candles'])
-        df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
+        df['datetime'] = epoch_utc_to_datetime_eastern(df['datetime'])
 
         return df
 
@@ -413,7 +423,7 @@ class TDClient(object):
         df = pd.DataFrame(ret)
         for col in ('tradeTimeInLong', 'quoteTimeInLong',
                     'expirationDate', 'lastTradingDay'):
-            df[col] = pd.to_datetime(df[col], unit='ms')
+            df[col] = epoch_utc_to_datetime_eastern(df[col])
 
         return df
 
