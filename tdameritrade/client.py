@@ -266,6 +266,8 @@ class TDClient(object):
         if endDate:
             params['endDate'] = endDate
 
+        params['needExtendedHoursData'] = needExtendedHoursData
+
         return self._request(GET_PRICE_HISTORY.format(symbol=symbol), params=params).json()
 
     def historyDF(self, symbol, **kwargs):
