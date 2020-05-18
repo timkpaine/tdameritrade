@@ -3,7 +3,6 @@ Python interface to TD Ameritrade Api
 
 [![Build Status](https://dev.azure.com/tpaine154/tdameritrade/_apis/build/status/timkpaine.tdameritrade?branchName=master)](https://dev.azure.com/tpaine154/tdameritrade/_build/latest?definitionId=8&branchName=master)
 [![Coverage](https://img.shields.io/azure-devops/coverage/tpaine154/tdameritrade/8)]()
-[![BCH compliance](https://bettercodehub.com/edge/badge/timkpaine/tdameritrade?branch=master)](https://bettercodehub.com/)
 [![License](https://img.shields.io/github/license/timkpaine/tdameritrade.svg)](https://pypi.python.org/pypi/tdameritrade/)
 [![PyPI](https://img.shields.io/pypi/v/tdameritrade.svg)](https://pypi.python.org/pypi/tdameritrade/)
 [![Docs](https://img.shields.io/readthedocs/tdameritrade.svg)](https://tdameritrade.readthedocs.io)
