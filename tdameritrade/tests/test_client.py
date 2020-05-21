@@ -60,6 +60,8 @@ class TestExtension:
             tdclient.accounts(positions=True, orders=True)
             tdclient.accounts(orders=True)
             tdclient.accountsDF()
+            m.return_value.json.return_value = [{'test': 1}]
+            tdclient.accountsDF()
 
 
     def test_accounts_no_accountIDs(self):
