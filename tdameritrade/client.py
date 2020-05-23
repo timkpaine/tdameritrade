@@ -121,8 +121,9 @@ class TDClient(object):
         '''get accounts as dataframe'''
         data = self.accounts()
         account_dataframes = []
-        for key, value in data.items():
-            account_dataframes.append(pd.json_normalize(value))
+        for accountId, value in data.items():
+            account_dataframes.append(pd.io.json.json_normalize(value))
+            account_dataframes[-1].columns = [c.replace('securitiesAccount.', '') for c in account_dataframes[-1].columns]
         return pd.concat(account_dataframes)
 
     def transactions(self, accountId=None, type=None, symbol=None, startDate=None, endDate=None):
