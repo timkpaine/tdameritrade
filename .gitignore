@@ -110,3 +110,5 @@ python_junit.xml
 # IDE
 .ctrlpignore
 
+# PyCharm idea files
+.idea/*
