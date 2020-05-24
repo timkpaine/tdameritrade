@@ -1,26 +1,11 @@
-import json
+from .base import BaseOrder
 
 
-class _InstrumentEncoder(json.JSONEncoder):
-    def default(self, o):
-        return o.kwargs
+class Instrument(BaseOrder):
+    pass
 
 
-class _Instrument:
-    def __init__(self, **kwargs):
-        self.kwargs = kwargs
-    
-    def json(self):
-        return json.dumps(self.kwargs, cls=_InstrumentEncoder)
-
-    def __repr__(self):
-        return f"<{self.__class__.__name__}: {str(self)}>"
-
-    def __str__(self):
-        return str(self.kwargs)
-
-
-class Equity(_Instrument):
+class Equity(Instrument):
     """Equity Instrument
 
     Keyword Args:
@@ -31,7 +16,7 @@ class Equity(_Instrument):
     """
 
 
-class FixedIncome(_Instrument):
+class FixedIncome(Instrument):
     """Fixed Income Instrument
 
     Keyword Args:
@@ -45,7 +30,7 @@ class FixedIncome(_Instrument):
     """
 
 
-class MutualFund(_Instrument):
+class MutualFund(Instrument):
     """Mutual Fund Instrument
 
     Keyword Args:
@@ -57,7 +42,7 @@ class MutualFund(_Instrument):
     """
 
 
-class CashEquivalent(_Instrument):
+class CashEquivalent(Instrument):
     """Cash Equivalent Instrument
 
     Keyword Args:
@@ -69,7 +54,7 @@ class CashEquivalent(_Instrument):
     """
 
 
-class Option(_Instrument):
+class Option(Instrument):
     """Option Instrument
 
     Keyword Args:
@@ -92,7 +77,7 @@ class Option(_Instrument):
     """
 
 
-class OptionDeliverable(_Instrument):
+class OptionDeliverable(Instrument):
     """Option Deliverable in Option's optionDeliverables list
     Keyword Args:
         symbol: string

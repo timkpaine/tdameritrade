@@ -1,9 +1,9 @@
 """Constants used in Orders
 """
-from enum import Enum as _Enum
+from enum import Enum
 
 
-class _ExtendedEnum(_Enum):
+class ExtendedEnum(Enum):
     """
     Base Enum class used by all order Enums.
     """
@@ -16,20 +16,20 @@ class _ExtendedEnum(_Enum):
         return list(map(lambda c: c.value, cls))
 
 
-class Session(_ExtendedEnum):
+class Session(ExtendedEnum):
     NORMAL = "NORMAL"
     AM = "AM"
     PM = "PM"
     SEAMLESS = "SEAMLESS"
 
 
-class Duration(_ExtendedEnum):
+class Duration(ExtendedEnum):
     DAY = "DAY"
     GOOD_TILL_CANCEL = "GOOD_TILL_CANCEL"
     FILL_OR_KILL = "FILL_OR_KILL"
 
 
-class OrderType(_ExtendedEnum):
+class OrderType(ExtendedEnum):
     MARKET = "MARKET"
     LIMIT = "LIMIT"
     STOP = "STOP"
@@ -43,7 +43,7 @@ class OrderType(_ExtendedEnum):
     NET_ZERO = "NET_ZERO"
 
 
-class ComplexOrderStrategyType(_ExtendedEnum):
+class ComplexOrderStrategyType(ExtendedEnum):
     NONE = "NONE"
     COVERED = "COVERED"
     VERTICAL = "VERTICAL"
@@ -66,7 +66,7 @@ class ComplexOrderStrategyType(_ExtendedEnum):
     CUSTOM = "CUSTOM"
 
 
-class RequestedDestination(_ExtendedEnum):
+class RequestedDestination(ExtendedEnum):
     INET = "INET"
     ECN_ARCA = "ECN_ARCA"
     CBOE = "CBOE"
@@ -81,7 +81,7 @@ class RequestedDestination(_ExtendedEnum):
     AUTO = "AUTO"
 
 
-class StopPriceLinkBasis(_ExtendedEnum):
+class StopPriceLinkBasis(ExtendedEnum):
     MANUAL = "MANUAL"
     BASE = "BASE"
     TRIGGER = "TRIGGER"
@@ -93,13 +93,13 @@ class StopPriceLinkBasis(_ExtendedEnum):
     AVERAGE = "AVERAGE"
 
 
-class StopPriceLinkType(_ExtendedEnum):
+class StopPriceLinkType(ExtendedEnum):
     VALUE = "VALUE"
     PERCENT = "PERCENT"
     TICK = "TICK"
 
 
-class StopType(_ExtendedEnum):
+class StopType(ExtendedEnum):
     STANDARD = "STANDARD"
     BID = "BID"
     ASK = "ASK"
@@ -107,7 +107,7 @@ class StopType(_ExtendedEnum):
     MARK = "MARK"
 
 
-class PriceLinkBasis(_ExtendedEnum):
+class PriceLinkBasis(ExtendedEnum):
     MANUAL = "MANUAL"
     BASE = "BASE"
     TRIGGER = "TRIGGER"
@@ -119,13 +119,13 @@ class PriceLinkBasis(_ExtendedEnum):
     AVERAGE = "AVERAGE"
 
 
-class PriceLinkType(_ExtendedEnum):
+class PriceLinkType(ExtendedEnum):
     VALUE = "VALUE"
     PERCENT = "PERCENT"
     TICK = "TICK"
 
 
-class TaxLotMethod(_ExtendedEnum):
+class TaxLotMethod(ExtendedEnum):
     FIFO = "FIFO"
     LIFO = "LIFO"
     HIGH_COST = "HIGH_COST"
@@ -134,7 +134,7 @@ class TaxLotMethod(_ExtendedEnum):
     SPECIFIC_LOT = "SPECIFIC_LOT"
 
 
-class OrderLegType(_ExtendedEnum):
+class OrderLegType(ExtendedEnum):
     EQUITY = "EQUITY"
     OPTION = "OPTION"
     INDEX = "INDEX"
@@ -144,7 +144,7 @@ class OrderLegType(_ExtendedEnum):
     CURRENCY = "CURRENCY"
 
 
-class Instruction(_ExtendedEnum):
+class Instruction(ExtendedEnum):
     BUY = "BUY"
     SELL = "SELL"
     BUY_TO_COVER = "BUY_TO_COVER"
@@ -156,31 +156,31 @@ class Instruction(_ExtendedEnum):
     EXCHANGE = "EXCHANGE"
 
 
-class PositionEffect(_ExtendedEnum):
+class PositionEffect(ExtendedEnum):
     OPENING = "OPENING"
     CLOSING = "CLOSING"
     AUTOMATIC = "AUTOMATIC"
 
 
-class QuantityType(_ExtendedEnum):
+class QuantityType(ExtendedEnum):
     ALL_SHARES = "ALL_SHARES"
     DOLLARS = "DOLLARS"
     SHARES = "SHARES"
 
 
-class SpecialInstruction(_ExtendedEnum):
+class SpecialInstruction(ExtendedEnum):
     ALL_OR_NONE = "ALL_OR_NONE"
     DO_NOT_REDUCE = "DO_NOT_REDUCE"
     ALL_OR_NONE_DO_NOT_REDUCE = "ALL_OR_NONE_DO_NOT_REDUCE"
 
 
-class OrderStrategyType(_ExtendedEnum):
+class OrderStrategyType(ExtendedEnum):
     SINGLE = "SINGLE"
     OCO = "OCO"
     TRIGGER = "TRIGGER"
 
 
-class Status(_ExtendedEnum):
+class Status(ExtendedEnum):
     AWAITING_PARENT_ORDER = "AWAITING_PARENT_ORDER"
     AWAITING_CONDITION = "AWAITING_CONDITION"
     AWAITING_MANUAL_REVIEW = "AWAITING_MANUAL_REVIEW"
