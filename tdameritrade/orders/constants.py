@@ -1,8 +1,9 @@
 """Constants used in Orders
 """
+from enum import Enum
 
 
-class ExtendedConstant:
+class ExtendedConstant(str, Enum):
     """
     Base Enum class used by all order Enums.
     """
@@ -13,7 +14,7 @@ class ExtendedConstant:
 
         Found here: https://stackoverflow.com/questions/29503339/how-to-get-all-values-from-python-enum-class/54919285#54919285
         """
-        return list(map(lambda c: c, cls))
+        return list(map(lambda c: c.value, cls))
 
 
 class Session(ExtendedConstant):
