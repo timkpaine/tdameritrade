@@ -1,7 +1,6 @@
 from . import constants
 
 
-
 def upper_first_letter(string):
     """Return string with first letter in uppercase
 
@@ -41,6 +40,7 @@ int_args = [
     "accountId",
 ]
 
+
 def OrderBuilder(self, *, validation=True, **kwargs):
     """Builds Order dictionary to use with Orders API
 
@@ -53,13 +53,17 @@ def OrderBuilder(self, *, validation=True, **kwargs):
             if key in enum_args:
                 order_enum = constants.__dict__[upper_first_letter(key)]
                 if value not in order_enum:
-                    raise Exception(f"Validation Error: {key} value {value} not in {order_enum}")
+                    raise Exception(
+                        f"Validation Error: {key} value {value} not in {order_enum}"
+                    )
             elif key in int_args:
                 try:
                     int(value)
                 except Exception as err:
-                    raise Exception(f"Validation Error: {value} can not be cast to int - {err}")
-    
+                    raise Exception(
+                        f"Validation Error: {value} can not be cast to int - {err}"
+                    )
+
 
 def create_order_leg(
     *,
@@ -74,9 +78,9 @@ def create_order_leg(
     {
         "orderLegType": "'EQUITY' or 'OPTION' or 'INDEX' or 'MUTUAL_FUND' or 'CASH_EQUIVALENT' or 'FIXED_INCOME' or 'CURRENCY'",
         "legId": 0,
-        "instrument": "The type <Instrument> has the following subclasses [Equity, FixedIncome, MutualFund, CashEquivalent, Option] descriptions are listed below\"",
+        "instrument": 'The type <Instrument> has the following subclasses [Equity, FixedIncome, MutualFund, CashEquivalent, Option] descriptions are listed below"',
         "instruction": "'BUY' or 'SELL' or 'BUY_TO_COVER' or 'SELL_SHORT' or 'BUY_TO_OPEN' or 'BUY_TO_CLOSE' or 'SELL_TO_OPEN' or 'SELL_TO_CLOSE' or 'EXCHANGE'",
         "positionEffect": "'OPENING' or 'CLOSING' or 'AUTOMATIC'",
         "quantity": 0,
-        "quantityType": "'ALL_SHARES' or 'DOLLARS' or 'SHARES'"
+        "quantityType": "'ALL_SHARES' or 'DOLLARS' or 'SHARES'",
     }
