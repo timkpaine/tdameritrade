@@ -1,87 +1,97 @@
+from typing import List
+from dataclasses import dataclass
 from .base import BaseOrder
+from .constants import (
+    InstrumentAssetType,
+    MutualFundType,
+    CashEquivalentType,
+    OptionType,
+    OptionDeliverableCurrencyType,
+    OptionPutCall,
+)
 
 
+@dataclass
 class Instrument(BaseOrder):
+    """Base Instrument class
+    """
+
     pass
 
 
+@dataclass
 class Equity(Instrument):
     """Equity Instrument
-
-    Keyword Args:
-        assetType: 'EQUITY' or 'OPTION' or 'INDEX' or 'MUTUAL_FUND' or 'CASH_EQUIVALENT' or 'FIXED_INCOME' or 'CURRENCY'
-        cusip: string
-        symbol: string
-        description: string
     """
 
+    assetType: InstrumentAssetType = None
+    cusip: str = None
+    symbol: str = None
+    description: str = None
 
+
+@dataclass
 class FixedIncome(Instrument):
     """Fixed Income Instrument
-
-    Keyword Args:
-        assetType: 'EQUITY' or 'OPTION' or 'INDEX' or 'MUTUAL_FUND' or 'CASH_EQUIVALENT' or 'FIXED_INCOME' or 'CURRENCY'
-        cusip: string
-        symbol: string
-        description: string
-        maturityDate: string
-        variableRate: 0
-        factor: 0
     """
 
+    assetType: InstrumentAssetType = None
+    cusip: str = None
+    symbol: str = None
+    description: str = None
+    maturityDate: str = None
+    variableRate: int = None
+    factor: int = None
 
+
+@dataclass
 class MutualFund(Instrument):
     """Mutual Fund Instrument
-
-    Keyword Args:
-        assetType: 'EQUITY' or 'OPTION' or 'INDEX' or 'MUTUAL_FUND' or 'CASH_EQUIVALENT' or 'FIXED_INCOME' or 'CURRENCY'
-        cusip: string
-        symbol: string
-        description: string
-        type: 'NOT_APPLICABLE' or 'OPEN_END_NON_TAXABLE' or 'OPEN_END_TAXABLE' or 'NO_LOAD_NON_TAXABLE' or 'NO_LOAD_TAXABLE'
     """
 
+    assetType: InstrumentAssetType = None
+    cusip: str = None
+    symbol: str = None
+    description: str = None
+    type: MutualFundType = None
 
+
+@dataclass
 class CashEquivalent(Instrument):
     """Cash Equivalent Instrument
-
-    Keyword Args:
-        assetType: 'EQUITY' or 'OPTION' or 'INDEX' or 'MUTUAL_FUND' or 'CASH_EQUIVALENT' or 'FIXED_INCOME' or 'CURRENCY'
-        cusip: string
-        symbol: string
-        description: string
-        type: 'SAVINGS' or 'MONEY_MARKET_FUND'
     """
 
+    assetType: InstrumentAssetType = None
+    cusip: str = None
+    symbol: str = None
+    description: str = None
+    type: CashEquivalentType = None
 
+
+@dataclass
+class OptionDeliverable(BaseOrder):
+    """Option Deliverable in Option's optionDeliverables list
+
+    This class is not an instrument itself
+    """
+
+    symbol: str = None
+    deliverableUnits: int = None
+    currencyType: OptionDeliverableCurrencyType = None
+    assetType: InstrumentAssetType = None
+
+
+@dataclass
 class Option(Instrument):
     """Option Instrument
-
-    Keyword Args:
-        assetType: 'EQUITY' or 'OPTION' or 'INDEX' or 'MUTUAL_FUND' or 'CASH_EQUIVALENT' or 'FIXED_INCOME' or 'CURRENCY'
-        cusip: string
-        symbol: string
-        description: string
-        type: 'VANILLA' or 'BINARY' or 'BARRIER'
-        putCall: 'PUT' or 'CALL'
-        underlyingSymbol: string
-        optionMultiplier: 0
-        optionDeliverables: [
-            {
-                symbol: string
-                deliverableUnits: 0
-                currencyType: 'USD' or 'CAD' or 'EUR' or 'JPY'
-                assetType: 'EQUITY' or 'OPTION' or 'INDEX' or 'MUTUAL_FUND' or 'CASH_EQUIVALENT' or 'FIXED_INCOME' or 'CURRENCY'
-            }
-        ]
     """
 
-
-class OptionDeliverable(Instrument):
-    """Option Deliverable in Option's optionDeliverables list
-    Keyword Args:
-        symbol: string
-        deliverableUnits: 0
-        currencyType: 'USD' or 'CAD' or 'EUR' or 'JPY'
-        assetType: 'EQUITY' or 'OPTION' or 'INDEX' or 'MUTUAL_FUND' or 'CASH_EQUIVALENT' or 'FIXED_INCOME' or 'CURRENCY'
-    """
+    assetType: InstrumentAssetType = None
+    cusip: str = None
+    symbol: str = None
+    description: str = None
+    type: OptionType = None
+    putCall: OptionPutCall = None
+    underlyingSymbol: str = None
+    optionMultiplier: int = None
+    optionDeliverables: List[OptionDeliverable] = None
