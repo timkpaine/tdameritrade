@@ -1,35 +1,35 @@
 """Constants used in Orders
 """
-from enum import Enum
 
 
-class ExtendedEnum(Enum):
+class ExtendedConstant:
     """
     Base Enum class used by all order Enums.
     """
+
     @classmethod
     def list(cls):
         """Lists all values in Enum
 
         Found here: https://stackoverflow.com/questions/29503339/how-to-get-all-values-from-python-enum-class/54919285#54919285
         """
-        return list(map(lambda c: c.value, cls))
+        return list(map(lambda c: c, cls))
 
 
-class Session(ExtendedEnum):
+class Session(ExtendedConstant):
     NORMAL = "NORMAL"
     AM = "AM"
     PM = "PM"
     SEAMLESS = "SEAMLESS"
 
 
-class Duration(ExtendedEnum):
+class Duration(ExtendedConstant):
     DAY = "DAY"
     GOOD_TILL_CANCEL = "GOOD_TILL_CANCEL"
     FILL_OR_KILL = "FILL_OR_KILL"
 
 
-class OrderType(ExtendedEnum):
+class OrderType(ExtendedConstant):
     MARKET = "MARKET"
     LIMIT = "LIMIT"
     STOP = "STOP"
@@ -43,7 +43,7 @@ class OrderType(ExtendedEnum):
     NET_ZERO = "NET_ZERO"
 
 
-class ComplexOrderStrategyType(ExtendedEnum):
+class ComplexOrderStrategyType(ExtendedConstant):
     NONE = "NONE"
     COVERED = "COVERED"
     VERTICAL = "VERTICAL"
@@ -66,7 +66,7 @@ class ComplexOrderStrategyType(ExtendedEnum):
     CUSTOM = "CUSTOM"
 
 
-class RequestedDestination(ExtendedEnum):
+class RequestedDestination(ExtendedConstant):
     INET = "INET"
     ECN_ARCA = "ECN_ARCA"
     CBOE = "CBOE"
@@ -81,7 +81,7 @@ class RequestedDestination(ExtendedEnum):
     AUTO = "AUTO"
 
 
-class StopPriceLinkBasis(ExtendedEnum):
+class StopPriceLinkBasis(ExtendedConstant):
     MANUAL = "MANUAL"
     BASE = "BASE"
     TRIGGER = "TRIGGER"
@@ -93,13 +93,13 @@ class StopPriceLinkBasis(ExtendedEnum):
     AVERAGE = "AVERAGE"
 
 
-class StopPriceLinkType(ExtendedEnum):
+class StopPriceLinkType(ExtendedConstant):
     VALUE = "VALUE"
     PERCENT = "PERCENT"
     TICK = "TICK"
 
 
-class StopType(ExtendedEnum):
+class StopType(ExtendedConstant):
     STANDARD = "STANDARD"
     BID = "BID"
     ASK = "ASK"
@@ -107,7 +107,7 @@ class StopType(ExtendedEnum):
     MARK = "MARK"
 
 
-class PriceLinkBasis(ExtendedEnum):
+class PriceLinkBasis(ExtendedConstant):
     MANUAL = "MANUAL"
     BASE = "BASE"
     TRIGGER = "TRIGGER"
@@ -119,13 +119,13 @@ class PriceLinkBasis(ExtendedEnum):
     AVERAGE = "AVERAGE"
 
 
-class PriceLinkType(ExtendedEnum):
+class PriceLinkType(ExtendedConstant):
     VALUE = "VALUE"
     PERCENT = "PERCENT"
     TICK = "TICK"
 
 
-class TaxLotMethod(ExtendedEnum):
+class TaxLotMethod(ExtendedConstant):
     FIFO = "FIFO"
     LIFO = "LIFO"
     HIGH_COST = "HIGH_COST"
@@ -134,53 +134,19 @@ class TaxLotMethod(ExtendedEnum):
     SPECIFIC_LOT = "SPECIFIC_LOT"
 
 
-class OrderLegType(ExtendedEnum):
-    EQUITY = "EQUITY"
-    OPTION = "OPTION"
-    INDEX = "INDEX"
-    MUTUAL_FUND = "MUTUAL_FUND"
-    CASH_EQUIVALENT = "CASH_EQUIVALENT"
-    FIXED_INCOME = "FIXED_INCOME"
-    CURRENCY = "CURRENCY"
-
-
-class Instruction(ExtendedEnum):
-    BUY = "BUY"
-    SELL = "SELL"
-    BUY_TO_COVER = "BUY_TO_COVER"
-    SELL_SHORT = "SELL_SHORT"
-    BUY_TO_OPEN = "BUY_TO_OPEN"
-    BUY_TO_CLOSE = "BUY_TO_CLOSE"
-    SELL_TO_OPEN = "SELL_TO_OPEN"
-    SELL_TO_CLOSE = "SELL_TO_CLOSE"
-    EXCHANGE = "EXCHANGE"
-
-
-class PositionEffect(ExtendedEnum):
-    OPENING = "OPENING"
-    CLOSING = "CLOSING"
-    AUTOMATIC = "AUTOMATIC"
-
-
-class QuantityType(ExtendedEnum):
-    ALL_SHARES = "ALL_SHARES"
-    DOLLARS = "DOLLARS"
-    SHARES = "SHARES"
-
-
-class SpecialInstruction(ExtendedEnum):
+class SpecialInstruction(ExtendedConstant):
     ALL_OR_NONE = "ALL_OR_NONE"
     DO_NOT_REDUCE = "DO_NOT_REDUCE"
     ALL_OR_NONE_DO_NOT_REDUCE = "ALL_OR_NONE_DO_NOT_REDUCE"
 
 
-class OrderStrategyType(ExtendedEnum):
+class OrderStrategyType(ExtendedConstant):
     SINGLE = "SINGLE"
     OCO = "OCO"
     TRIGGER = "TRIGGER"
 
 
-class Status(ExtendedEnum):
+class Status(ExtendedConstant):
     AWAITING_PARENT_ORDER = "AWAITING_PARENT_ORDER"
     AWAITING_CONDITION = "AWAITING_CONDITION"
     AWAITING_MANUAL_REVIEW = "AWAITING_MANUAL_REVIEW"
@@ -197,3 +163,95 @@ class Status(ExtendedEnum):
     FILLED = "FILLED"
     EXPIRED = "EXPIRED"
 
+
+# Order Leg Constants
+
+
+class OrderLegType(ExtendedConstant):
+    EQUITY = "EQUITY"
+    OPTION = "OPTION"
+    INDEX = "INDEX"
+    MUTUAL_FUND = "MUTUAL_FUND"
+    CASH_EQUIVALENT = "CASH_EQUIVALENT"
+    FIXED_INCOME = "FIXED_INCOME"
+    CURRENCY = "CURRENCY"
+
+
+class Instruction(ExtendedConstant):
+    BUY = "BUY"
+    SELL = "SELL"
+    BUY_TO_COVER = "BUY_TO_COVER"
+    SELL_SHORT = "SELL_SHORT"
+    BUY_TO_OPEN = "BUY_TO_OPEN"
+    BUY_TO_CLOSE = "BUY_TO_CLOSE"
+    SELL_TO_OPEN = "SELL_TO_OPEN"
+    SELL_TO_CLOSE = "SELL_TO_CLOSE"
+    EXCHANGE = "EXCHANGE"
+
+
+class PositionEffect(ExtendedConstant):
+    OPENING = "OPENING"
+    CLOSING = "CLOSING"
+    AUTOMATIC = "AUTOMATIC"
+
+
+class QuantityType(ExtendedConstant):
+    ALL_SHARES = "ALL_SHARES"
+    DOLLARS = "DOLLARS"
+    SHARES = "SHARES"
+
+
+# Activity Enums
+
+
+class ActivityType(ExtendedConstant):
+    EXECUTION = "EXECUTION"
+    ORDER_ACTION = "ORDER_ACTION"
+
+
+class ExecutionType(ExtendedConstant):
+    FILL = "FILL"
+
+
+# Instrument Enums
+
+
+class InstrumentAssetType(ExtendedConstant):
+    EQUITY = "EQUITY"
+    OPTION = "OPTION"
+    INDEX = "INDEX"
+    MUTUAL_FUND = "MUTUAL_FUND"
+    CASH_EQUIVALENT = "CASH_EQUIVALENT"
+    FIXED_INCOME = "FIXED_INCOME"
+    CURRENCY = "CURRENCY"
+
+
+class MutualFundType(ExtendedConstant):
+    NOT_APPLICABLE = "NOT_APPLICABLE"
+    OPEN_END_NON_TAXABLE = "OPEN_END_NON_TAXABLE"
+    OPEN_END_TAXABLE = "OPEN_END_TAXABLE"
+    NO_LOAD_NON_TAXABLE = "NO_LOAD_NON_TAXABLE"
+    NO_LOAD_TAXABLE = "NO_LOAD_TAXABLE"
+
+
+class CashEquivalentType(ExtendedConstant):
+    SAVINGS = "SAVINGS"
+    MONEY_MARKET_FUND = "MONEY_MARKET_FUND"
+
+
+class OptionType(ExtendedConstant):
+    VANILLA = "VANILLA"
+    BINARY = "BINARY"
+    BARRIER = "BARRIER"
+
+
+class OptionPutCall(ExtendedConstant):
+    PUT = "PUT"
+    CALL = "CALL"
+
+
+class OptionDeliverableCurrencyType(ExtendedConstant):
+    USD = "USD"
+    CAD = "CAD"
+    EUR = "EUR"
+    JPY = "JPY"
