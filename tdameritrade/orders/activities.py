@@ -1,7 +1,8 @@
-from .base import BaseOrder
-from typing import List
-from .constants import ActivityType, ExecutionType
 from dataclasses import dataclass
+from typing import List
+
+from .base import BaseOrder
+from .constants import ActivityType, ExecutionType
 
 
 @dataclass
@@ -9,11 +10,10 @@ class OrderActivity(BaseOrder):
     pass
 
 
-@dataclass
-class ExecutionLeg(OrderActivity):
+@dataclass(frozen=True)
+class ExecutionLeg(BaseOrder):
     """ExecutionLeg using in Execution
     """
-
     legId: int = None
     quantity: int = None
     mismarkedQuantity: int = None
@@ -21,11 +21,10 @@ class ExecutionLeg(OrderActivity):
     time: str = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class Execution(OrderActivity):
     """Execution
     """
-
     activityType: ActivityType = None
     executionType: ExecutionType = None
     quantity: int = None
