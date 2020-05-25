@@ -1,40 +1,33 @@
 from .base import BaseOrder
+from typing import List
+from .constants import ActivityType, ExecutionType
+from dataclasses import dataclass
 
 
+@dataclass
 class OrderActivity(BaseOrder):
     pass
 
 
-class Execution(OrderActivity):
-    """
-    activityType: 'EXECUTION' or 'ORDER_ACTION',
-    executionType: 'FILL',
-    quantity: 0,
-    orderRemainingQuantity: 0,
-    executionLegs: [
-        {
-            legId: 0,
-            quantity: 0,
-            mismarkedQuantity: 0,
-            price: 0,
-            time: string
-        }
-    ]
-    """
-
-
+@dataclass
 class ExecutionLeg(OrderActivity):
+    """ExecutionLeg using in Execution
     """
-    legId: 0,
-    quantity: 0,
-    mismarkedQuantity: 0,
-    price: 0,
-    time: string
+
+    legId: int = None
+    quantity: int = None
+    mismarkedQuantity: int = None
+    price: int = None
+    time: str = None
+
+
+@dataclass
+class Execution(OrderActivity):
+    """Execution
     """
-    fields = [
-        "legId",
-        "quantity",
-        "mismarkedQuantity",
-        "price",
-        "time",
-    ]
+
+    activityType: ActivityType = None
+    executionType: ExecutionType = None
+    quantity: int = None
+    orderRemainingQuantity: int = None
+    executionLegs: List[ExecutionLeg] = None
