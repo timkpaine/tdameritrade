@@ -1,40 +1,33 @@
-from typing import List
 from dataclasses import dataclass
+from typing import List
+
 from .base import BaseOrder
-from .constants import (
-    InstrumentAssetType,
-    MutualFundType,
-    CashEquivalentType,
-    OptionType,
-    OptionDeliverableCurrencyType,
-    OptionPutCall,
-)
+from .constants import (CashEquivalentType, InstrumentAssetType,
+                        MutualFundType, OptionDeliverableCurrencyType,
+                        OptionPutCall, OptionType)
 
 
 @dataclass
 class Instrument(BaseOrder):
     """Base Instrument class
     """
-
     pass
 
 
-@dataclass
+@dataclass(frozen=True)
 class Equity(Instrument):
     """Equity Instrument
     """
-
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None
     description: str = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class FixedIncome(Instrument):
     """Fixed Income Instrument
     """
-
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None
@@ -44,11 +37,10 @@ class FixedIncome(Instrument):
     factor: int = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class MutualFund(Instrument):
     """Mutual Fund Instrument
     """
-
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None
@@ -56,11 +48,10 @@ class MutualFund(Instrument):
     type: MutualFundType = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class CashEquivalent(Instrument):
     """Cash Equivalent Instrument
     """
-
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None
@@ -68,24 +59,22 @@ class CashEquivalent(Instrument):
     type: CashEquivalentType = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class OptionDeliverable(BaseOrder):
     """Option Deliverable in Option's optionDeliverables list
 
     This class is not an instrument itself
     """
-
     symbol: str = None
     deliverableUnits: int = None
     currencyType: OptionDeliverableCurrencyType = None
     assetType: InstrumentAssetType = None
 
 
-@dataclass
+@dataclass(frozen=True)
 class Option(Instrument):
     """Option Instrument
     """
-
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None

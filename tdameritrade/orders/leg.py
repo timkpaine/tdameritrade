@@ -2,17 +2,13 @@
 Order Leg usedin in Orders API
 """
 from dataclasses import dataclass
+
 from .base import BaseOrder
+from .constants import Instruction, OrderLegType, PositionEffect, QuantityType
 from .instruments import Instrument
-from .constants import (
-    OrderLegType,
-    Instruction,
-    PositionEffect,
-    QuantityType,
-)
 
 
-@dataclass
+@dataclass(frozen=True)
 class OrderLeg(BaseOrder):
     """OrderLeg used in orderLegCollection
     """
