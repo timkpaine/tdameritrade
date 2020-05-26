@@ -1,6 +1,7 @@
 # for Coverage
 from mock import patch, MagicMock
 import pytest
+from tdameritrade.exceptions import TDAAPIError
 
 from mock import MagicMock, patch
 
@@ -55,7 +56,22 @@ class TestExtension:
             m.return_value.json.return_value = [MagicMock()]
             tdclient.accounts()
             m.return_value.json.return_value = [{'test': 1, 'test2': 2}]
+            tdclient.accounts(positions=True)
+            tdclient.accounts(positions=True, orders=True)
+            tdclient.accounts(orders=True)
             tdclient.accountsDF()
+            m.return_value.json.return_value = [{'test': 1}]
+            tdclient.accountsDF()
+
+
+    def test_accounts_no_accountIDs(self):
+        from tdameritrade import TDClient
+        with patch('tdameritrade.session.TDASession.request') as m:
+            m.return_value.status_code = 200
+            m.return_value.json.return_value = [MagicMock()]
+            tdc = TDClient(client_id=123,
+                           refresh_token='reftoken',)
+            tdc.accounts()
 
     def test_search(self, tdclient):
         with patch('tdameritrade.session.TDASession.request') as m:
@@ -63,6 +79,12 @@ class TestExtension:
             m.return_value.json.return_value = {'aapl': {'test': 1, 'test2': 2}}
             tdclient.search('aapl')
             tdclient.searchDF('aapl')
+
+    def test_fundementalSearch(self, tdclient):
+        with patch('tdameritrade.session.TDASession.request') as m:
+            m.return_value.status_code = 200
+            tdclient.fundamentalSearch('aapl')
+            tdclient.fundamentalSearch('aapl')
 
     def test_instrument(self, tdclient):
         with patch('tdameritrade.session.TDASession.request') as m:
@@ -84,6 +106,16 @@ class TestExtension:
             m.return_value.json.return_value = {'candles': [{'datetime': 1, 'test2': 2}]}
             tdclient.history('aapl')
             tdclient.historyDF('aapl')
+            tdclient.history('aapl', periodType="day")
+            with pytest.raises(TDAAPIError):
+                tdclient.history('aapl', periodType="daily")
+            with pytest.raises(TDAAPIError):
+                tdclient.history('aapl', frequency="invalid")
+
+    def test_hours(self, tdclient):
+        with patch('tdameritrade.session.TDASession.request') as m:
+            m.return_value.status_code = 200
+            tdclient.hours()
 
     def test_movers(self):
         with patch('tdameritrade.session.TDASession.request') as m:
