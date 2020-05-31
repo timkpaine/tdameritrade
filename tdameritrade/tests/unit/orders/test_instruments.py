@@ -1,10 +1,10 @@
 from tdameritrade.orders.instruments import (
     Instrument,
-    Equity,
-    FixedIncome,
-    MutualFund,
-    CashEquivalent,
-    Option,
+    EquityInstrument,
+    FixedIncomeInstrument,
+    MutualFundInstrument,
+    CashEquivalentInstrument,
+    OptionInstrument,
     OptionDeliverable,
 )
 
