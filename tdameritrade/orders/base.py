@@ -13,8 +13,8 @@ class BaseOrder:
 
     https://stackoverflow.com/questions/12118695/efficient-way-to-remove-keys-with-empty-strings-from-a-dict
     """
+
     def json(self):
         filtered_dict = asdict(self, dict_factory=filtered_dict_factory)
         order_dict = {k: v for k, v in filtered_dict.items() if v is not None}
-        return json.dumps(order_dict, cls=EnhancedJSONEncoder)    
-       
+        return json.dumps(order_dict, cls=EnhancedJSONEncoder)

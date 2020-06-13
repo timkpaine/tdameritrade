@@ -1,6 +1,4 @@
 from . import orders
 
 
-__all__ = [
-    'orders'
-]
+__all__ = ["orders"]

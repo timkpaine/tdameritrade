@@ -2,15 +2,21 @@ from dataclasses import dataclass
 from typing import List
 
 from .base import BaseOrder
-from .constants import (CashEquivalentType, InstrumentAssetType,
-                        MutualFundType, OptionDeliverableCurrencyType,
-                        OptionPutCall, OptionType)
+from .constants import (
+    CashEquivalentType,
+    InstrumentAssetType,
+    MutualFundType,
+    OptionDeliverableCurrencyType,
+    OptionPutCall,
+    OptionType,
+)
 
 
 @dataclass
 class Instrument(BaseOrder):
     """Base Instrument class
     """
+
     pass
 
 
@@ -18,6 +24,7 @@ class Instrument(BaseOrder):
 class EquityInstrument(Instrument):
     """Equity Instrument
     """
+
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None
@@ -28,6 +35,7 @@ class EquityInstrument(Instrument):
 class FixedIncomeInstrument(Instrument):
     """Fixed Income Instrument
     """
+
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None
@@ -41,6 +49,7 @@ class FixedIncomeInstrument(Instrument):
 class MutualFundInstrument(Instrument):
     """Mutual Fund Instrument
     """
+
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None
@@ -52,6 +61,7 @@ class MutualFundInstrument(Instrument):
 class CashEquivalentInstrument(Instrument):
     """Cash Equivalent Instrument
     """
+
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None
@@ -65,6 +75,7 @@ class OptionDeliverable(BaseOrder):
 
     This class is not an instrument itself
     """
+
     symbol: str = None
     deliverableUnits: int = None
     currencyType: OptionDeliverableCurrencyType = None
@@ -75,6 +86,7 @@ class OptionDeliverable(BaseOrder):
 class OptionInstrument(Instrument):
     """Option Instrument
     """
+
     assetType: InstrumentAssetType = None
     cusip: str = None
     symbol: str = None

@@ -12,7 +12,17 @@ from .constants import (
     Session,
     Duration,
     OrderType,
-    ComplexOrderStrategyType,RequestedDestination,StopPriceLinkBasis,StopPriceLinkType, StopType,PriceLinkBasis,PriceLinkType,TaxLotMethod, SpecialInstruction, OrderStrategyType, Status
+    ComplexOrderStrategyType,
+    RequestedDestination,
+    StopPriceLinkBasis,
+    StopPriceLinkType,
+    StopType,
+    PriceLinkBasis,
+    PriceLinkType,
+    TaxLotMethod,
+    SpecialInstruction,
+    OrderStrategyType,
+    Status,
 )
 from .instruments import Instrument, EquityInstrument, OptionInstrument
 
@@ -62,7 +72,6 @@ class Order(BaseOrder):
     statusDescription: str = None
 
 
-
 def build_buy_market_stock_order(symbol, quantity):
     """Build Buy Market Stock Order
     
@@ -81,12 +90,10 @@ def build_buy_market_stock_order(symbol, quantity):
     # Can be changed to handle Buy and Sell for Equities
     _instruction = Instruction.BUY
     # Can be changed to handle options
-    _instrument_asset_type = InstrumentAssetType.EQUITY  
+    _instrument_asset_type = InstrumentAssetType.EQUITY
 
     _order_leg = create_equity_order_leg(
-        instruction=_instruction,
-        quantity=quantity,
-        symbol=symbol,
+        instruction=_instruction, quantity=quantity, symbol=symbol,
     )
     order_leg_collection = [_order_leg]
 

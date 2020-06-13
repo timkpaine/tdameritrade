@@ -14,6 +14,7 @@ class OrderActivity(BaseOrder):
 class ExecutionLeg(BaseOrder):
     """ExecutionLeg using in Execution
     """
+
     legId: int = None
     quantity: int = None
     mismarkedQuantity: int = None
@@ -25,6 +26,7 @@ class ExecutionLeg(BaseOrder):
 class Execution(OrderActivity):
     """Execution
     """
+
     activityType: ActivityType = None
     executionType: ExecutionType = None
     quantity: int = None
