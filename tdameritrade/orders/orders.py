@@ -1,5 +1,5 @@
 from .base import BaseOrder
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Any
 from .leg import OrderLeg, create_equity_order_leg
 from .activities import OrderActivity
@@ -19,8 +19,8 @@ from .instruments import Instrument, EquityInstrument, OptionInstrument
 
 @dataclass
 class CancelTime(BaseOrder):
-    date: str
-    shortFormat: bool
+    date: str = None
+    shortFormat: bool = None
 
 
 @dataclass
