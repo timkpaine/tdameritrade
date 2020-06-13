@@ -29,12 +29,7 @@ class OrderLeg(BaseOrder):
 
 
 def create_equity_order_leg(
-    instruction,
-    quantity,
-    symbol,
-    description=None,
-    cusip=None,
-    **order_leg_kwargs,
+    instruction, quantity, symbol, description=None, cusip=None, **order_leg_kwargs,
 ):
     """Creates OrderLeg for equity orders
     """
@@ -59,7 +54,6 @@ def create_equity_order_leg(
         instrument=instrument,
         **order_leg_kwargs,
     )
-
 
 
 class OptionOrderLeg(OrderLeg):
@@ -100,7 +94,7 @@ class OptionOrderLeg(OrderLeg):
             putCall=putCall,
             underlyingSymbol=underlying_symbol,
             optionMultiplier=option_multiplier,
-            optionDeliverables=option_deliverables
+            optionDeliverables=option_deliverables,
         )
         super().__init__(
             instruction=instruction,
