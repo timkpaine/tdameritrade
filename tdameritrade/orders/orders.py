@@ -42,6 +42,7 @@ class Order(BaseOrder):
 
         I made price a str for now.
     """
+
     session: Session = None
     duration: Duration = None
     orderType: OrderType = None
@@ -111,6 +112,7 @@ def build_buy_market_stock_order(symbol, quantity):
         orderLegCollection=order_leg_collection,
     )
 
+
 def build_buy_limit_option_order(symbol, quantity, price):
     """Build Buy Limit: Single Option
 
@@ -149,7 +151,10 @@ def build_buy_limit_option_order(symbol, quantity, price):
         orderLegCollection=order_leg_collection,
     )
 
-def build_buy_limit_vertical_call_spread_order(buy_symbol, sell_symbol, quantity, price):
+
+def build_buy_limit_vertical_call_spread_order(
+    buy_symbol, sell_symbol, quantity, price
+):
     """Buy Limit: Vertical Call Spread
 
     Buy to open 10 contracts of the XYZ Jan 15, 2016 $40 Call and
@@ -190,8 +195,10 @@ def build_buy_limit_vertical_call_spread_order(buy_symbol, sell_symbol, quantity
         orderLegCollection=order_leg_collection,
     )
 
-    
-def build_custom_option_spread_order(buy_symbol, sell_symbol, buy_quantity, sell_quantity):
+
+def build_custom_option_spread_order(
+    buy_symbol, sell_symbol, buy_quantity, sell_quantity
+):
     """Custom Option Spread
 
     Buy to open 2 contracts of the XYZ Jan 17, 2020 $43 Put and Sell to open
@@ -209,7 +216,9 @@ def build_custom_option_spread_order(buy_symbol, sell_symbol, buy_quantity, sell
     )
 
     _sell_order_leg = create_option_order_leg(
-        instruction=Instruction.SELL_TO_OPEN, quantity=sell_quantity, symbol=sell_symbol,
+        instruction=Instruction.SELL_TO_OPEN,
+        quantity=sell_quantity,
+        symbol=sell_symbol,
     )
 
     order_leg_collection = [
