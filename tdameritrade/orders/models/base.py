@@ -3,6 +3,10 @@ from dataclasses import dataclass, asdict
 from .json_encoder import EnhancedJSONEncoder
 
 
+class OrderValidationError(Exception):
+    pass
+
+
 @dataclass
 class BaseOrder:
     """Base Order dataclass
@@ -11,6 +15,10 @@ class BaseOrder:
 
     https://stackoverflow.com/questions/12118695/efficient-way-to-remove-keys-with-empty-strings-from-a-dict
     """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.validate()
 
     def json(self):
         order_dict = self._filter()
@@ -29,3 +37,25 @@ class BaseOrder:
     def _filtered_dict_factory(list_of_tuples):
         filtered_dict = {key: value for key, value in list_of_tuples if value is not None}
         return dict(filtered_dict)
+
+    def validate(self):
+        error_list = self.check_for_errors()
+        if len(error_list) > 0:
+            raise OrderValidationError(error_list)
+
+    def check_for_errors(self):
+        """
+        Using dataclasses' __annotations__ field to get labels and types for validation
+        """
+        validation_errors = []
+        # https://github.com/python/cpython/blob/0d57db27f2c563b6433a220b646b50bdeff8a1f2/Lib/dataclasses.py#L856
+        annotations = self.__dict__.get('__annotations__')
+
+        if annotations:
+            for label, label_type in annotations.items():
+                value = self.__dict__.get(label)
+                if value is not None and not isinstance(value, label_type):
+                    message = f"{value} is not valid value for {label}"
+                    validation_errors.append(message)
+
+        return validation_errors
