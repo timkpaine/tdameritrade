@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 from .base import BaseOrder
-from .constants import (
+from ..constants import (
     CashEquivalentType,
     InstrumentAssetType,
     MutualFundType,

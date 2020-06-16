@@ -4,7 +4,7 @@ Order Leg usedin in Orders API
 from dataclasses import dataclass
 
 from .base import BaseOrder
-from .constants import (
+from ..constants import (
     Instruction,
     OrderLegType,
     PositionEffect,
@@ -12,6 +12,10 @@ from .constants import (
     InstrumentAssetType,
 )
 from .instruments import Instrument, EquityInstrument, OptionInstrument
+
+
+class InvalidInstructionError(Exception):
+    pass
 
 
 @dataclass
@@ -28,12 +32,8 @@ class OrderLeg(BaseOrder):
     quantityType: QuantityType = None
 
 
-def create_equity_order_leg(
-    instruction, quantity, symbol, description=None, cusip=None, **order_leg_kwargs,
-):
-    """Creates OrderLeg for equity orders
-    """
-    valid_instructions = [
+class EquityOrderLeg(OrderLeg):
+    instructions = [
         Instruction("BUY"),
         Instruction("SELL"),
         Instruction("BUY_TO_COVER"),
@@ -42,18 +42,33 @@ def create_equity_order_leg(
 
     asset_type = InstrumentAssetType.EQUITY
 
-    if instruction not in valid_instructions:
-        raise Exception(
-            f"{instruction} not in valid instruction list for Equity Order Leg"
+    def __init__(
+        self,
+        instruction=None,
+        quantity=None,
+        symbol=None,
+        description=None,
+        cusip=None,
+        **order_leg_kwargs,
+    ):
+        if instruction not in self.valid_instructions:
+            raise InvalidInstructionError(
+                f"{instruction} not valid for Equity Order Leg"
+            )
+
+        instrument = EquityInstrument(
+            assetType=self.asset_type,
+            cusip=cusip,
+            symbol=symbol,
+            description=description,
         )
 
-    instrument = EquityInstrument(symbol=symbol, assetType=asset_type)
-    return OrderLeg(
-        instruction=instruction,
-        quantity=quantity,
-        instrument=instrument,
-        **order_leg_kwargs,
-    )
+        super().__init__(
+            instruction=instruction,
+            quantity=quantity,
+            instrument=instrument,
+            **order_leg_kwargs,
+        )
 
 
 class OptionOrderLeg(OrderLeg):
@@ -81,8 +96,8 @@ class OptionOrderLeg(OrderLeg):
         **order_leg_kwargs,
     ):
         if instruction not in self.valid_instructions:
-            raise Exception(
-                f"{instruction} not in valid instruction list for Option Order Leg"
+            raise InvalidInstructionError(
+                f"{instruction} not valid for Option Order Leg"
             )
 
         instrument = OptionInstrument(
@@ -102,20 +117,3 @@ class OptionOrderLeg(OrderLeg):
             instrument=instrument,
             **order_leg_kwargs,
         )
-
-
-def create_option_order_leg(
-    instruction, quantity, symbol, description=None, cusip=None, **order_leg_kwargs,
-):
-    """Creates Option OrderLeg
-    """
-    asset_type = InstrumentAssetType.OPTION
-
-    instrument = OptionInstrument(symbol=symbol, assetType=asset_type)
-
-    return OrderLeg(
-        instruction=instruction,
-        quantity=quantity,
-        instrument=instrument,
-        **order_leg_kwargs,
-    )

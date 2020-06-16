@@ -1,7 +1,6 @@
 import json
 from dataclasses import dataclass, asdict
 from .json_encoder import EnhancedJSONEncoder
-from .filtered_dict_factory import filtered_dict_factory
 
 
 @dataclass
@@ -23,6 +22,10 @@ class BaseOrder:
         return clean_order_dict
 
     def _filter(self):
-        filtered_dict = asdict(self, dict_factory=filtered_dict_factory)
-        order_dict = {k: v for k, v in filtered_dict.items() if v is not None}
+        order_dict = asdict(self, dict_factory=self._filtered_dict_factory)
         return order_dict
+
+    @staticmethod
+    def _filtered_dict_factory(list_of_tuples):
+        filtered_dict = {key: value for key, value in list_of_tuples if value is not None}
+        return dict(filtered_dict)
