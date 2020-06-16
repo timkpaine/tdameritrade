@@ -1,12 +1,6 @@
+from .constants import (ComplexOrderStrategyType, Duration, Instruction,
+                        OrderStrategyType, OrderType, Session)
 from .leg_builder import create_equity_order_leg, create_option_order_leg
-from .constants import (
-    Instruction,
-    Session,
-    Duration,
-    OrderType,
-    ComplexOrderStrategyType,
-    OrderStrategyType,
-)
 from .models.orders import Order
 
 

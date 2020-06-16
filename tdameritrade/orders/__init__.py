@@ -11,5 +11,4 @@ https://developer.tdameritrade.com/content/place-order-samples
 
 from . import order_builder
 
-
 __all__ = ["order_builder"]

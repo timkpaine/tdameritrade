@@ -1,7 +1,4 @@
-from .constants import (
-    Instruction,
-    InstrumentAssetType,
-)
+from .constants import Instruction, InstrumentAssetType
 from .models.instruments import EquityInstrument, OptionInstrument
 from .models.leg import OrderLeg
 

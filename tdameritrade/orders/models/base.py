@@ -1,5 +1,6 @@
 import json
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
+
 from .json_encoder import EnhancedJSONEncoder
 
 
@@ -52,7 +53,7 @@ class BaseOrder:
         # https://github.com/python/cpython/blob/0d57db27f2c563b6433a220b646b50bdeff8a1f2/Lib/dataclasses.py#L856
         try:
             annotations = self.__annotations__
-        except:
+        except Exception:
             return validation_errors
         if annotations:
             for label, label_type in annotations.items():

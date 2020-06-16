@@ -1,24 +1,12 @@
-from .base import BaseOrder
 from dataclasses import dataclass
-from typing import List, Any
-from .leg import OrderLeg
-from .activities import OrderActivity
+from typing import List
+
 from ..constants import (
-    Session,
-    Duration,
-    OrderType,
-    ComplexOrderStrategyType,
-    RequestedDestination,
-    StopPriceLinkBasis,
-    StopPriceLinkType,
-    StopType,
-    PriceLinkBasis,
-    PriceLinkType,
-    TaxLotMethod,
-    SpecialInstruction,
-    OrderStrategyType,
-    Status,
-)
+    ComplexOrderStrategyType, Duration, OrderStrategyType, OrderType,
+    PriceLinkBasis, PriceLinkType, RequestedDestination, Session,
+    SpecialInstruction, Status, StopPriceLinkBasis, StopPriceLinkType,
+    StopType, TaxLotMethod)
+from .base import BaseOrder
 
 
 @dataclass

@@ -1,15 +1,10 @@
 from dataclasses import dataclass
-from typing import List, Any
+from typing import List
 
+from ..constants import (CashEquivalentType, InstrumentAssetType,
+                         MutualFundType, OptionDeliverableCurrencyType,
+                         OptionPutCall, OptionType)
 from .base import BaseOrder
-from ..constants import (
-    CashEquivalentType,
-    InstrumentAssetType,
-    MutualFundType,
-    OptionDeliverableCurrencyType,
-    OptionPutCall,
-    OptionType,
-)
 
 
 @dataclass

@@ -3,15 +3,10 @@ Order Leg usedin in Orders API
 """
 from dataclasses import dataclass
 
+from ..constants import (Instruction, InstrumentAssetType, OrderLegType,
+                         PositionEffect, QuantityType)
 from .base import BaseOrder
-from ..constants import (
-    Instruction,
-    OrderLegType,
-    PositionEffect,
-    QuantityType,
-    InstrumentAssetType,
-)
-from .instruments import Instrument, EquityInstrument, OptionInstrument
+from .instruments import EquityInstrument, Instrument, OptionInstrument
 
 
 class InvalidInstructionError(Exception):
