@@ -68,9 +68,9 @@ class OptionOrderLeg(OrderLeg):
 
     def __init__(
         self,
-        instruction,
-        quantity,
-        symbol,
+        instruction=None,
+        quantity=None,
+        symbol=None,
         description=None,
         cusip=None,
         option_type=None,
@@ -102,3 +102,20 @@ class OptionOrderLeg(OrderLeg):
             instrument=instrument,
             **order_leg_kwargs,
         )
+
+
+def create_option_order_leg(
+    instruction, quantity, symbol, description=None, cusip=None, **order_leg_kwargs,
+):
+    """Creates Option OrderLeg
+    """
+    asset_type = InstrumentAssetType.OPTION
+
+    instrument = OptionInstrument(symbol=symbol, assetType=asset_type)
+
+    return OrderLeg(
+        instruction=instruction,
+        quantity=quantity,
+        instrument=instrument,
+        **order_leg_kwargs,
+    )
