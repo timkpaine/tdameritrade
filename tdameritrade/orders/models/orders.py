@@ -57,7 +57,7 @@ class Order(BaseOrder):
     priceLinkType: PriceLinkType = None
     price: str = None
     taxLotMethod: TaxLotMethod = None
-    orderLegCollection: List[OrderLeg] = None
+    orderLegCollection: List = None  # List[OrderLeg]. Issue with List[type] formatting
     activationPrice: int = None
     specialInstruction: SpecialInstruction = None
     orderStrategyType: OrderStrategyType = None
@@ -68,7 +68,7 @@ class Order(BaseOrder):
     enteredTime: str = None
     closeTime: str = None
     accountId: int = None
-    orderActivityCollection: List[OrderActivity] = None
-    replacingOrderCollection: List[Any] = None  # Accepts list of orders
-    childOrderStrategies: List[Any] = None  # Accepts list of orders
+    orderActivityCollection: List = None  # List[OrderActivity]. Issue with List[type] formatting
+    replacingOrderCollection: List = None  # List[Order]
+    childOrderStrategies: List = None  # List[Order]
     statusDescription: str = None

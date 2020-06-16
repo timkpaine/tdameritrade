@@ -16,8 +16,7 @@ class BaseOrder:
     https://stackoverflow.com/questions/12118695/efficient-way-to-remove-keys-with-empty-strings-from-a-dict
     """
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __post_init__(self):
         self.validate()
 
     def json(self):
@@ -49,13 +48,19 @@ class BaseOrder:
         """
         validation_errors = []
         # https://github.com/python/cpython/blob/0d57db27f2c563b6433a220b646b50bdeff8a1f2/Lib/dataclasses.py#L856
-        annotations = self.__dict__.get('__annotations__')
-
+        try:
+            annotations = self.__annotations__
+        except:
+            return validation_errors
         if annotations:
             for label, label_type in annotations.items():
                 value = self.__dict__.get(label)
-                if value is not None and not isinstance(value, label_type):
-                    message = f"{value} is not valid value for {label}"
-                    validation_errors.append(message)
+                try:
+                    if value is not None and not isinstance(value, label_type):
+                        message = f"{value} is not valid value for {label}"
+                        validation_errors.append(message)
+                except Exception as err:
+                    print(value, label_type)
+                    raise err
 
         return validation_errors

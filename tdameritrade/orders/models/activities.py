@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Any
 
 from .base import BaseOrder
 from ..constants import ActivityType, ExecutionType
@@ -31,4 +31,4 @@ class Execution(OrderActivity):
     executionType: ExecutionType = None
     quantity: int = None
     orderRemainingQuantity: int = None
-    executionLegs: List[ExecutionLeg] = None
+    executionLegs: List = None  # List[ExecutionLeg]. Issue with List[type] formatting

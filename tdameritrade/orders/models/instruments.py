@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Any
 
 from .base import BaseOrder
 from ..constants import (
@@ -95,4 +95,4 @@ class OptionInstrument(Instrument):
     putCall: OptionPutCall = None
     underlyingSymbol: str = None
     optionMultiplier: int = None
-    optionDeliverables: List[OptionDeliverable] = None
+    optionDeliverables: List = None  # List[OptionDeliverable]. Issue with List[type] formatting
