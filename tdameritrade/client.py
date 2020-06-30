@@ -274,8 +274,11 @@ class TDClient(object):
         '''get history as dataframe'''
         x = self.history(symbol, **kwargs)
         df = pd.DataFrame(x['candles'])
-        df['datetime'] = epoch_utc_to_datetime_eastern(df['datetime'])
-        df = df.set_index("datetime")
+        print(df)
+        if "datetime" in df:
+            print("GOT HERE")
+            df['datetime'] = epoch_utc_to_datetime_eastern(df['datetime'])
+            df = df.set_index("datetime")
 
         return df
 
