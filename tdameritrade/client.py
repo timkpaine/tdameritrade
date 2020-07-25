@@ -480,7 +480,7 @@ class TDClient(object):
             accountId (int): account id the order is under
             orderId (int): order id of order to cancel
         '''
-        return self._request(CANCEL_ORDER.format(accountId=accountId, orderId=orderId), method='DELETE').json()
+        return self._request(CANCEL_ORDER.format(accountId=accountId, orderId=orderId), method='DELETE')
 
     def placeOrder(self, accountId, order):
         '''place an order
