@@ -256,6 +256,8 @@ class TDClient(object):
         if endDate:
             params['endDate'] = endDate
 
+        params['needExtendedHoursData'] = needExtendedHoursData
+
         return self._request(GET_PRICE_HISTORY.format(symbol=symbol), params=params).json()
 
     def historyDF(self, symbol, **kwargs):
@@ -547,7 +549,7 @@ class TDClient(object):
         '''
         return self._request(REPLACE_SAVED_ORDER.format(accountId=accountId, savedOrderId=savedOrderId), method='PUT', data=order).json()
 
-    def hours(self, market=None, date=None):
+    def hours(self, market="EQUITY", date=None):
         '''get market hours
 
         Args:
