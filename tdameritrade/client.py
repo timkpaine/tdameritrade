@@ -70,7 +70,7 @@ from .urls import (
 
 
 def response_is_valid(resp):
-    return resp.status_code in (200, 201)
+    return resp.status_code in (200, 201, 204)
 
 
 class TDClient(object):
@@ -609,7 +609,7 @@ class TDClient(object):
             accountId (int): account to get watchlist for
             watchlist (JSON): watchlist to create
         '''
-        return self._request(CREATE_WATCHLIST.format(accountId=accountId), method='POST', data=watchlist).json()
+        return self._request(CREATE_WATCHLIST.format(accountId=accountId), method='POST', json=watchlist)
 
     def updateWatchlist(self, accountId, watchlistId, watchlist):
         '''update watchlist for account
@@ -619,7 +619,7 @@ class TDClient(object):
             watchlistId (int): watchlist to update
             watchlist (JSON): watchlist to update with
         '''
-        return self._request(UPDATE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', data=watchlist).json()
+        return self._request(UPDATE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', json=watchlist)
 
     def replaceWatchlist(self, accountId, watchlistId, watchlist):
         '''update watchlist for account
@@ -629,7 +629,9 @@ class TDClient(object):
             watchlistId (int): watchlist to update
             watchlist (JSON): watchlist to update with
         '''
-        return self._request(REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', data=watchlist).json()
+        abc = REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId)
+        import pdb; pdb.set_trace()
+        return self._request(REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PUT', json=watchlist)
 
     def deleteWatchlist(self, accountId, watchlistId):
         '''delete watchlist for account
@@ -638,4 +640,4 @@ class TDClient(object):
             accountId (int): account to delete watchlist from
             watchlistId (int): watchlist to delete
         '''
-        return self._request(DELETE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='DELETE').json()
+        return self._request(DELETE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='DELETE')
