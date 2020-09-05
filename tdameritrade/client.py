@@ -343,7 +343,8 @@ class TDClient(object):
 
         if range not in RANGE_VALUES:
             raise TDAAPIError('Range must be in {}'.format(RANGE_VALUES))
-            params['range'] = range
+
+        params['range'] = range
 
         if fromDate:
             params['fromDate'] = fromDate
