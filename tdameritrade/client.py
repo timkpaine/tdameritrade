@@ -471,7 +471,7 @@ class TDClient(object):
             params['fromEnteredTime'] = fromEnteredTime
         if toEnteredTime:
             params['toEnteredTime'] = toEnteredTime
-        return self._request(GET_ORDER_BY_QUERY, params=params).json()
+        return self._request(GET_ORDER_BY_QUERY, json=params)
 
     def cancelOrder(self, accountId, orderId):
         '''cancel the given order
