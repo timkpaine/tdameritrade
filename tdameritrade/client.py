@@ -629,8 +629,6 @@ class TDClient(object):
             watchlistId (int): watchlist to update
             watchlist (JSON): watchlist to update with
         '''
-        abc = REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId)
-        import pdb; pdb.set_trace()
         return self._request(REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PUT', json=watchlist)
 
     def deleteWatchlist(self, accountId, watchlistId):
