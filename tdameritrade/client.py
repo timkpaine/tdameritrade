@@ -70,7 +70,7 @@ from .urls import (
 
 
 def response_is_valid(resp):
-    return resp.status_code in (200, 201)
+    return resp.status_code in (200, 201, 204)
 
 
 class TDClient(object):
@@ -472,7 +472,7 @@ class TDClient(object):
             params['fromEnteredTime'] = fromEnteredTime
         if toEnteredTime:
             params['toEnteredTime'] = toEnteredTime
-        return self._request(GET_ORDER_BY_QUERY, params=params).json()
+        return self._request(GET_ORDER_BY_QUERY, json=params).json()
 
     def cancelOrder(self, accountId, orderId):
         '''cancel the given order
@@ -481,7 +481,7 @@ class TDClient(object):
             accountId (int): account id the order is under
             orderId (int): order id of order to cancel
         '''
-        return self._request(CANCEL_ORDER.format(accountId=accountId, orderId=orderId), method='DELETE').json()
+        return self._request(CANCEL_ORDER.format(accountId=accountId, orderId=orderId), method='DELETE')
 
     def placeOrder(self, accountId, order):
         '''place an order
@@ -490,7 +490,7 @@ class TDClient(object):
             accountId (int): id of account to place order under
             order (JSON): order instance to place
         '''
-        return self._request(PLACE_ORDER.format(accountId=accountId), method='POST', data=order).json()
+        return self._request(PLACE_ORDER.format(accountId=accountId), method='POST', json=order)
 
     def replaceOrder(self, accountId, orderId, order):
         '''place an order
@@ -610,7 +610,7 @@ class TDClient(object):
             accountId (int): account to get watchlist for
             watchlist (JSON): watchlist to create
         '''
-        return self._request(CREATE_WATCHLIST.format(accountId=accountId), method='POST', data=watchlist).json()
+        return self._request(CREATE_WATCHLIST.format(accountId=accountId), method='POST', json=watchlist)
 
     def updateWatchlist(self, accountId, watchlistId, watchlist):
         '''update watchlist for account
@@ -620,7 +620,7 @@ class TDClient(object):
             watchlistId (int): watchlist to update
             watchlist (JSON): watchlist to update with
         '''
-        return self._request(UPDATE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', data=watchlist).json()
+        return self._request(UPDATE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', json=watchlist)
 
     def replaceWatchlist(self, accountId, watchlistId, watchlist):
         '''update watchlist for account
@@ -630,7 +630,7 @@ class TDClient(object):
             watchlistId (int): watchlist to update
             watchlist (JSON): watchlist to update with
         '''
-        return self._request(REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PATCH', data=watchlist).json()
+        return self._request(REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PUT', json=watchlist)
 
     def deleteWatchlist(self, accountId, watchlistId):
         '''delete watchlist for account
@@ -639,4 +639,4 @@ class TDClient(object):
             accountId (int): account to delete watchlist from
             watchlistId (int): watchlist to delete
         '''
-        return self._request(DELETE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='DELETE').json()
+        return self._request(DELETE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='DELETE')
