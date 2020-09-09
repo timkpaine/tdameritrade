@@ -472,7 +472,7 @@ class TDClient(object):
             params['fromEnteredTime'] = fromEnteredTime
         if toEnteredTime:
             params['toEnteredTime'] = toEnteredTime
-        return self._request(GET_ORDER_BY_QUERY, params=params).json()
+        return self._request(GET_ORDER_BY_QUERY, json=params).json()
 
     def cancelOrder(self, accountId, orderId):
         '''cancel the given order
@@ -630,8 +630,6 @@ class TDClient(object):
             watchlistId (int): watchlist to update
             watchlist (JSON): watchlist to update with
         '''
-        abc = REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId)
-        import pdb; pdb.set_trace()
         return self._request(REPLACE_WATCHLIST.format(accountId=accountId, watchlistId=watchlistId), method='PUT', json=watchlist)
 
     def deleteWatchlist(self, accountId, watchlistId):
