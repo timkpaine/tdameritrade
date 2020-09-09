@@ -8,7 +8,7 @@ def handle_error_response(resp):
         404: NotFound,
         -1: TDAAPIError
     }
-    
+
     raise codes[resp.status_code]()
 
 
