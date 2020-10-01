@@ -78,8 +78,8 @@ def epoch_utc_to_datetime_eastern(ts):
     datetime = pd.to_datetime(ts[0], unit='ms')
     utc = timezone('UTC')
     eastern = timezone('US/Eastern')
-    diff_secs = (eastern.localize(datetime) - 
-            utc.localize(datetime).astimezone(eastern)).seconds
+    diff_secs = (eastern.localize(datetime) -
+                 utc.localize(datetime).astimezone(eastern)).seconds
     return pd.to_datetime(ts - diff_secs * 1000, unit='ms')
 
 
