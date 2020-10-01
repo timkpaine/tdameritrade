@@ -28,6 +28,7 @@ requires = [
     'requests>=2.23.0',
     'selenium>=3.141.0',
     'ujson>=1.35',
+    'pytz>=2020.1',
 ]
 
 requires_dev = [
