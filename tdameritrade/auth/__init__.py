@@ -1,10 +1,7 @@
 import os
 import os.path
-import sys
 import time
 import urllib.parse as up
-from shutil import which
-
 import requests
 
 
