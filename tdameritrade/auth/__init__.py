@@ -10,31 +10,11 @@ import requests
 
 def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     from selenium import webdriver
+    from webdriver_manager.chrome import ChromeDriverManager
     client_id = client_id + '@AMER.OAUTHAP'
     url = 'https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=' + up.quote(redirect_uri) + '&client_id=' + up.quote(client_id)
 
-    options = webdriver.ChromeOptions()
-
-    if sys.platform == 'darwin':
-        # MacOS
-        if os.path.exists("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"):
-            options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-        elif os.path.exists("/Applications/Chrome.app/Contents/MacOS/Google Chrome"):
-            options.binary_location = "/Applications/Chrome.app/Contents/MacOS/Google Chrome"
-    elif 'linux' in sys.platform:
-        # Linux
-        options.binary_location = which('google-chrome') or which('chrome') or which('chromium')
-
-    else:
-        # Windows
-        if os.path.exists('C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'):
-            options.binary_location = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
-        elif os.path.exists('C:/Program Files/Google/Chrome/Application/chrome.exe'):
-            options.binary_location = 'C:/Program Files/Google/Chrome/Application/chrome.exe'
-
-    chrome_driver_binary = which('chromedriver') or "/usr/local/bin/chromedriver"
-    driver = webdriver.Chrome(chrome_driver_binary, chrome_options=options)
-
+    driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.get(url)
 
     # Set tdauser and tdapass from environemnt if TDAUSER and TDAPASS environment variables were defined
