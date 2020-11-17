@@ -10,7 +10,6 @@ def choose_browser(browser):
     '''
 
     browser = browser.lower()
-
     from selenium import webdriver
     
     if browser == 'chrome':
@@ -29,11 +28,11 @@ def choose_browser(browser):
         from webdriver_manager.microsoft import EdgeChromiumDriverManager
         driver = webdriver.Edge(EdgeChromiumDriverManager().install())
         return driver
+
     import platform
     raise Exception("{} is not supported on {}".format(browser, platform.platform()))
 
-
-def authentication(client_id, redirect_uri, tdauser=None, tdapass=None, browser=None):
+def authentication(client_id, redirect_uri, tdauser=None, tdapass=None, browser='chrome'):
     client_id = client_id + '@AMER.OAUTHAP'
     url = 'https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=' + up.quote(redirect_uri) + '&client_id=' + up.quote(client_id)
 
