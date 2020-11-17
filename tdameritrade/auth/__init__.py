@@ -4,14 +4,40 @@ import time
 import urllib.parse as up
 import requests
 
+def choose_browser(browser):
+    '''
+    For virtual environments make sure browser is in system path
+    '''
 
-def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
+    browser = browser.lower()
+
     from selenium import webdriver
-    from webdriver_manager.chrome import ChromeDriverManager
+    
+    if browser == 'chrome':
+        from webdriver_manager.chrome import ChromeDriverManager
+        driver = webdriver.Chrome(ChromeDriverManager().install())
+        return driver
+    elif browser == 'firefox':
+        from webdriver_manager.firefox import GeckoDriverManager
+        driver = webdriver.Firefox(GeckoDriverManager().install())
+        return driver
+    elif browser == 'opera':
+        from webdriver_manager.opera import OperaDriverManager
+        driver = webdriver.Opera(OperaDriverManager().install())
+        return driver
+    elif browser == 'edge':
+        from webdriver_manager.microsoft import EdgeChromiumDriverManager
+        driver = webdriver.Edge(EdgeChromiumDriverManager().install())
+        return driver
+    import platform
+    raise Exception("{} is not supported on {}".format(browser, platform.platform()))
+
+
+def authentication(client_id, redirect_uri, tdauser=None, tdapass=None, browser=None):
     client_id = client_id + '@AMER.OAUTHAP'
     url = 'https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=' + up.quote(redirect_uri) + '&client_id=' + up.quote(client_id)
 
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+    driver = choose_browser(browser)
     driver.get(url)
 
     # Set tdauser and tdapass from environemnt if TDAUSER and TDAPASS environment variables were defined
