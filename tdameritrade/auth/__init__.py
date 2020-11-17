@@ -4,6 +4,7 @@ import time
 import urllib.parse as up
 import requests
 
+
 def choose_browser(browser):
     '''
     For virtual environments make sure browser is in system path
@@ -11,7 +12,7 @@ def choose_browser(browser):
 
     browser = browser.lower()
     from selenium import webdriver
-    
+
     if browser == 'chrome':
         from webdriver_manager.chrome import ChromeDriverManager
         driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -31,6 +32,7 @@ def choose_browser(browser):
 
     import platform
     raise Exception("{} is not supported on {}".format(browser, platform.platform()))
+
 
 def authentication(client_id, redirect_uri, tdauser=None, tdapass=None, browser='chrome'):
     client_id = client_id + '@AMER.OAUTHAP'
