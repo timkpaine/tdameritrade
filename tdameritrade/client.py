@@ -1,5 +1,6 @@
-import pandas as pd
 import os
+
+from . import convert
 from .session import TDASession
 from .exceptions import handle_error_response, TDAAPIError
 from .urls import (
@@ -119,12 +120,7 @@ class TDClient(object):
 
     def accountsDF(self):
         '''get accounts as dataframe'''
-        data = self.accounts()
-        account_dataframes = []
-        for accountId, value in data.items():
-            account_dataframes.append(pd.io.json.json_normalize(value))
-            account_dataframes[-1].columns = [c.replace('securitiesAccount.', '') for c in account_dataframes[-1].columns]
-        return pd.concat(account_dataframes)
+        return convert.accounts(self.accounts())
 
     def transactions(self, accountId=None, type=None, symbol=None, startDate=None, endDate=None):
         '''get transactions by account
@@ -158,7 +154,8 @@ class TDClient(object):
 
     def transactionsDF(self, accountId=None, type=None, symbol=None, startDate=None, endDate=None):
         '''get transaction information as Dataframe'''
-        return pd.json_normalize(self.transactions(accountId=accountId, type=type, symbol=symbol, startDate=startDate, endDate=endDate))
+        data = self.transactions(accountId=accountId, type=type, symbol=symbol, startDate=startDate, endDate=endDate)
+        return convert.transactions(data)
 
     def search(self, symbol, projection='symbol-search'):
         '''Search for a symbol
@@ -176,12 +173,7 @@ class TDClient(object):
 
     def searchDF(self, symbol, projection='symbol-search'):
         '''search for symbol as a dataframe'''
-        ret = []
-        dat = self.search(symbol, projection)
-        for symbol in dat:
-            ret.append(dat[symbol])
-
-        return pd.DataFrame(ret)
+        return convert.search(self.search(symbol, projection))
 
     def fundamentalSearch(self, symbol):
         '''helper to search for a symbol using fundamental projection'''
@@ -201,7 +193,7 @@ class TDClient(object):
 
     def instrumentDF(self, cusip):
         '''get instrument info from cusip as dataframe'''
-        return pd.DataFrame(self.instrument(cusip))
+        return convert.instrument(self.instrument(cusip))
 
     def quote(self, symbol):
         '''get quote for symbol
@@ -217,9 +209,7 @@ class TDClient(object):
 
     def quoteDF(self, symbol):
         '''get quote, format as dataframe'''
-        x = self.quote(symbol)
-
-        return pd.DataFrame(x).T.reset_index(drop=True)
+        return convert.quote(self.quote(symbol))
 
     def history(self, symbol,
                 periodType=None, period=None,
@@ -262,11 +252,7 @@ class TDClient(object):
 
     def historyDF(self, symbol, **kwargs):
         '''get history as dataframe'''
-        x = self.history(symbol, **kwargs)
-        df = pd.DataFrame(x['candles'])
-        df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
-
-        return df
+        return convert.history(self.history(symbol, **kwargs))
 
     def options(self,
                 symbol,
@@ -389,41 +375,23 @@ class TDClient(object):
                   expMonth='ALL',
                   optionType='ALL'):
         '''return options chain as dataframe'''
-        ret = []
-        dat = self.options(symbol=symbol,
-                           contractType=contractType,
-                           strikeCount=strikeCount,
-                           includeQuotes=includeQuotes,
-                           strategy=strategy,
-                           interval=interval,
-                           strike=strike,
-                           range=range,
-                           fromDate=fromDate,
-                           toDate=toDate,
-                           volatility=volatility,
-                           underlyingPrice=underlyingPrice,
-                           interestRate=interestRate,
-                           daysToExpiration=daysToExpiration,
-                           expMonth=expMonth,
-                           optionType=optionType)
-        for date in dat['callExpDateMap']:
-            for strike in dat['callExpDateMap'][date]:
-                ret.extend(dat['callExpDateMap'][date][strike])
-        for date in dat['putExpDateMap']:
-            for strike in dat['putExpDateMap'][date]:
-                ret.extend(dat['putExpDateMap'][date][strike])
-
-        df = pd.DataFrame(ret)
-        for col in ('tradeTimeInLong', 'quoteTimeInLong',
-                    'expirationDate', 'lastTradingDay'):
-            if col in df.columns:
-                df[col] = pd.to_datetime(df[col], unit='ms')
-
-        for col in ('delta', 'gamma', 'theta', 'vega', 'rho', 'volatility'):
-            if col in df.columns:
-                df[col] = pd.to_numeric(df[col], errors="coerce")
-
-        return df
+        data = self.options(symbol=symbol,
+                            contractType=contractType,
+                            strikeCount=strikeCount,
+                            includeQuotes=includeQuotes,
+                            strategy=strategy,
+                            interval=interval,
+                            strike=strike,
+                            range=range,
+                            fromDate=fromDate,
+                            toDate=toDate,
+                            volatility=volatility,
+                            underlyingPrice=underlyingPrice,
+                            interestRate=interestRate,
+                            daysToExpiration=daysToExpiration,
+                            expMonth=expMonth,
+                            optionType=optionType)
+        return convert.options(data)
 
     def movers(self, index, direction='up', change='percent'):
         '''request market movers
