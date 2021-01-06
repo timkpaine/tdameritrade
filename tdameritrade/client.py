@@ -416,7 +416,8 @@ class TDClient(object):
         df = pd.DataFrame(ret)
         for col in ('tradeTimeInLong', 'quoteTimeInLong',
                     'expirationDate', 'lastTradingDay'):
-            df[col] = pd.to_datetime(df[col], unit='ms')
+            if col in df.columns:
+                df[col] = pd.to_datetime(df[col], unit='ms')
 
         return df
 
