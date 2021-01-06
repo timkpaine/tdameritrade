@@ -419,6 +419,10 @@ class TDClient(object):
             if col in df.columns:
                 df[col] = pd.to_datetime(df[col], unit='ms')
 
+        for col in ('delta', 'gamma', 'theta', 'vega', 'rho', 'volatility'):
+            if col in df.columns:
+                df[col] = pd.to_numeric(df[col], errors="coerce")
+
         return df
 
     def movers(self, index, direction='up', change='percent'):
