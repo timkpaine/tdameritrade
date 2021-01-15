@@ -7,7 +7,7 @@ from .models.orders import Order
 def build_buy_market_stock_order(symbol, quantity):
     """Build Buy Market Stock Order
 
-    Buy {quantity} shares of {smybol} at the Market good for the Day.
+    Buy {quantity} shares of {symbol} at the Market good for the Day.
 
     Simple sample from https://developer.tdameritrade.com/content/place-order-samples
 
@@ -40,7 +40,7 @@ def build_buy_market_stock_order(symbol, quantity):
 def build_buy_limit_option_order(symbol, quantity, price):
     """Build Buy Limit: Single Option
 
-    Buy to open {quanity} contracts of the {symbol with date and option info}
+    Buy to open {quantity} contracts of the {symbol with date and option info}
     at a Limit of {price} good for the Day.
 
     Args:
