@@ -19,7 +19,7 @@ def get_version(file, name='__version__'):
 version = get_version(pjoin(here, name, '_version.py'))
 
 with open(pjoin(here, 'README.md'), encoding='utf-8') as f:
-    long_description = f.read()
+    long_description = f.read().replace("\r\n", "\n")
 
 requires = [
     'ipython>=7.0.1',
@@ -31,7 +31,10 @@ requires = [
 ]
 
 requires_dev = [
+    'black>=20.',
+    'bump2version>=1.0.0',
     'flake8>=3.7.8',
+    'flake8-black>=0.2.1',
     'mock',
     'pytest>=4.3.0',
     'pytest-cov>=2.6.1',
