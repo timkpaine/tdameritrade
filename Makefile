@@ -1,14 +1,14 @@
 tests: ## Make unit tests
-	python3.7 -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	python -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 testall: ## run the tests including those that hit the actual api
-	@ python3.7 -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	@ python -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	flake8 tdameritrade setup.py
+	python -m flake8 tdameritrade setup.py
 
 fix:  ## run autopep8/tslint fix
-	black tdameritrade/ setup.py
+	python -m black tdameritrade/ setup.py
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 
@@ -29,7 +29,7 @@ publish: dist  ## dist to pypi
 	python -m twine upload dist/* --skip-existing
 
 install:  ## install to site-packages
-	pip3 install .
+	python -m pip install .
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help
