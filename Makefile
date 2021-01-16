@@ -5,16 +5,10 @@ testall: ## run the tests including those that hit the actual api
 	@ python3.7 -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	flake8 tdameritrade 
+	flake8 tdameritrade setup.py
 
 fix:  ## run autopep8/tslint fix
-	autopep8 --in-place -r -a -a tdameritrade/
-
-annotate: ## MyPy type annotation check
-	mypy -s tdameritrade
-
-annotate_l: ## MyPy type annotation check - count only
-	mypy -s tdameritrade | wc -l 
+	black tdameritrade/ setup.py
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 

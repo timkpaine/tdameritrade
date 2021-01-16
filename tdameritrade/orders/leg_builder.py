@@ -4,10 +4,14 @@ from .models.leg import OrderLeg
 
 
 def create_equity_order_leg(
-    instruction, quantity, symbol, description=None, cusip=None, **order_leg_kwargs,
+    instruction,
+    quantity,
+    symbol,
+    description=None,
+    cusip=None,
+    **order_leg_kwargs,
 ):
-    """Creates OrderLeg for equity orders
-    """
+    """Creates OrderLeg for equity orders"""
     valid_instructions = [
         Instruction("BUY"),
         Instruction("SELL"),
@@ -32,10 +36,14 @@ def create_equity_order_leg(
 
 
 def create_option_order_leg(
-    instruction, quantity, symbol, description=None, cusip=None, **order_leg_kwargs,
+    instruction,
+    quantity,
+    symbol,
+    description=None,
+    cusip=None,
+    **order_leg_kwargs,
 ):
-    """Creates Option OrderLeg
-    """
+    """Creates Option OrderLeg"""
     asset_type = InstrumentAssetType.OPTION
 
     instrument = OptionInstrument(symbol=symbol, assetType=asset_type)
