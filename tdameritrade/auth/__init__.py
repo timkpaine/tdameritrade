@@ -1,40 +1,44 @@
 import os
 import os.path
-import sys
 import time
 import urllib.parse as up
-from shutil import which
-
 import requests
 
 
-def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
+def choose_browser(browser):
+    '''
+    For virtual environments make sure browser is in system path
+    '''
+
+    browser = browser.lower()
     from selenium import webdriver
+
+    if browser == 'chrome':
+        from webdriver_manager.chrome import ChromeDriverManager
+        driver = webdriver.Chrome(ChromeDriverManager().install())
+        return driver
+    elif browser == 'firefox':
+        from webdriver_manager.firefox import GeckoDriverManager
+        driver = webdriver.Firefox(GeckoDriverManager().install())
+        return driver
+    elif browser == 'opera':
+        from webdriver_manager.opera import OperaDriverManager
+        driver = webdriver.Opera(OperaDriverManager().install())
+        return driver
+    elif browser == 'edge':
+        from webdriver_manager.microsoft import EdgeChromiumDriverManager
+        driver = webdriver.Edge(EdgeChromiumDriverManager().install())
+        return driver
+
+    import platform
+    raise Exception("{} is not supported on {}".format(browser, platform.platform()))
+
+
+def authentication(client_id, redirect_uri, tdauser=None, tdapass=None, browser='chrome'):
     client_id = client_id + '@AMER.OAUTHAP'
     url = 'https://auth.tdameritrade.com/auth?response_type=code&redirect_uri=' + up.quote(redirect_uri) + '&client_id=' + up.quote(client_id)
 
-    options = webdriver.ChromeOptions()
-
-    if sys.platform == 'darwin':
-        # MacOS
-        if os.path.exists("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"):
-            options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-        elif os.path.exists("/Applications/Chrome.app/Contents/MacOS/Google Chrome"):
-            options.binary_location = "/Applications/Chrome.app/Contents/MacOS/Google Chrome"
-    elif 'linux' in sys.platform:
-        # Linux
-        options.binary_location = which('google-chrome') or which('chrome') or which('chromium')
-
-    else:
-        # Windows
-        if os.path.exists('C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'):
-            options.binary_location = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
-        elif os.path.exists('C:/Program Files/Google/Chrome/Application/chrome.exe'):
-            options.binary_location = 'C:/Program Files/Google/Chrome/Application/chrome.exe'
-
-    chrome_driver_binary = which('chromedriver') or "/usr/local/bin/chromedriver"
-    driver = webdriver.Chrome(chrome_driver_binary, chrome_options=options)
-
+    driver = choose_browser(browser)
     driver.get(url)
 
     # Set tdauser and tdapass from environemnt if TDAUSER and TDAPASS environment variables were defined
