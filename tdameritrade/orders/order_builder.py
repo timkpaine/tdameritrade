@@ -1,5 +1,11 @@
-from .constants import (ComplexOrderStrategyType, Duration, Instruction,
-                        OrderStrategyType, OrderType, Session)
+from .constants import (
+    ComplexOrderStrategyType,
+    Duration,
+    Instruction,
+    OrderStrategyType,
+    OrderType,
+    Session,
+)
 from .leg_builder import create_equity_order_leg, create_option_order_leg
 from .models.orders import Order
 
@@ -24,7 +30,9 @@ def build_buy_market_stock_order(symbol, quantity):
     _instruction = Instruction.BUY
 
     _order_leg = create_equity_order_leg(
-        instruction=_instruction, quantity=quantity, symbol=symbol,
+        instruction=_instruction,
+        quantity=quantity,
+        symbol=symbol,
     )
     order_leg_collection = [_order_leg]
 
@@ -61,7 +69,9 @@ def build_buy_limit_option_order(symbol, quantity, price):
     _instruction = Instruction.BUY_TO_OPEN
 
     _order_leg = create_option_order_leg(
-        instruction=_instruction, quantity=quantity, symbol=symbol,
+        instruction=_instruction,
+        quantity=quantity,
+        symbol=symbol,
     )
     order_leg_collection = [_order_leg]
 
@@ -98,11 +108,15 @@ def build_buy_limit_vertical_call_spread_order(
     order_strategy_type = OrderStrategyType.SINGLE
 
     _buy_order_leg = create_option_order_leg(
-        instruction=Instruction.BUY_TO_OPEN, quantity=quantity, symbol=buy_symbol,
+        instruction=Instruction.BUY_TO_OPEN,
+        quantity=quantity,
+        symbol=buy_symbol,
     )
 
     _sell_order_leg = create_option_order_leg(
-        instruction=Instruction.SELL_TO_OPEN, quantity=quantity, symbol=sell_symbol,
+        instruction=Instruction.SELL_TO_OPEN,
+        quantity=quantity,
+        symbol=sell_symbol,
     )
 
     order_leg_collection = [
@@ -136,7 +150,9 @@ def build_custom_option_spread_order(
     complex_order_strategy_type = ComplexOrderStrategyType.CUSTOM
 
     _buy_order_leg = create_option_order_leg(
-        instruction=Instruction.BUY_TO_OPEN, quantity=buy_quantity, symbol=buy_symbol,
+        instruction=Instruction.BUY_TO_OPEN,
+        quantity=buy_quantity,
+        symbol=buy_symbol,
     )
 
     _sell_order_leg = create_option_order_leg(

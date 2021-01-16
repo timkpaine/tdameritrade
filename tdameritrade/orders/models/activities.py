@@ -12,8 +12,7 @@ class OrderActivity(BaseOrder):
 
 @dataclass(frozen=True)
 class ExecutionLeg(BaseOrder):
-    """ExecutionLeg used in Execution
-    """
+    """ExecutionLeg used in Execution"""
 
     legId: int = None
     quantity: int = None
@@ -24,8 +23,7 @@ class ExecutionLeg(BaseOrder):
 
 @dataclass(frozen=True)
 class Execution(OrderActivity):
-    """Execution
-    """
+    """Execution"""
 
     activityType: ActivityType = None
     executionType: ExecutionType = None

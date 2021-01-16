@@ -1,20 +1,14 @@
 tests: ## Make unit tests
-	python3.7 -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	python -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 testall: ## run the tests including those that hit the actual api
-	@ python3.7 -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
+	@ python -m pytest -v tdameritrade/tests --cov=tdameritrade  --junitxml=python_junit.xml --cov-report=xml --cov-branch
 
 lint: ## run linter
-	flake8 tdameritrade 
+	python -m flake8 tdameritrade setup.py
 
 fix:  ## run autopep8/tslint fix
-	autopep8 --in-place -r -a -a tdameritrade/
-
-annotate: ## MyPy type annotation check
-	mypy -s tdameritrade
-
-annotate_l: ## MyPy type annotation check - count only
-	mypy -s tdameritrade | wc -l 
+	python -m black tdameritrade/ setup.py
 
 clean: ## clean the repository
 	find . -name "__pycache__" | xargs  rm -rf 
@@ -26,14 +20,16 @@ docs:  ## make documentation
 	make -C ./docs html
 	open ./docs/_build/html/index.html
 
-dist:  ## dist to pypi
+dist:  ## create dists
 	rm -rf dist build
-	python3 setup.py sdist
-	python3 setup.py bdist_wheel
-	twine check dist/* && twine upload dist/*
+	python setup.py sdist bdist_wheel
+	python -m twine check dist/*
+	
+publish: dist  ## dist to pypi
+	python -m twine upload dist/* --skip-existing
 
 install:  ## install to site-packages
-	pip3 install .
+	python -m pip install .
 
 # Thanks to Francoise at marmelab.com for this
 .DEFAULT_GOAL := help

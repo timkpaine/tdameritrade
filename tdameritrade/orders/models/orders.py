@@ -2,10 +2,21 @@ from dataclasses import dataclass
 from typing import List
 
 from ..constants import (
-    ComplexOrderStrategyType, Duration, OrderStrategyType, OrderType,
-    PriceLinkBasis, PriceLinkType, RequestedDestination, Session,
-    SpecialInstruction, Status, StopPriceLinkBasis, StopPriceLinkType,
-    StopType, TaxLotMethod)
+    ComplexOrderStrategyType,
+    Duration,
+    OrderStrategyType,
+    OrderType,
+    PriceLinkBasis,
+    PriceLinkType,
+    RequestedDestination,
+    Session,
+    SpecialInstruction,
+    Status,
+    StopPriceLinkBasis,
+    StopPriceLinkType,
+    StopType,
+    TaxLotMethod,
+)
 from .base import BaseOrder
 
 
@@ -56,7 +67,9 @@ class Order(BaseOrder):
     enteredTime: str = None
     closeTime: str = None
     accountId: int = None
-    orderActivityCollection: List = None  # List[OrderActivity]. Issue with List[type] formatting
+    orderActivityCollection: List = (
+        None  # List[OrderActivity]. Issue with List[type] formatting
+    )
     replacingOrderCollection: List = None  # List[Order]
     childOrderStrategies: List = None  # List[Order]
     statusDescription: str = None
