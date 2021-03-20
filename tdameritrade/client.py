@@ -392,19 +392,22 @@ class TDClient(object):
                            daysToExpiration=daysToExpiration,
                            expMonth=expMonth,
                            optionType=optionType)
-        for date in dat['callExpDateMap']:
-            for strike in dat['callExpDateMap'][date]:
-                ret.extend(dat['callExpDateMap'][date][strike])
-        for date in dat['putExpDateMap']:
-            for strike in dat['putExpDateMap'][date]:
-                ret.extend(dat['putExpDateMap'][date][strike])
+        if (dat['status'] == 'SUCCESS'):
+            for date in dat['callExpDateMap']:
+                for strike in dat['callExpDateMap'][date]:
+                    ret.extend(dat['callExpDateMap'][date][strike])
+            for date in dat['putExpDateMap']:
+                for strike in dat['putExpDateMap'][date]:
+                    ret.extend(dat['putExpDateMap'][date][strike])
 
-        df = pd.DataFrame(ret)
-        for col in ('tradeTimeInLong', 'quoteTimeInLong',
-                    'expirationDate', 'lastTradingDay'):
-            df[col] = pd.to_datetime(df[col], unit='ms')
+            df = pd.DataFrame(ret)
+            for col in ('tradeTimeInLong', 'quoteTimeInLong',
+                        'expirationDate', 'lastTradingDay'):
+                df[col] = pd.to_datetime(df[col], unit='ms')
 
-        return df
+            return df
+        else:
+            raise(Exception(dat))
 
     def movers(self, index, direction='up', change='percent'):
         '''request market movers
@@ -467,7 +470,7 @@ class TDClient(object):
             accountId (int): account id the order is under
             orderId (int): order id of order to cancel
         '''
-        return self._request(CANCEL_ORDER.format(accountId=accountId, orderId=orderId), method='DELETE').json()
+        return self._request(CANCEL_ORDER.format(accountId=accountId, orderId=orderId), method='DELETE')
 
     def placeOrder(self, accountId, order):
         '''place an order
@@ -476,7 +479,7 @@ class TDClient(object):
             accountId (int): id of account to place order under
             order (JSON): order instance to place
         '''
-        return self._request(PLACE_ORDER.format(accountId=accountId), method='POST', data=order).json()
+        return self._request(PLACE_ORDER.format(accountId=accountId), method='POST', data=order)
 
     def replaceOrder(self, accountId, orderId, order):
         '''place an order

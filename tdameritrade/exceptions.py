@@ -9,7 +9,7 @@ def handle_error_response(resp):
         -1: TDAAPIError
     }
 
-    raise codes[resp.status_code]()
+    raise codes[resp.status_code](resp)
 
 
 class TDAAPIError(Exception):
