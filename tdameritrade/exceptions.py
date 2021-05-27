@@ -1,5 +1,6 @@
 import json
 
+
 def handle_error_response(resp):
     codes = {
         400: ValidationError,
@@ -14,7 +15,7 @@ def handle_error_response(resp):
         body = resp.content.decode('utf-8')
         data = json.loads(body)
         message = data.get('error', body)
-    except:
+    except Exception:
         raise codes[resp.status_code]()
     raise codes[resp.status_code](message=message, code=resp.status_code, data=data, response=resp)
 
