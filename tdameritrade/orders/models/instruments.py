@@ -1,24 +1,27 @@
 from dataclasses import dataclass
 from typing import List
 
-from ..constants import (CashEquivalentType, InstrumentAssetType,
-                         MutualFundType, OptionDeliverableCurrencyType,
-                         OptionPutCall, OptionType)
+from ..constants import (
+    CashEquivalentType,
+    InstrumentAssetType,
+    MutualFundType,
+    OptionDeliverableCurrencyType,
+    OptionPutCall,
+    OptionType,
+)
 from .base import BaseOrder
 
 
 @dataclass
 class Instrument(BaseOrder):
-    """Base Instrument class
-    """
+    """Base Instrument class"""
 
     pass
 
 
 @dataclass(frozen=True)
 class EquityInstrument(Instrument):
-    """Equity Instrument
-    """
+    """Equity Instrument"""
 
     assetType: InstrumentAssetType = None
     cusip: str = None
@@ -28,8 +31,7 @@ class EquityInstrument(Instrument):
 
 @dataclass(frozen=True)
 class FixedIncomeInstrument(Instrument):
-    """Fixed Income Instrument
-    """
+    """Fixed Income Instrument"""
 
     assetType: InstrumentAssetType = None
     cusip: str = None
@@ -42,8 +44,7 @@ class FixedIncomeInstrument(Instrument):
 
 @dataclass(frozen=True)
 class MutualFundInstrument(Instrument):
-    """Mutual Fund Instrument
-    """
+    """Mutual Fund Instrument"""
 
     assetType: InstrumentAssetType = None
     cusip: str = None
@@ -54,8 +55,7 @@ class MutualFundInstrument(Instrument):
 
 @dataclass(frozen=True)
 class CashEquivalentInstrument(Instrument):
-    """Cash Equivalent Instrument
-    """
+    """Cash Equivalent Instrument"""
 
     assetType: InstrumentAssetType = None
     cusip: str = None
@@ -79,8 +79,7 @@ class OptionDeliverable(BaseOrder):
 
 @dataclass(frozen=True)
 class OptionInstrument(Instrument):
-    """Option Instrument
-    """
+    """Option Instrument"""
 
     assetType: InstrumentAssetType = None
     cusip: str = None
@@ -90,4 +89,6 @@ class OptionInstrument(Instrument):
     putCall: OptionPutCall = None
     underlyingSymbol: str = None
     optionMultiplier: int = None
-    optionDeliverables: List = None  # List[OptionDeliverable]. Issue with List[type] formatting
+    optionDeliverables: List = (
+        None  # List[OptionDeliverable]. Issue with List[type] formatting
+    )

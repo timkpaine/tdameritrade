@@ -9,9 +9,8 @@ from mock import MagicMock, patch
 @pytest.fixture
 def tdclient():
     from tdameritrade import TDClient
-    tdc = TDClient(client_id=123,
-                   refresh_token='reftoken',
-                   account_ids=[1, 2])
+
+    tdc = TDClient(client_id=123, refresh_token="reftoken", account_ids=[1, 2])
     return tdc
 
 
@@ -35,92 +34,98 @@ class TestExtension:
         # teardown_class() after any methods in this class
 
     def test_init(self, tdclient):
-        assert (tdclient._refreshToken == 'reftoken')
+        assert tdclient._refreshToken == "reftoken"
 
     def test_request(self, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = [MagicMock()]
             tdclient._request("http://goodurl.com", None)
 
     def test_request_exception(self, tdclient):
         from tdameritrade.exceptions import InvalidAuthToken
-        with patch('tdameritrade.session.TDASession.request') as m:
+
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 401
             with pytest.raises(InvalidAuthToken):
                 tdclient._request("http://goodurl.com", None)
 
     def test_accounts(self, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = [MagicMock()]
             tdclient.accounts()
-            m.return_value.json.return_value = [{'test': 1, 'test2': 2}]
+            m.return_value.json.return_value = [{"test": 1, "test2": 2}]
             tdclient.accounts(positions=True)
             tdclient.accounts(positions=True, orders=True)
             tdclient.accounts(orders=True)
             tdclient.accountsDF()
-            m.return_value.json.return_value = [{'test': 1}]
+            m.return_value.json.return_value = [{"test": 1}]
             tdclient.accountsDF()
-
 
     def test_accounts_no_accountIDs(self):
         from tdameritrade import TDClient
-        with patch('tdameritrade.session.TDASession.request') as m:
+
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
             m.return_value.json.return_value = [MagicMock()]
-            tdc = TDClient(client_id=123,
-                           refresh_token='reftoken',)
+            tdc = TDClient(
+                client_id=123,
+                refresh_token="reftoken",
+            )
             tdc.accounts()
 
     def test_search(self, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
-            m.return_value.json.return_value = {'aapl': {'test': 1, 'test2': 2}}
-            tdclient.search('aapl')
-            tdclient.searchDF('aapl')
+            m.return_value.json.return_value = {"aapl": {"test": 1, "test2": 2}}
+            tdclient.search("aapl")
+            tdclient.searchDF("aapl")
 
     def test_fundementalSearch(self, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
-            tdclient.fundamentalSearch('aapl')
-            tdclient.fundamentalSearch('aapl')
+            tdclient.fundamentalSearch("aapl")
+            tdclient.fundamentalSearch("aapl")
 
     def test_instrument(self, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
-            m.return_value.json.return_value = {'aapl': {'test': 1, 'test2': 2}}
-            tdclient.instrument('aapl')
-            tdclient.instrumentDF('aapl')
+            m.return_value.json.return_value = {"aapl": {"test": 1, "test2": 2}}
+            tdclient.instrument("aapl")
+            tdclient.instrumentDF("aapl")
 
     def test_quote(self, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
-            m.return_value.json.return_value = {'aapl': {'test': 1, 'test2': 2}}
-            tdclient.quote('aapl')
-            tdclient.quoteDF('aapl')
+            m.return_value.json.return_value = {"aapl": {"test": 1, "test2": 2}}
+            tdclient.quote("aapl")
+            tdclient.quoteDF("aapl")
 
     def test_history(self, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
-            m.return_value.json.return_value = {'candles': [{'datetime': 1, 'test2': 2}]}
-            tdclient.history('aapl')
-            tdclient.historyDF('aapl')
-            tdclient.history('aapl', periodType="day")
+            m.return_value.json.return_value = {
+                "candles": [{"datetime": 1, "test2": 2}]
+            }
+            tdclient.history("aapl")
+            tdclient.historyDF("aapl")
+            tdclient.history("aapl", periodType="day")
             with pytest.raises(TDAAPIError):
-                tdclient.history('aapl', periodType="daily")
+                tdclient.history("aapl", periodType="daily")
             with pytest.raises(TDAAPIError):
-                tdclient.history('aapl', frequency="invalid")
+                tdclient.history("aapl", frequency="invalid")
 
     def test_hours(self, tdclient):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
             tdclient.hours()
 
     def test_movers(self):
-        with patch('tdameritrade.session.TDASession.request') as m:
+        with patch("tdameritrade.session.TDASession.request") as m:
             m.return_value.status_code = 200
-            m.return_value.json.return_value = {'aapl': {'test'}}
+            m.return_value.json.return_value = {"aapl": {"test"}}
+
 
 #    @pytest.fixture
 #    def json_order(self):

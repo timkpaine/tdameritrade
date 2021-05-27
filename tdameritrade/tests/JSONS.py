@@ -1,4 +1,4 @@
-TEST_BUY_MARKET_STOCK = '''
+TEST_BUY_MARKET_STOCK = """
 {
   "orderType": "MARKET",
   "session": "NORMAL",
@@ -15,4 +15,4 @@ TEST_BUY_MARKET_STOCK = '''
     }
   ]
 }
-'''
+"""
