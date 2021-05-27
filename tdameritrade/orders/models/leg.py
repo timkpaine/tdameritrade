@@ -3,8 +3,13 @@ Order Leg usedin in Orders API
 """
 from dataclasses import dataclass
 
-from ..constants import (Instruction, InstrumentAssetType, OrderLegType,
-                         PositionEffect, QuantityType)
+from ..constants import (
+    Instruction,
+    InstrumentAssetType,
+    OrderLegType,
+    PositionEffect,
+    QuantityType,
+)
 from .base import BaseOrder
 from .instruments import EquityInstrument, Instrument, OptionInstrument
 
@@ -15,8 +20,7 @@ class InvalidInstructionError(Exception):
 
 @dataclass
 class OrderLeg(BaseOrder):
-    """OrderLeg used in orderLegCollection
-    """
+    """OrderLeg used in orderLegCollection"""
 
     orderLegType: OrderLegType = None
     legId: int = None

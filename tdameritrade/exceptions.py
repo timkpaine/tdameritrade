@@ -7,7 +7,7 @@ def handle_error_response(resp):
         500: ServerError,
         403: Forbidden,
         404: NotFound,
-        -1: TDAAPIError
+        -1: TDAAPIError,
     }
 
     try:
@@ -36,7 +36,7 @@ class TDAAPIError(Exception):
 
     def __str__(self):
         if self.code:
-            return '{}: {}'.format(self.code, self.message)
+            return "{}: {}".format(self.code, self.message)
         return self.data
 
 
