@@ -12,12 +12,14 @@ def handle_error_response(resp):
     }
 
     try:
-        body = resp.content.decode('utf-8')
+        body = resp.content.decode("utf-8")
         data = json.loads(body)
-        message = data.get('error', body)
+        message = data.get("error", body)
     except Exception:
         raise codes[resp.status_code]()
-    raise codes[resp.status_code](message=message, code=resp.status_code, data=data, response=resp)
+    raise codes[resp.status_code](
+        message=message, code=resp.status_code, data=data, response=resp
+    )
 
 
 class TDAAPIError(Exception):
