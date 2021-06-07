@@ -3,6 +3,7 @@ import json
 
 def handle_error_response(resp):
     codes = {
+        429: TooManyRequestsError,
         400: ValidationError,
         401: InvalidAuthToken,
         500: ServerError,
@@ -41,6 +42,10 @@ class TDAAPIError(Exception):
         if self.code:
             return "{}: {}".format(self.code, self.message)
         return self.data
+
+
+class TooManyRequestsError(TDAAPIError):
+    pass
 
 
 class ValidationError(TDAAPIError):
