@@ -2,6 +2,8 @@ name: Build Status
 
 on:
   push:
+    branches:
+      - main
   pull_request:
   schedule:
     # run on sunday nights
@@ -14,7 +16,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.7, 3.8]
+        python-version: [3.9]
+        event-name: [push]
 
     steps:
     - uses: actions/checkout@v2
@@ -36,6 +39,7 @@ jobs:
     - name: Test
       run: |
         make tests
+      if: ${{ github.event_name == matrix.event-name || matrix.os == 'ubuntu-latest' }}
 
     - name: Twine check
       run: |
