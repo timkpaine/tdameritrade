@@ -19,7 +19,7 @@ class Instrument(BaseOrder):
     pass
 
 
-@dataclass(frozen=True)
+@dataclass
 class EquityInstrument(Instrument):
     """Equity Instrument"""
 
@@ -29,7 +29,7 @@ class EquityInstrument(Instrument):
     description: str = None
 
 
-@dataclass(frozen=True)
+@dataclass
 class FixedIncomeInstrument(Instrument):
     """Fixed Income Instrument"""
 
@@ -42,7 +42,7 @@ class FixedIncomeInstrument(Instrument):
     factor: int = None
 
 
-@dataclass(frozen=True)
+@dataclass
 class MutualFundInstrument(Instrument):
     """Mutual Fund Instrument"""
 
@@ -53,7 +53,7 @@ class MutualFundInstrument(Instrument):
     type: MutualFundType = None
 
 
-@dataclass(frozen=True)
+@dataclass
 class CashEquivalentInstrument(Instrument):
     """Cash Equivalent Instrument"""
 
@@ -64,7 +64,7 @@ class CashEquivalentInstrument(Instrument):
     type: CashEquivalentType = None
 
 
-@dataclass(frozen=True)
+@dataclass
 class OptionDeliverable(BaseOrder):
     """Option Deliverable in Option's optionDeliverables list
 
@@ -77,7 +77,7 @@ class OptionDeliverable(BaseOrder):
     assetType: InstrumentAssetType = None
 
 
-@dataclass(frozen=True)
+@dataclass
 class OptionInstrument(Instrument):
     """Option Instrument"""
 

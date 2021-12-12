@@ -10,7 +10,7 @@ class OrderActivity(BaseOrder):
     pass
 
 
-@dataclass(frozen=True)
+@dataclass
 class ExecutionLeg(BaseOrder):
     """ExecutionLeg used in Execution"""
 
@@ -21,7 +21,7 @@ class ExecutionLeg(BaseOrder):
     time: str = None
 
 
-@dataclass(frozen=True)
+@dataclass
 class Execution(OrderActivity):
     """Execution"""
 
