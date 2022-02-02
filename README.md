@@ -5,7 +5,6 @@ Python interface to TD Ameritrade Api
 [![Coverage](https://codecov.io/gh/timkpaine/tdameritrade/branch/main/graph/badge.svg)](https://codecov.io/gh/timkpaine/tdameritrade)
 [![License](https://img.shields.io/github/license/timkpaine/tdameritrade.svg)](https://pypi.python.org/pypi/tdameritrade/)
 [![PyPI](https://img.shields.io/pypi/v/tdameritrade.svg)](https://pypi.python.org/pypi/tdameritrade/)
-[![Docs](https://img.shields.io/readthedocs/tdameritrade.svg)](https://tdameritrade.readthedocs.io)
 
 
 
@@ -38,8 +37,6 @@ tdclient = tdameritrade.TDClient(client_id=client_id, refresh_token=refresh_toke
 ``` 
 
 See the tests\test_client.py file for examples on current usage. 
-
-[Read the docs!](http://tdameritrade.readthedocs.io/en/latest/index.html)
 
 All functionality is available as methods on the `TDClient` object. For most methods, there is a convenience method to return the result as a pandas DataFrame.
 
