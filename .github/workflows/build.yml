@@ -57,7 +57,7 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       with:
         files: python_junit.xml
-      if: ${{ github.event_name == matrix.event-name || matrix.os == 'ubuntu-latest' }}
+      if: ${{ matrix.os == 'ubuntu-latest' }}
 
     - name: Upload coverage
       uses: codecov/codecov-action@v1
