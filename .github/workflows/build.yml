@@ -54,7 +54,7 @@ jobs:
       if: ${{ always() }}
 
     - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
+      uses: EnricoMi/publish-unit-test-result-action@v2
       with:
         files: python_junit.xml
       if: ${{ matrix.os == 'ubuntu-latest' }}
