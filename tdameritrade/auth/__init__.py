@@ -10,6 +10,7 @@ import requests
 
 def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     from selenium import webdriver
+    from selenium.webdriver.common.by import By
 
     client_id = client_id + "@AMER.OAUTHAP"
     url = (
@@ -64,13 +65,13 @@ def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
     # Fully automated oauth2 authentication (if tdauser and tdapass were inputed into the function, or found as
     # environment variables)
     if tdauser and tdapass:
-        ubox = driver.find_element_by_id("username")
-        pbox = driver.find_element_by_id("password")
+        ubox = driver.find_element(By.ID, "username")
+        pbox = driver.find_element(By.ID, "password")
         ubox.send_keys(tdauser)
         pbox.send_keys(tdapass)
-        driver.find_element_by_id("accept").click()
+        driver.find_element(By.ID, "accept").click()
 
-        driver.find_element_by_id("accept").click()
+        driver.find_element(By.ID, "accept").click()
         while True:
             try:
                 code = up.unquote(driver.current_url.split("code=")[1])
