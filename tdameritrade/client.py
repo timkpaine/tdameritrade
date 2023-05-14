@@ -467,6 +467,13 @@ class TDClient(object):
         ):
             df[col] = pd.to_datetime(df[col], unit="ms")
 
+        for col in (
+            "interestRate",
+            "underlyingPrice",
+        ):
+            if col in dat:
+                df[col] = dat[col]
+            
         return df
 
     def movers(self, index, direction="up", change="percent"):
