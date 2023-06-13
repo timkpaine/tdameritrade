@@ -451,6 +451,7 @@ class TDClient(object):
             expMonth=expMonth,
             optionType=optionType,
         )
+
         if dat["status"] == "SUCCESS":
             for date in dat["callExpDateMap"]:
                 for strike in dat["callExpDateMap"][date]:
@@ -468,9 +469,14 @@ class TDClient(object):
             ):
                 df[col] = pd.to_datetime(df[col], unit="ms")
 
+            for col in (
+                "interestRate",
+                "underlyingPrice",
+            ):
+                if col in dat:
+                    df[col] = dat[col]
             return df
-        else:
-            raise (Exception(dat))
+        raise (Exception(dat))
 
     def movers(self, index, direction="up", change="percent"):
         """request market movers
