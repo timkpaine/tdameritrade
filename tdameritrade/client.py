@@ -473,7 +473,7 @@ class TDClient(object):
         ):
             if col in dat:
                 df[col] = dat[col]
-            
+
         return df
 
     def movers(self, index, direction="up", change="percent"):
