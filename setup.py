@@ -1,23 +1,11 @@
 from setuptools import setup, find_packages
 from codecs import open
-import io
 import os
 import os.path
 
 pjoin = os.path.join
 here = os.path.abspath(os.path.dirname(__file__))
 name = "tdameritrade"
-
-
-def get_version(file, name="__version__"):
-    path = os.path.realpath(file)
-    version_ns = {}
-    with io.open(path, encoding="utf8") as f:
-        exec(f.read(), {}, version_ns)
-    return version_ns[name]
-
-
-version = get_version(pjoin(here, name, "_version.py"))
 
 with open(pjoin(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read().replace("\r\n", "\n")
@@ -45,7 +33,7 @@ requires_dev = [
 
 setup(
     name=name,
-    version=version,
+    version="0.1.1",
     description="APIs for TD Ameritrade",
     long_description=long_description,
     long_description_content_type="text/markdown",
