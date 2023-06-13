@@ -123,7 +123,7 @@ class TDClient(object):
         data = self.accounts()
         account_dataframes = []
         for accountId, value in data.items():
-            account_dataframes.append(pd.io.json.json_normalize(value))
+            account_dataframes.append(pd.json_normalize(value))
             account_dataframes[-1].columns = [
                 c.replace("securitiesAccount.", "")
                 for c in account_dataframes[-1].columns
