@@ -17,7 +17,7 @@ def handle_error_response(resp):
         data = json.loads(body)
         message = data.get("error", body)
     except Exception:
-        raise codes[resp.status_code]()
+        raise codes[resp.status_code](resp)
     raise codes[resp.status_code](
         message=message, code=resp.status_code, data=data, response=resp
     )
