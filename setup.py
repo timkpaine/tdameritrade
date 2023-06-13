@@ -33,7 +33,7 @@ requires_dev = [
 
 setup(
     name=name,
-    version="0.1.1",
+    version="0.2.0",
     description="APIs for TD Ameritrade",
     long_description=long_description,
     long_description_content_type="text/markdown",
