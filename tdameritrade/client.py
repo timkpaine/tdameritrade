@@ -451,13 +451,13 @@ class TDClient(object):
             expMonth=expMonth,
             optionType=optionType,
         )
-        if (dat['status'] == 'SUCCESS'):
-            for date in dat['callExpDateMap']:
-                for strike in dat['callExpDateMap'][date]:
-                    ret.extend(dat['callExpDateMap'][date][strike])
-            for date in dat['putExpDateMap']:
-                for strike in dat['putExpDateMap'][date]:
-                    ret.extend(dat['putExpDateMap'][date][strike])
+        if dat["status"] == "SUCCESS":
+            for date in dat["callExpDateMap"]:
+                for strike in dat["callExpDateMap"][date]:
+                    ret.extend(dat["callExpDateMap"][date][strike])
+            for date in dat["putExpDateMap"]:
+                for strike in dat["putExpDateMap"][date]:
+                    ret.extend(dat["putExpDateMap"][date][strike])
 
             df = pd.DataFrame(ret)
             for col in (
@@ -470,7 +470,7 @@ class TDClient(object):
 
             return df
         else:
-            raise(Exception(dat))
+            raise (Exception(dat))
 
     def movers(self, index, direction="up", change="percent"):
         """request market movers
@@ -534,6 +534,7 @@ class TDClient(object):
         Args:
             accountId (int): account id the order is under
             orderId (int): order id of order to cancel
+        """
         return self._request(
             CANCEL_ORDER.format(accountId=accountId, orderId=orderId), method="DELETE"
         )
