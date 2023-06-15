@@ -53,8 +53,7 @@ def authentication(client_id, redirect_uri, tdauser=None, tdapass=None):
                 "C:/Program Files/Google/Chrome/Application/chrome.exe"
             )
 
-    chrome_driver_binary = which("chromedriver") or "/usr/local/bin/chromedriver"
-    driver = webdriver.Chrome(chrome_driver_binary, chrome_options=options)
+    driver = webdriver.Chrome(options=options)
 
     driver.get(url)
 

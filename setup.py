@@ -11,25 +11,29 @@ with open(pjoin(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read().replace("\r\n", "\n")
 
 requires = [
-    "ipython>=7.0.1",
     "pandas>=0.22.0",
-    "pillow>=5.3.0",
     "requests>=2.23.0",
-    "selenium>=3.141.0",
-    "ujson>=1.35",
 ]
 
-requires_dev = [
-    "black>=23",
-    "bump2version>=1.0.0",
-    "flake8>=3.7.8",
-    "flake8-black>=0.2.1",
-    "mock",
-    "pytest>=4.3.0",
-    "pytest-cov>=2.6.1",
-    "Sphinx>=1.8.4",
-    "sphinx-markdown-builder>=0.5.2",
-] + requires
+requires_auth = [
+    "selenium>=3.141.0",
+]
+
+requires_dev = (
+    [
+        "black>=23",
+        "bump2version>=1.0.0",
+        "flake8>=3.7.8",
+        "flake8-black>=0.2.1",
+        "mock",
+        "pytest>=4.3.0",
+        "pytest-cov>=2.6.1",
+        "Sphinx>=1.8.4",
+        "sphinx-markdown-builder>=0.5.2",
+    ]
+    + requires
+    + requires_auth
+)
 
 setup(
     name=name,
@@ -54,6 +58,7 @@ setup(
     entry_points={"console_scripts": ["tdameritrade-auth = tdameritrade.auth:main"]},
     install_requires=requires,
     extras_require={
+        "auth": requires_auth,
         "dev": requires_dev,
     },
 )
