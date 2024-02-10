@@ -1,5 +1,6 @@
 """Constants used in Orders
 """
+
 from enum import Enum
 
 
